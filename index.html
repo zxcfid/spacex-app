@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SpaceX Crypto Wallet & Trading</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root[data-theme="dark"] {
+            --bg-main: #0b0f19;
+            --bg-card: #151c2c;
+            --bg-input: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-grad: linear-gradient(135deg, #38bdf8, #6366f1);
+            --border: rgba(255, 255, 255, 0.08);
+            --long: #10b981;
+            --short: #ef4444;
+        }
+
+        :root[data-theme="light"] {
+            --bg-main: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-input: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --accent-grad: linear-gradient(135deg, #2563eb, #4f46e5);
+            --border: rgba(15, 23, 42, 0.08);
+            --long: #059669;
+            --short: #dc2626;
+        }
+
+        :root[data-theme="pink"] {
+            --bg-main: #1f0916;
+            --bg-card: #321024;
+            --bg-input: #471734;
+            --text-main: #fdf2f8;
+            --text-muted: #f472b6;
+            --accent: #ec4899;
+            --accent-grad: linear-gradient(135deg, #ec4899, #a855f7);
+            --border: rgba(244, 114, 182, 0.2);
+            --long: #10b981;
+            --short: #f43f5e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding-bottom: 82px;
+            transition: background-color 0.25s, color 0.25s;
+        }
+
+        header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-card);
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .brand {
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-badge {
+            font-size: 11px;
+            color: var(--text-muted);
+            padding: 4px 8px;
+            border-radius: 8px;
+            background: var(--bg-input);
+        }
+
+        .container {
+            padding: 16px;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .tab-section {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        .tab-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .total-balance-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .total-balance-val {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 6px 0 14px;
+        }
+
+        .coin-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .coin-row:last-child {
+            border-bottom: none;
+        }
+
+        .coin-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .coin-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--accent-grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .coin-name {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .coin-rate {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .coin-right {
+            text-align: right;
+        }
+
+        .coin-bal {
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .coin-usd {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            margin-top: 10px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            background: var(--accent-grad);
+            color: #fff;
+            margin-top: 14px;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .trade-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .btn-long {
+            background: var(--long);
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .btn-short {
+            background: var(--short);
+            color: #fff;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .live-price {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .price-change {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--long);
+        }
+
+        canvas {
+            width: 100%;
+            height: 210px;
+            background: var(--bg-input);
+            border-radius: 12px;
+            display: block;
+        }
+
+        .tf-bar {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .tf-btn {
+            flex: 1;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .tf-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .option-btn {
+            padding: 12px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .option-btn.active {
+            border: 2px solid var(--accent);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            padding: 6px 4px 10px;
+            z-index: 30;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 2px;
+        }
+        .nav-item.active {
+            color: var(--accent);
+        }
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .position-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--bg-input);
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-grad);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        }
+    </style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<header>
+    <div class="brand">SPACEX CRYPTO</div>
+    <div class="date-badge">29.10.2026</div>
+</header>
+
+<div class="container">
+    <!-- ВКЛАДКА 1: ТОРГОВЛЯ (открыта по умолчанию) -->
+    <div id="tab-trade" class="tab-section active">
+        <div class="card">
+            <label id="lbl-pair">Торговая пара:</label>
+            <select id="trade-pair" onchange="onPairChange()">
+                <option value="BTC">Bitcoin (BTC/USDT)</option>
+                <option value="ETH">Ethereum (ETH/USDT)</option>
+                <option value="SOL">Solana (SOL/USDT)</option>
+                <option value="BNB">Binance Coin (BNB/USDT)</option>
+                <option value="XAUT">Tether Gold (XAUT/USDT)</option>
+                <option value="LTC">Litecoin (LTC/USDT)</option>
+                <option value="TRX">TRON (TRX/USDT)</option>
+                <option value="DOGE">Dogecoin (DOGE/USDT)</option>
+                <option value="GRAM">Gram (GRAM/USDT)</option>
+            </select>
+
+            <div class="chart-header" style="margin-top: 14px;">
+                <div class="live-price" id="live-price">$98,450.00</div>
+                <div class="price-change" id="price-change">+2.84%</div>
+            </div>
+
+            <canvas id="priceChart" width="460" height="210"></canvas>
+
+            <div class="tf-bar">
+                <button class="tf-btn active" onclick="setTF(this)">1M</button>
+                <button class="tf-btn" onclick="setTF(this)">15M</button>
+                <button class="tf-btn" onclick="setTF(this)">1H</button>
+                <button class="tf-btn" onclick="setTF(this)">1D</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+                <div>
+                    <label id="lbl-trade-amt">Сумма сделки (USDT):</label>
+                    <input type="number" id="trade-amount" placeholder="100" value="50">
+                </div>
+                <div>
+                    <label id="lbl-leverage">Плечо:</label>
+                    <select id="trade-lev">
+                        <option value="5">x5</option>
+                        <option value="10" selected>x10</option>
+                        <option value="25">x25</option>
+                        <option value="50">x50</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="trade-buttons">
+                <button class="btn-long" onclick="openPosition('LONG')">📈 LONG</button>
+                <button class="btn-short" onclick="openPosition('SHORT')">📉 SHORT</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div style="font-weight: 700; font-size: 14px;" id="lbl-positions">Активные позиции:</div>
+            <div id="positions-list" style="margin-top: 6px; color: var(--text-muted); font-size: 13px;">
+                Нет открытых сделок.
+            </div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 2: КОШЕЛЁК -->
+    <div id="tab-wallet" class="tab-section">
+        <div class="card">
+            <div class="total-balance-label" id="lbl-total">Общий баланс (по курсу 29.10.2026):</div>
+            <div class="total-balance-val" id="total-usd">$0.00</div>
+            <div id="wallet-list"></div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 3: ОБМЕН -->
+    <div id="tab-exchange" class="tab-section">
+        <div class="card">
+            <h3 id="lbl-ex-title" style="margin-bottom: 8px;">Мгновенный обмен (курс 29.10.2026)</h3>
+            <label id="lbl-ex-from">Отдаете:</label>
+            <select id="ex-from" onchange="calcExchangePreview()"></select>
+
+            <label id="lbl-ex-amt">Сумма:</label>
+            <input type="number" id="ex-amount" placeholder="0.00" oninput="calcExchangePreview()">
+
+            <label id="lbl-ex-to">Получаете:</label>
+            <select id="ex-to" onchange="calcExchangePreview()"></select>
+
+            <div id="ex-preview" style="margin-top: 12px; font-size: 13px; color: var(--text-muted);">
+                Курс: 1 USDT = 1.00 USDT
+            </div>
+
+            <button class="btn" id="btn-do-exchange" onclick="executeExchange()">🔄 Обменять</button>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 4: ЧЕКИ -->
+    <div id="tab-checks" class="tab-section">
+        <div class="card">
+            <h3 id="lbl-chk-title" style="margin-bottom: 8px;">Создание крипто-чека</h3>
+            <label id="lbl-chk-coin">Выберите валюту:</label>
+            <select id="chk-coin"></select>
+
+            <label id="lbl-chk-amt">Введите сумму:</label>
+            <input type="number" id="chk-amount" placeholder="0.00">
+
+            <button class="btn" id="btn-create-chk" onclick="createCheckWeb()">🧾 Создать чек</button>
+            <div id="chk-result" style="margin-top: 14px; font-size: 13px;"></div>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 5: ПОДДЕРЖКА -->
+    <div id="tab-support" class="tab-section">
+        <div class="card" style="text-align: center; padding: 28px 16px;">
+            <div style="font-size: 44px; margin-bottom: 10px;">💬</div>
+            <h3 id="lbl-sup-title">Служба поддержки 24/7</h3>
+            <p id="lbl-sup-desc" style="color: var(--text-muted); font-size: 14px; margin: 10px 0 18px;">
+                Нажмите кнопку ниже для связи с оператором @ssupppoortt.
+            </p>
+            <button class="btn" onclick="openSupport()" id="btn-sup-open">Написать @ssupppoortt</button>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА 6: НАСТРОЙКИ -->
+    <div id="tab-settings" class="tab-section">
+        <div class="card">
+            <h3 id="lbl-set-lang" style="margin-bottom: 8px;">🌍 Язык интерфейса</h3>
+            <div class="theme-grid">
+                <button class="option-btn active" id="lang-ru" onclick="setLang('ru')">🇷🇺 Русский</button>
+                <button class="option-btn" id="lang-en" onclick="setLang('en')">🇬🇧 English</button>
+                <button class="option-btn" id="lang-zh" onclick="setLang('zh')">🇨🇳 中文</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 id="lbl-set-theme" style="margin-bottom: 8px;">🎨 Тема оформления</h3>
+            <div class="theme-grid">
+                <button class="option-btn active" id="thm-dark" onclick="setTheme('dark')">🌑 Тёмная</button>
+                <button class="option-btn" id="thm-light" onclick="setTheme('light')">☀️ Светлая</button>
+                <button class="option-btn" id="thm-pink" onclick="setTheme('pink')">🌸 Розовая</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- НИЖНЯЯ НАВИГАЦИЯ -->
+<nav class="bottom-nav">
+    <button class="nav-item" onclick="switchTab('wallet', this)">
+        <span class="nav-icon">👛</span>
+        <span id="nav-wallet">Кошелёк</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('exchange', this)">
+        <span class="nav-icon">🔄</span>
+        <span id="nav-exchange">Обмен</span>
+    </button>
+    <button class="nav-item active" onclick="switchTab('trade', this)">
+        <span class="nav-icon">📈</span>
+        <span id="nav-trade">Торговля</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('checks', this)">
+        <span class="nav-icon">🧾</span>
+        <span id="nav-checks">Чеки</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('support', this)">
+        <span class="nav-icon">💬</span>
+        <span id="nav-support">Поддержка</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('settings', this)">
+        <span class="nav-icon">⚙️</span>
+        <span id="nav-settings">Настройки</span>
+    </button>
+</nav>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+
+    // Курсы валют к USD на 29 октября 2026 года
+    const RATES_2026 = {
+        USDT: { name: "Tether", rate: 1.00 },
+        GRAM: { name: "Gram", rate: 0.042 },
+        SOL:  { name: "Solana", rate: 215.40 },
+        TRX:  { name: "TRON", rate: 0.195 },
+        BTC:  { name: "Bitcoin", rate: 98450.00 },
+        ETH:  { name: "Ethereum", rate: 3420.00 },
+        DOGE: { name: "Dogecoin", rate: 0.24 },
+        LTC:  { name: "Litecoin", rate: 94.50 },
+        BNB:  { name: "Binance Coin", rate: 690.00 },
+        USDC: { name: "USD Coin", rate: 1.00 },
+        XAUT: { name: "Tether Gold", rate: 2890.00 }
+    };
+
+    const BALANCES = {};
+    Object.keys(RATES_2026).forEach(k => BALANCES[k] = 0);
+
+    // Читаем балансы и язык из URL-параметров от бота
+    const params = new URLSearchParams(window.location.search);
+    Object.keys(RATES_2026).forEach(ticker => {
+        if (params.has(ticker)) {
+            BALANCES[ticker] = parseFloat(params.get(ticker)) || 0;
+        }
+    });
+
+    let currentLang = params.get("lang") || "ru";
+    let chartPoints = [];
+    let positions = [];
+
+    const I18N = {
+        ru: {
+            nav: ["Кошелёк", "Обмен", "Торговля", "Чеки", "Поддержка", "Настройки"],
+            total: "Общий баланс (по курсу 29.10.2026):",
+            pair: "Торговая пара:",
+            tradeAmt: "Сумма сделки (USDT):",
+            leverage: "Плечо:",
+            positions: "Активные позиции:",
+            noPos: "Нет открытых сделок.",
+            exTitle: "Мгновенный обмен (курс 29.10.2026)",
+            exFrom: "Отдаете:",
+            exAmt: "Сумма:",
+            exTo: "Получаете:",
+            exBtn: "🔄 Обменять",
+            chkTitle: "Создание крипто-чека",
+            chkCoin: "Выберите валюту:",
+            chkAmt: "Введите сумму:",
+            chkBtn: "🧾 Создать чек",
+            supTitle: "Служба поддержки 24/7",
+            supDesc: "Нажмите кнопку ниже для связи с оператором @ssupppoortt.",
+            supBtn: "Написать @ssupppoortt",
+            setLang: "🌍 Язык интерфейса",
+            setTheme: "🎨 Тема оформления",
+            themes: ["🌑 Тёмная", "☀️ Светлая", "🌸 Розовая"],
+            noFunds: "Нехватка средств на балансе!",
+            exSuccess: "Обмен успешно выполнен!",
+            posOpened: "Открыта сделка"
+        },
+        en: {
+            nav: ["Wallet", "Exchange", "Trading", "Checks", "Support", "Settings"],
+            total: "Total Balance (Rate Oct 29, 2026):",
+            pair: "Trading Pair:",
+            tradeAmt: "Order Amount (USDT):",
+            leverage: "Leverage:",
+            positions: "Active Positions:",
+            noPos: "No open positions.",
+            exTitle: "Instant Exchange (Oct 29, 2026 Rate)",
+            exFrom: "You send:",
+            exAmt: "Amount:",
+            exTo: "You get:",
+            exBtn: "🔄 Exchange",
+            chkTitle: "Create Crypto Check",
+            chkCoin: "Select currency:",
+            chkAmt: "Enter amount:",
+            chkBtn: "🧾 Create Check",
+            supTitle: "24/7 Support Service",
+            supDesc: "Click the button below to contact @ssupppoortt.",
+            supBtn: "Contact @ssupppoortt",
+            setLang: "🌍 Interface Language",
+            setTheme: "🎨 Appearance Theme",
+            themes: ["🌑 Dark", "☀️ Light", "🌸 Pink"],
+            noFunds: "Insufficient funds on balance!",
+            exSuccess: "Exchange completed successfully!",
+            posOpened: "Position opened"
+        },
+        zh: {
+            nav: ["钱包", "兑换", "交易", "支票", "客服", "设置"],
+            total: "总资产 (2026年10月29日汇率)：",
+            pair: "交易对：",
+            tradeAmt: "交易金额 (USDT)：",
+            leverage: "杠杆：",
+            positions: "当前持仓：",
+            noPos: "暂无持仓。",
+            exTitle: "即时兑换 (2026.10.29 汇率)",
+            exFrom: "支付币种：",
+            exAmt: "数量：",
+            exTo: "获得币种：",
+            exBtn: "🔄 立即兑换",
+            chkTitle: "创建加密支票",
+            chkCoin: "选择货币：",
+            chkAmt: "输入金额：",
+            chkBtn: "🧾 创建支票",
+            supTitle: "24/7 客服支持",
+            supDesc: "点击下方按钮联系客服 @ssupppoortt。",
+            supBtn: "联系 @ssupppoortt",
+            setLang: "🌍 界面语言",
+            setTheme: "🎨 主题外观",
+            themes: ["🌑 深色", "☀️ 浅色", "🌸 粉色"],
+            noFunds: "余额不足！",
+            exSuccess: "兑换成功！",
+            posOpened: "已开仓"
+        }
+    };
+
+    function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.display = "block";
+        setTimeout(() => { t.style.display = "none"; }, 2400);
+    }
+
+    function switchTab(tabId, btn) {
+        document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
+        document.getElementById("tab-" + tabId).classList.add("active");
+        document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        if (tabId === "wallet") renderWallet();
+        if (tabId === "trade") drawChart();
+    }
+
+    function populateSelects() {
+        const exFrom = document.getElementById("ex-from");
+        const exTo = document.getElementById("ex-to");
+        const chkCoin = document.getElementById("chk-coin");
+        exFrom.innerHTML = ""; exTo.innerHTML = ""; chkCoin.innerHTML = "";
+
+        Object.keys(RATES_2026).forEach((ticker, idx) => {
+            const info = RATES_2026[ticker];
+            const opt1 = new Option(`${info.name} (${ticker})`, ticker);
+            const opt2 = new Option(`${info.name} (${ticker})`, ticker);
+            const opt3 = new Option(`${info.name} (${ticker})`, ticker);
+            exFrom.add(opt1);
+            exTo.add(opt2);
+            chkCoin.add(opt3);
+            if (idx === 4) exTo.value = ticker; // BTC по умолчанию
+        });
+        calcExchangePreview();
+    }
+
+    function renderWallet() {
+        const list = document.getElementById("wallet-list");
+        list.innerHTML = "";
+        let total = 0;
+
+        Object.keys(RATES_2026).forEach(ticker => {
+            const info = RATES_2026[ticker];
+            const bal = BALANCES[ticker] || 0;
+            const usd = bal * info.rate;
+            total += usd;
+
+            const row = document.createElement("div");
+            row.className = "coin-row";
+            row.innerHTML = `
+                <div class="coin-left">
+                    <div class="coin-icon">${ticker.slice(0, 3)}</div>
+                    <div>
+                        <div class="coin-name">${info.name}</div>
+                        <div class="coin-rate">$${info.rate.toLocaleString()}</div>
+                    </div>
+                </div>
+                <div class="coin-right">
+                    <div class="coin-bal">${bal.toFixed(bal % 1 === 0 ? 0 : 4)} ${ticker}</div>
+                    <div class="coin-usd">≈ $${usd.toFixed(2)}</div>
+                </div>
+            `;
+            list.appendChild(row);
+        });
+
+        document.getElementById("total-usd").textContent = "$" + total.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    function calcExchangePreview() {
+        const from = document.getElementById("ex-from").value;
+        const to = document.getElementById("ex-to").value;
+        const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
+        const rate = RATES_2026[from].rate / RATES_2026[to].rate;
+        const res = amt * rate;
+        document.getElementById("ex-preview").textContent =
+            `1 ${from} = ${rate.toFixed(6)} ${to}  |  ≈ ${res.toFixed(6)} ${to}`;
+    }
+
+    function executeExchange() {
+        const from = document.getElementById("ex-from").value;
+        const to = document.getElementById("ex-to").value;
+        const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
+        const d = I18N[currentLang];
+
+        if (amt <= 0 || amt > (BALANCES[from] || 0)) {
+            showToast("❌ " + d.noFunds);
+            return;
+        }
+        const received = (amt * RATES_2026[from].rate) / RATES_2026[to].rate;
+        BALANCES[from] -= amt;
+        BALANCES[to] = (BALANCES[to] || 0) + received;
+        renderWallet();
+        showToast(`✅ ${d.exSuccess} +${received.toFixed(4)} ${to}`);
+    }
+
+    function createCheckWeb() {
+        const coin = document.getElementById("chk-coin").value;
+        const amt = parseFloat(document.getElementById("chk-amount").value) || 0;
+        const d = I18N[currentLang];
+
+        if (amt <= 0 || amt > (BALANCES[coin] || 0)) {
+            showToast("❌ " + d.noFunds);
+            return;
+        }
+        BALANCES[coin] -= amt;
+        const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "98X";
+        document.getElementById("chk-result").innerHTML =
+            `✅ Код чека: <b>#${code}</b> (${amt} ${coin})`;
+        renderWallet();
+    }
+
+    function openSupport() {
+        tg.openTelegramLink("https://t.me/ssupppoortt");
+    }
+
+    // ================= ГРАФИК И ТОРГОВЛЯ =================
+    function generateChartSeries(basePrice) {
+        chartPoints = [];
+        let p = basePrice * 0.985;
+        for (let i = 0; i < 38; i++) {
+            const delta = (Math.random() - 0.46) * (basePrice * 0.008);
+            p += delta;
+            chartPoints.push(p);
+        }
+        chartPoints.push(basePrice);
+    }
+
+    function onPairChange() {
+        const pair = document.getElementById("trade-pair").value;
+        const base = RATES_2026[pair].rate;
+        document.getElementById("live-price").textContent = "$" + base.toLocaleString("en-US", {
+            minimumFractionDigits: base < 1 ? 4 : 2
+        });
+        generateChartSeries(base);
+        drawChart();
+    }
+
+    function setTF(btn) {
+        document.querySelectorAll(".tf-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        onPairChange();
+    }
+
+    function drawChart() {
+        const canvas = document.getElementById("priceChart");
+        const ctx = canvas.getContext("2d");
+        const w = canvas.width;
+        const h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        if (chartPoints.length === 0) return;
+
+        const min = Math.min(...chartPoints);
+        const max = Math.max(...chartPoints);
+        const range = (max - min) || 1;
+
+        // Сетка
+        ctx.strokeStyle = "rgba(148, 163, 184, 0.12)";
+        ctx.lineWidth = 1;
+        for (let i = 1; i < 4; i++) {
+            const y = (h / 4) * i;
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+            ctx.stroke();
+        }
+
+        // Линия курса
+        const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#38bdf8";
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+
+        chartPoints.forEach((val, idx) => {
+            const x = (idx / (chartPoints.length - 1)) * (w - 20) + 10;
+            const y = h - 18 - ((val - min) / range) * (h - 36);
+            if (idx === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Градиент под графиком
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, accent + "55");
+        grad.addColorStop(1, "transparent");
+        ctx.lineTo(w - 10, h);
+        ctx.lineTo(10, h);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+    }
+
+    function openPosition(side) {
+        const pair = document.getElementById("trade-pair").value;
+        const amt = parseFloat(document.getElementById("trade-amount").value) || 0;
+        const lev = document.getElementById("trade-lev").value;
+        const d = I18N[currentLang];
+
+        if (amt <= 0 || amt > (BALANCES["USDT"] || 0)) {
+            showToast("❌ " + d.noFunds + " (USDT)");
+            return;
+        }
+
+        BALANCES["USDT"] -= amt;
+        const entry = RATES_2026[pair].rate;
+        positions.unshift({ pair, side, amt, lev, entry });
+        renderPositions();
+        renderWallet();
+        showToast(`✅ ${d.posOpened}: ${side} ${pair}/USDT (${amt} USDT x${lev})`);
+    }
+
+    function renderPositions() {
+        const box = document.getElementById("positions-list");
+        if (positions.length === 0) {
+            box.textContent = I18N[currentLang].noPos;
+            return;
+        }
+        box.innerHTML = "";
+        positions.forEach(p => {
+            const color = p.side === "LONG" ? "var(--long)" : "var(--short)";
+            const item = document.createElement("div");
+            item.className = "position-item";
+            item.innerHTML = `
+                <div>
+                    <strong style="color:${color}">${p.side} x${p.lev}</strong> ${p.pair}/USDT
+                </div>
+                <div>$${p.entry.toLocaleString()} (${p.amt} USDT)</div>
+            `;
+            box.appendChild(item);
+        });
+    }
+
+    // ================= ТЕМЫ И ЯЗЫКИ =================
+    function setTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        document.querySelectorAll("#thm-dark, #thm-light, #thm-pink").forEach(b => b.classList.remove("active"));
+        document.getElementById("thm-" + theme).classList.add("active");
+        drawChart();
+    }
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.querySelectorAll("#lang-ru, #lang-en, #lang-zh").forEach(b => b.classList.remove("active"));
+        const activeBtn = document.getElementById("lang-" + lang);
+        if (activeBtn) activeBtn.classList.add("active");
+
+        const d = I18N[lang] || I18N.ru;
+        document.getElementById("nav-wallet").textContent = d.nav[0];
+        document.getElementById("nav-exchange").textContent = d.nav[1];
+        document.getElementById("nav-trade").textContent = d.nav[2];
+        document.getElementById("nav-checks").textContent = d.nav[3];
+        document.getElementById("nav-support").textContent = d.nav[4];
+        document.getElementById("nav-settings").textContent = d.nav[5];
+
+        document.getElementById("lbl-total").textContent = d.total;
+        document.getElementById("lbl-pair").textContent = d.pair;
+        document.getElementById("lbl-trade-amt").textContent = d.tradeAmt;
+        document.getElementById("lbl-leverage").textContent = d.leverage;
+        document.getElementById("lbl-positions").textContent = d.positions;
+        document.getElementById("lbl-ex-title").textContent = d.exTitle;
+        document.getElementById("lbl-ex-from").textContent = d.exFrom;
+        document.getElementById("lbl-ex-amt").textContent = d.exAmt;
+        document.getElementById("lbl-ex-to").textContent = d.exTo;
+        document.getElementById("btn-do-exchange").textContent = d.exBtn;
+        document.getElementById("lbl-chk-title").textContent = d.chkTitle;
+        document.getElementById("lbl-chk-coin").textContent = d.chkCoin;
+        document.getElementById("lbl-chk-amt").textContent = d.chkAmt;
+        document.getElementById("btn-create-chk").textContent = d.chkBtn;
+        document.getElementById("lbl-sup-title").textContent = d.supTitle;
+        document.getElementById("lbl-sup-desc").textContent = d.supDesc;
+        document.getElementById("btn-sup-open").textContent = d.supBtn;
+        document.getElementById("lbl-set-lang").textContent = d.setLang;
+        document.getElementById("lbl-set-theme").textContent = d.setTheme;
+
+        document.getElementById("thm-dark").textContent = d.themes[0];
+        document.getElementById("thm-light").textContent = d.themes[1];
+        document.getElementById("thm-pink").textContent = d.themes[2];
+
+        renderPositions();
+    }
+
+    // Инициализация при запуске
+    populateSelects();
+    setLang(currentLang);
+    onPairChange();
+    renderWallet();
+
+    // Имитация живого движения цены раз в 2.5 секунды
+    setInterval(() => {
+        const pair = document.getElementById("trade-pair").value;
+        const base = RATES_2026[pair].rate;
+        const jitter = (Math.random() - 0.48) * (base * 0.002);
+        const nextPrice = Math.max(0.0001, chartPoints[chartPoints.length - 1] + jitter);
+        chartPoints.shift();
+        chartPoints.push(nextPrice);
+        document.getElementById("live-price").textContent = "$" + nextPrice.toLocaleString("en-US", {
+            minimumFractionDigits: base < 1 ? 4 : 2,
+            maximumFractionDigits: base < 1 ? 4 : 2
+        });
+        drawChart();
+    }, 2500);
+</script>
+</body>
+</html>
