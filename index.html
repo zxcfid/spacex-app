@@ -3,49 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SpaceX Crypto & Trading</title>
+    <title>SpaceX Crypto</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root[data-theme="dark"] {
-            --bg-grad: linear-gradient(135deg, #070913 0%, #111827 50%, #030712 100%);
-            --glass-bg: rgba(18, 24, 38, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-input: rgba(255, 255, 255, 0.04);
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --accent: #0098ea; /* TON Blue */
-            --accent-grad: linear-gradient(135deg, #0098ea, #6366f1);
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            --long: #10b981;
-            --short: #f43f5e;
+            --bg-base: #05070f;
+            --orb-1: #0098ea;
+            --orb-2: #6366f1;
+            --orb-3: #10b981;
+            --glass: rgba(22, 28, 45, 0.58);
+            --glass-strong: rgba(30, 39, 62, 0.78);
+            --glass-input: rgba(255, 255, 255, 0.05);
+            --border-light: rgba(255, 255, 255, 0.14);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --accent: #0098ea;
+            --accent-grad: linear-gradient(135deg, #0098ea 0%, #6366f1 100%);
+            --up: #10b981;
+            --down: #f43f5e;
         }
 
         :root[data-theme="light"] {
-            --bg-grad: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(15, 23, 42, 0.08);
-            --glass-input: rgba(15, 23, 42, 0.04);
+            --bg-base: #eef2f9;
+            --orb-1: #60a5fa;
+            --orb-2: #a78bfa;
+            --orb-3: #34d399;
+            --glass: rgba(255, 255, 255, 0.65);
+            --glass-strong: rgba(255, 255, 255, 0.88);
+            --glass-input: rgba(15, 23, 42, 0.05);
+            --border-light: rgba(255, 255, 255, 0.85);
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --accent: #0098ea;
-            --accent-grad: linear-gradient(135deg, #0098ea, #4f46e5);
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            --long: #059669;
-            --short: #dc2626;
+            --accent: #0284c7;
+            --accent-grad: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+            --up: #059669;
+            --down: #e11d48;
         }
 
         :root[data-theme="pink"] {
-            --bg-grad: linear-gradient(135deg, #1f0916 0%, #321024 50%, #12040d 100%);
-            --glass-bg: rgba(50, 16, 36, 0.65);
-            --glass-border: rgba(244, 114, 182, 0.15);
-            --glass-input: rgba(255, 255, 255, 0.05);
+            --bg-base: #140510;
+            --orb-1: #ec4899;
+            --orb-2: #a855f7;
+            --orb-3: #f43f5e;
+            --glass: rgba(48, 14, 38, 0.58);
+            --glass-strong: rgba(68, 20, 52, 0.82);
+            --glass-input: rgba(255, 255, 255, 0.07);
+            --border-light: rgba(244, 114, 182, 0.25);
             --text-main: #fdf2f8;
-            --text-muted: #f472b6;
+            --text-muted: #f9a8d4;
             --accent: #ec4899;
-            --accent-grad: linear-gradient(135deg, #ec4899, #a855f7);
-            --shadow: 0 8px 32px 0 rgba(236, 72, 153, 0.2);
-            --long: #10b981;
-            --short: #f43f5e;
+            --accent-grad: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            --up: #10b981;
+            --down: #fb7185;
         }
 
         * {
@@ -53,599 +62,632 @@
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background: var(--bg-grad);
+            background-color: var(--bg-base);
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding-bottom: 84px;
-            font-size: 14px;
             min-height: 100vh;
-            background-attachment: fixed;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(85px);
+            opacity: 0.42;
+            animation: floatOrb 14s infinite alternate ease-in-out;
+        }
+        .orb-1 { width: 280px; height: 280px; background: var(--orb-1); top: -60px; left: -60px; }
+        .orb-2 { width: 320px; height: 320px; background: var(--orb-2); bottom: 10%; right: -80px; animation-delay: -5s; }
+        .orb-3 { width: 220px; height: 220px; background: var(--orb-3); top: 42%; left: 20%; opacity: 0.22; animation-delay: -9s; }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(25px, 35px) scale(1.12); }
         }
 
         header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
             padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 25;
+            background: var(--glass);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border-bottom: 1px solid var(--border-light);
         }
 
-        .brand {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: 0.8px;
+        .brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
             background: var(--accent-grad);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #fff;
+            font-size: 15px;
+            box-shadow: 0 4px 14px rgba(0, 152, 234, 0.4);
+        }
+        .brand-title {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
 
-        .live-dot {
+        .pill-live {
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            padding: 5px 11px;
+            border-radius: 999px;
             font-size: 11px;
-            color: var(--long);
-            background: rgba(16, 185, 129, 0.12);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            font-weight: 700;
+            color: var(--up);
+            background: rgba(16, 185, 129, 0.14);
+            border: 1px solid rgba(16, 185, 129, 0.28);
         }
-        .live-dot::before {
+        .pill-live::before {
             content: "";
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: var(--long);
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            background: var(--up);
+            box-shadow: 0 0 8px var(--up);
         }
 
         .container {
-            padding: 14px;
             max-width: 520px;
             margin: 0 auto;
+            padding: 14px;
         }
 
-        .tab-section { display: none; }
+        .tab-section { display: none; animation: fadeUp 0.22s ease; }
         .tab-section.active { display: block; }
 
-        /* Эффект жидкого стекла (Glassmorphism) */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .liquid-card {
+            background: var(--glass);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
             padding: 16px;
             margin-bottom: 14px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 12px 34px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18);
         }
 
-        .ticker-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .price-big {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .stats-grid {
+        .seg-control {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            width: 100%;
-            margin-top: 8px;
-            padding-top: 10px;
-            border-top: 1px solid var(--glass-border);
-            font-size: 11px;
-        }
-        .stat-label { color: var(--text-muted); }
-        .stat-val { font-weight: 700; margin-top: 2px; }
-
-        canvas {
-            width: 100%;
-            height: 210px;
+            grid-template-columns: 1fr 1fr;
             background: var(--glass-input);
+            padding: 4px;
             border-radius: 14px;
-            display: block;
-            border: 1px solid var(--glass-border);
+            border: 1px solid var(--border-light);
+            margin-bottom: 14px;
         }
-
-        .tf-bar {
-            display: flex;
-            gap: 6px;
-            margin: 10px 0 14px;
-        }
-        .tf-btn {
-            flex: 1;
-            padding: 7px;
-            border-radius: 8px;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-input);
+        .seg-btn {
+            padding: 9px 10px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
             color: var(--text-muted);
-            font-size: 11px;
             font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
             transition: all 0.2s;
         }
-        .tf-btn.active {
-            background: var(--accent);
+        .seg-btn.active {
+            background: var(--accent-grad);
             color: #fff;
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(0, 152, 234, 0.3);
-        }
-
-        .terminal-grid {
-            display: grid;
-            grid-template-columns: 1.35fr 1fr;
-            gap: 10px;
-        }
-
-        .order-tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            background: var(--glass-input);
-            padding: 3px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            border: 1px solid var(--glass-border);
-        }
-        .order-tab {
-            padding: 6px;
-            text-align: center;
-            font-size: 11px;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-        .order-tab.active {
-            background: var(--glass-bg);
-            color: var(--text-main);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 14px rgba(0, 152, 234, 0.35);
         }
 
         label {
             display: block;
             font-size: 11px;
-            color: var(--text-muted);
-            margin: 8px 0 4px;
             font-weight: 600;
+            color: var(--text-muted);
+            margin: 8px 0 5px;
         }
 
         select, input {
             width: 100%;
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--glass-border);
+            padding: 11px 13px;
+            border-radius: 13px;
+            border: 1px solid var(--border-light);
             background: var(--glass-input);
             color: var(--text-main);
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 600;
             outline: none;
-            backdrop-filter: blur(10px);
         }
-        select:focus, input:focus {
-            border-color: var(--accent);
+        select option {
+            background: #111827;
+            color: #fff;
         }
 
-        .pct-bar {
+        .price-hero {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-light);
+            font-size: 11px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            background: var(--glass-input);
+            border: 1px solid var(--border-light);
+            display: block;
+            margin-top: 10px;
+        }
+
+        .tf-bar {
+            display: flex;
+            gap: 6px;
+            margin: 10px 0 12px;
+        }
+        .tf-btn {
+            flex: 1;
+            padding: 6px;
+            border-radius: 9px;
+            border: 1px solid var(--border-light);
+            background: var(--glass-input);
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .tf-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .pct-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
-            margin-top: 6px;
+            gap: 6px;
+            margin-top: 7px;
         }
-        .pct-btn {
-            padding: 5px;
-            font-size: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--glass-border);
+        .pct-chip {
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
             background: var(--glass-input);
             color: var(--text-muted);
-            cursor: pointer;
+            font-size: 11px;
             font-weight: 700;
+            cursor: pointer;
         }
 
-        .trade-buttons {
+        .action-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
             margin-top: 12px;
         }
-        .btn-long, .btn-short {
-            padding: 12px 6px;
+        .btn-up, .btn-down {
+            padding: 13px;
             border: none;
-            border-radius: 10px;
+            border-radius: 14px;
             color: #fff;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
+            transition: transform 0.12s;
         }
-        .btn-long { background: var(--long); }
-        .btn-short { background: var(--short); }
-        .btn-long:active, .btn-short:active { transform: scale(0.97); }
+        .btn-up { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 6px 18px rgba(16, 185, 129, 0.32); }
+        .btn-down { background: linear-gradient(135deg, #f43f5e, #e11d48); box-shadow: 0 6px 18px rgba(244, 63, 94, 0.32); }
+        .btn-up:active, .btn-down:active { transform: scale(0.97); }
 
-        .ob-box {
-            background: var(--glass-input);
-            border-radius: 10px;
-            padding: 8px;
-            font-size: 11px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid var(--glass-border);
-        }
-        .ob-header {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 10px;
-            margin-bottom: 4px;
-        }
-        .ob-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 2px 0;
-            font-family: monospace;
-        }
-        .ob-ask { color: var(--short); }
-        .ob-bid { color: var(--long); }
-        .ob-mid {
-            text-align: center;
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 14px;
+            background: var(--accent-grad);
+            color: #fff;
             font-weight: 800;
-            padding: 6px 0;
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-            margin: 4px 0;
-            font-size: 12px;
-        }
-
-        .pos-card {
-            background: var(--glass-input);
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 8px;
-            font-size: 12px;
-            border: 1px solid var(--glass-border);
-        }
-        .pos-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-        .close-btn {
-            background: rgba(244, 63, 94, 0.15);
-            color: var(--short);
-            border: 1px solid rgba(244, 63, 94, 0.3);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 14px;
             cursor: pointer;
+            margin-top: 12px;
+            box-shadow: 0 6px 20px rgba(0, 152, 234, 0.35);
         }
 
-        .coin-row {
+        .asset-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 11px 0;
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--border-light);
         }
-        .coin-row:last-child { border-bottom: none; }
-        .coin-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+        .asset-item:last-child { border-bottom: none; }
+
+        .asset-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             background: var(--accent-grad);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            color: #fff;
-            font-size: 12px;
-            box-shadow: 0 4px 10px rgba(0, 152, 234, 0.3);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 800;
             font-size: 14px;
-            cursor: pointer;
-            background: var(--accent-grad);
+            font-weight: 800;
             color: #fff;
-            margin-top: 14px;
-            box-shadow: 0 4px 16px rgba(0, 152, 234, 0.35);
         }
 
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 8px;
-        }
-        .option-btn {
-            padding: 11px 6px;
-            border-radius: 10px;
-            border: 1px solid var(--glass-border);
+        .meme-holding-card {
             background: var(--glass-input);
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
         }
-        .option-btn.active { border: 2px solid var(--accent); }
 
-        .bottom-nav {
+        .chip-btn {
+            padding: 6px 12px;
+            border-radius: 9px;
+            border: 1px solid var(--border-light);
+            background: var(--glass-strong);
+            color: var(--text-main);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .floating-dock {
             position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--glass-border);
+            bottom: 12px;
+            left: 12px;
+            right: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--glass-strong);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid var(--border-light);
+            border-radius: 22px;
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            padding: 6px 2px 10px;
-            z-index: 30;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            padding: 7px 4px;
+            z-index: 40;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4);
         }
-        .nav-item {
+        .dock-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 600;
+            gap: 3px;
             background: none;
             border: none;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 700;
             cursor: pointer;
+            padding: 4px 2px;
+            border-radius: 14px;
+            transition: all 0.2s;
         }
-        .nav-item.active { color: var(--accent); }
-        .nav-icon { font-size: 18px; }
+        .dock-item.active {
+            color: var(--accent);
+            background: var(--glass-input);
+        }
+        .dock-icon { font-size: 18px; }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .opt-card {
+            padding: 12px 6px;
+            border-radius: 14px;
+            border: 1px solid var(--border-light);
+            background: var(--glass-input);
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .opt-card.active {
+            border: 2px solid var(--accent);
+            background: rgba(0, 152, 234, 0.14);
+        }
 
         .toast {
             position: fixed;
-            top: 16px; left: 50%;
+            top: 16px;
+            left: 50%;
             transform: translateX(-50%);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
+            background: var(--glass-strong);
+            backdrop-filter: blur(24px);
             border: 1px solid var(--accent);
             color: var(--text-main);
             padding: 10px 18px;
-            border-radius: 12px;
+            border-radius: 14px;
             font-weight: 700;
             font-size: 12px;
             display: none;
             z-index: 100;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.45);
         }
     </style>
 </head>
 <body>
 
+<div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+</div>
+
 <div id="toast" class="toast"></div>
 
 <header>
-    <div class="brand">SPACEX CRYPTO</div>
-    <div class="live-dot" id="market-status">Live Market</div>
+    <div class="brand-wrap">
+        <div class="brand-logo">S</div>
+        <div class="brand-title">SPACEX CRYPTO</div>
+    </div>
+    <div class="pill-live" id="hdr-usdt">0.00 USDT</div>
 </header>
 
 <div class="container">
+
     <!-- ВКЛАДКА 1: ТОРГОВЛЯ -->
     <div id="tab-trade" class="tab-section active">
-        <div class="glass-card">
-            <div class="ticker-bar">
-                <select id="trade-pair" onchange="onPairChange()" style="width: auto; font-weight: 800; font-size: 15px;">
-                    <option value="BTC">BTC / USDT</option>
-                    <option value="ETH">ETH / USDT</option>
-                    <option value="SOL">SOL / USDT</option>
-                    <option value="TON">TON / USDT</option>
-                    <option value="BNB">BNB / USDT</option>
-                    <option value="XAUT">XAUT / USDT</option>
-                    <option value="LTC">LTC / USDT</option>
-                    <option value="TRX">TRX / USDT</option>
-                    <option value="DOGE">DOGE / USDT</option>
-                </select>
-                <div style="text-align: right;">
-                    <div class="price-big" id="live-price">...</div>
-                    <div id="price-change" style="font-size: 12px; font-weight: 700;">0.00%</div>
+        <div class="seg-control">
+            <button class="seg-btn active" id="mode-futures-btn" onclick="switchTradeMode('futures')" data-i18n="modeFutures">💎 Фьючерсы</button>
+            <button class="seg-btn" id="mode-memes-btn" onclick="switchTradeMode('memes')" data-i18n="modeMemes">🚀 Мем-коины</button>
+        </div>
+
+        <!-- ПОДВКЛАДКА 1А: ФЬЮЧЕРСЫ LONG/SHORT -->
+        <div id="sub-futures">
+            <div class="liquid-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <select id="trade-pair" onchange="onPairChange()" style="width:auto; font-size:15px; font-weight:800;">
+                        <option value="BTC">BTC / USDT</option>
+                        <option value="ETH">ETH / USDT</option>
+                        <option value="TON">TON / USDT</option>
+                        <option value="SOL">SOL / USDT</option>
+                        <option value="BNB">BNB / USDT</option>
+                        <option value="XAUT">XAUT / USDT</option>
+                        <option value="LTC">LTC / USDT</option>
+                        <option value="TRX">TRX / USDT</option>
+                        <option value="DOGE">DOGE / USDT</option>
+                    </select>
+                    <div style="text-align:right;">
+                        <div class="price-hero" id="live-price">$98,450.00</div>
+                        <div id="price-change" style="font-size:12px; font-weight:700; color:var(--up);">+2.14%</div>
+                    </div>
                 </div>
 
-                <div class="stats-grid">
+                <div class="stats-row">
+                    <div><span style="color:var(--text-muted);">24h High</span><div id="stat-high" style="font-weight:700;">--</div></div>
+                    <div><span style="color:var(--text-muted);">24h Low</span><div id="stat-low" style="font-weight:700;">--</div></div>
+                    <div><span style="color:var(--text-muted);">24h Vol</span><div id="stat-vol" style="font-weight:700;">--</div></div>
+                </div>
+
+                <canvas id="klineChart" width="460" height="200"></canvas>
+
+                <div class="tf-bar">
+                    <button class="tf-btn active" onclick="changeInterval('1', this)">1m</button>
+                    <button class="tf-btn" onclick="changeInterval('15', this)">15m</button>
+                    <button class="tf-btn" onclick="changeInterval('60', this)">1h</button>
+                    <button class="tf-btn" onclick="changeInterval('D', this)">1d</button>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:10px;">
                     <div>
-                        <div class="stat-label">24h High</div>
-                        <div class="stat-val" id="stat-high">--</div>
+                        <label data-i18n="lblMargin">Сумма сделки (USDT):</label>
+                        <input type="number" id="trade-amount" value="50">
                     </div>
                     <div>
-                        <div class="stat-label">24h Low</div>
-                        <div class="stat-val" id="stat-low">--</div>
+                        <label data-i18n="lblLeverage">Плечо:</label>
+                        <select id="trade-lev">
+                            <option value="5">5x</option>
+                            <option value="10" selected>10x</option>
+                            <option value="25">25x</option>
+                            <option value="50">50x</option>
+                        </select>
                     </div>
-                    <div>
-                        <div class="stat-label">24h Volume</div>
-                        <div class="stat-val" id="stat-vol">--</div>
-                    </div>
+                </div>
+
+                <div class="pct-row">
+                    <button class="pct-chip" onclick="setPct('trade-amount', 0.25)">25%</button>
+                    <button class="pct-chip" onclick="setPct('trade-amount', 0.50)">50%</button>
+                    <button class="pct-chip" onclick="setPct('trade-amount', 0.75)">75%</button>
+                    <button class="pct-chip" onclick="setPct('trade-amount', 1.00)">100%</button>
+                </div>
+
+                <div class="action-grid">
+                    <button class="btn-up" onclick="openPosition('LONG')">📈 LONG</button>
+                    <button class="btn-down" onclick="openPosition('SHORT')">📉 SHORT</button>
                 </div>
             </div>
 
-            <!-- График свечей -->
-            <canvas id="klineChart" width="480" height="210"></canvas>
-
-            <div class="tf-bar">
-                <button class="tf-btn active" onclick="changeInterval('1', this)">1м</button>
-                <button class="tf-btn" onclick="changeInterval('15', this)">15м</button>
-                <button class="tf-btn" onclick="changeInterval('60', this)">1ч</button>
-                <button class="tf-btn" onclick="changeInterval('D', this)">1д</button>
-            </div>
-
-            <div class="terminal-grid">
-                <div>
-                    <div class="order-tabs">
-                        <div class="order-tab active" id="ot-market" onclick="setOrderType('market')">Рыночный</div>
-                        <div class="order-tab" id="ot-limit" onclick="setOrderType('limit')">Лимитный</div>
-                    </div>
-
-                    <div id="limit-price-wrap" style="display: none;">
-                        <label>Цена ордера (USDT):</label>
-                        <input type="number" id="limit-price" placeholder="Цена">
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px;">
-                        <div>
-                            <label>Маржа (USDT):</label>
-                            <input type="number" id="trade-amount" value="50">
-                        </div>
-                        <div>
-                            <label>Плечо:</label>
-                            <select id="trade-lev">
-                                <option value="5">5x</option>
-                                <option value="10" selected>10x</option>
-                                <option value="25">25x</option>
-                                <option value="50">50x</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="pct-bar">
-                        <button class="pct-btn" onclick="setMarginPct(0.25)">25%</button>
-                        <button class="pct-btn" onclick="setMarginPct(0.50)">50%</button>
-                        <button class="pct-btn" onclick="setMarginPct(0.75)">75%</button>
-                        <button class="pct-btn" onclick="setMarginPct(1.00)">100%</button>
-                    </div>
-
-                    <div class="trade-buttons">
-                        <button class="btn-long" onclick="openPosition('LONG')">📈 LONG</button>
-                        <button class="btn-short" onclick="openPosition('SHORT')">📉 SHORT</button>
-                    </div>
-                </div>
-
-                <!-- Стакан ордеров -->
-                <div class="ob-box">
-                    <div>
-                        <div class="ob-header"><span>Цена</span><span>Объем</span></div>
-                        <div id="ob-asks"></div>
-                    </div>
-                    <div class="ob-mid" id="ob-mid-price">--</div>
-                    <div id="ob-bids"></div>
-                </div>
+            <div class="liquid-card">
+                <div style="font-weight:800; margin-bottom:6px;" data-i18n="lblOpenPositions">Открытые позиции:</div>
+                <div id="positions-list" style="font-size:12px; color:var(--text-muted);">--</div>
             </div>
         </div>
 
-        <div class="glass-card">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <strong>Активные позиции:</strong>
-                <span style="font-size:11px; color:var(--text-muted);" id="avail-usdt">Доступно: 0 USDT</span>
+        <!-- ПОДВКЛАДКА 1Б: ТОРГОВЛЯ МЕМ-КОИНАМИ -->
+        <div id="sub-memes" style="display:none;">
+            <div class="liquid-card">
+                <input type="text" id="meme-search" oninput="filterMemes()" placeholder="🔍 Поиск мем-коина..." style="margin-bottom: 10px; font-size: 13px;">
+
+                <div style="display:flex; justify-content:space-between; align-items:center; gap: 8px;">
+                    <select id="meme-select" onchange="onMemeChange()" style="width:62%; font-weight:800;"></select>
+                    <div style="text-align:right;">
+                        <div id="meme-price" style="font-size:19px; font-weight:800; color:var(--accent);">$0.00000042</div>
+                        <div id="meme-status-badge" style="font-size:11px; color:var(--up); font-weight:700;">Готов к пампу 🚀</div>
+                    </div>
+                </div>
+
+                <canvas id="memeChart" width="460" height="185"></canvas>
+
+                <label data-i18n="lblMemeBuyAmt">Сумма инвестиции (USDT):</label>
+                <input type="number" id="meme-buy-amount" value="25" placeholder="USDT">
+
+                <div class="pct-row">
+                    <button class="pct-chip" onclick="setPct('meme-buy-amount', 0.25)">25%</button>
+                    <button class="pct-chip" onclick="setPct('meme-buy-amount', 0.50)">50%</button>
+                    <button class="pct-chip" onclick="setPct('meme-buy-amount', 0.75)">75%</button>
+                    <button class="pct-chip" onclick="setPct('meme-buy-amount', 1.00)">100%</button>
+                </div>
+
+                <div class="action-grid">
+                    <button class="btn-up" onclick="buyMemeCoin()" data-i18n="btnBuyMeme">🚀 Купить</button>
+                    <button class="btn-down" onclick="sellSelectedMeme()" data-i18n="btnSellMeme">💰 Продать</button>
+                </div>
             </div>
-            <div id="positions-list" style="margin-top: 6px; color: var(--text-muted); font-size: 12px;">
-                Нет открытых позиций.
+
+            <div class="liquid-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <strong data-i18n="lblMyMemes">Мои мем-активы:</strong>
+                </div>
+                <div id="meme-holdings-list" style="margin-top:8px; font-size:12px; color:var(--text-muted);"></div>
             </div>
         </div>
     </div>
 
     <!-- ВКЛАДКА 2: КОШЕЛЁК -->
     <div id="tab-wallet" class="tab-section">
-        <div class="glass-card">
-            <div style="font-size:12px; color:var(--text-muted);">Общий баланс портфеля:</div>
-            <div style="font-size:28px; font-weight:800; margin:4px 0 12px;" id="total-usd">$0.00</div>
+        <div class="liquid-card">
+            <div style="font-size:12px; color:var(--text-muted);" data-i18n="lblTotalBalance">Общий баланс портфеля:</div>
+            <div style="font-size:32px; font-weight:900; margin:6px 0 14px;" id="total-usd">$0.00</div>
             <div id="wallet-list"></div>
         </div>
     </div>
 
     <!-- ВКЛАДКА 3: ОБМЕН -->
     <div id="tab-exchange" class="tab-section">
-        <div class="glass-card">
-            <h3 style="margin-bottom: 8px;">Мгновенный обмен</h3>
-            <label>Отдаете:</label>
+        <div class="liquid-card">
+            <h3 style="margin-bottom:8px;" data-i18n="lblExTitle">Мгновенный обмен валют</h3>
+            <label data-i18n="lblExFrom">Отдаете:</label>
             <select id="ex-from" onchange="calcExchangePreview()"></select>
 
-            <label>Сумма:</label>
+            <label data-i18n="lblExAmount">Сумма:</label>
             <input type="number" id="ex-amount" placeholder="0.00" oninput="calcExchangePreview()">
 
-            <label>Получаете:</label>
+            <label data-i18n="lblExTo">Получаете:</label>
             <select id="ex-to" onchange="calcExchangePreview()"></select>
 
-            <div id="ex-preview" style="margin-top: 10px; font-size: 12px; color: var(--text-muted);"></div>
-            <button class="btn" onclick="executeExchange()">🔄 Обменять</button>
+            <div id="ex-preview" style="margin-top:10px; font-size:12px; color:var(--text-muted);"></div>
+            <button class="btn-primary" onclick="executeExchange()" data-i18n="btnExchangeNow">🔄 Обменять</button>
         </div>
     </div>
 
     <!-- ВКЛАДКА 4: ЧЕКИ -->
     <div id="tab-checks" class="tab-section">
-        <div class="glass-card">
-            <h3 style="margin-bottom: 8px;">Создание крипто-чека</h3>
-            <label>Выберите валюту:</label>
+        <div class="liquid-card">
+            <h3 style="margin-bottom:8px;" data-i18n="lblChkTitle">Создание крипто-чека</h3>
+            <label data-i18n="lblChkCoin">Выберите валюту:</label>
             <select id="chk-coin"></select>
-            <label>Введите сумму:</label>
+
+            <label data-i18n="lblChkAmt">Введите сумму:</label>
             <input type="number" id="chk-amount" placeholder="0.00">
-            <button class="btn" onclick="createCheckWeb()">🧾 Создать чек</button>
-            <div id="chk-result" style="margin-top: 12px; font-size: 13px;"></div>
+
+            <button class="btn-primary" onclick="createCheckWeb()" data-i18n="btnCreateCheck">🧾 Создать чек</button>
+            <div id="chk-result" style="margin-top:12px; font-size:13px;"></div>
         </div>
     </div>
 
     <!-- ВКЛАДКА 5: ПОДДЕРЖКА -->
     <div id="tab-support" class="tab-section">
-        <div class="glass-card" style="text-align: center; padding: 26px 14px;">
-            <div style="font-size: 42px; margin-bottom: 8px;">💬</div>
-            <h3>Служба поддержки 24/7</h3>
-            <p style="color: var(--text-muted); margin: 8px 0 16px;">Свяжитесь с оператором @ssupppoortt.</p>
-            <button class="btn" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')">Написать @ssupppoortt</button>
+        <div class="liquid-card" style="text-align:center; padding:28px 16px;">
+            <div style="font-size:46px; margin-bottom:10px;">💬</div>
+            <h3 data-i18n="lblSupTitle">Служба поддержки 24/7</h3>
+            <p style="color:var(--text-muted); font-size:13px; margin:10px 0 18px;" data-i18n="lblSupDesc">
+                Нажмите кнопку ниже для прямой связи с оператором @ssupppoortt.
+            </p>
+            <button class="btn-primary" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnSupWrite">
+                Написать @ssupppoortt
+            </button>
         </div>
     </div>
 
     <!-- ВКЛАДКА 6: НАСТРОЙКИ -->
     <div id="tab-settings" class="tab-section">
-        <div class="glass-card">
-            <h3>🌍 Язык интерфейса</h3>
-            <div class="theme-grid">
-                <button class="option-btn active" id="lang-ru" onclick="setLang('ru')">🇷🇺 Русский</button>
-                <button class="option-btn" id="lang-en" onclick="setLang('en')">🇬🇧 English</button>
-                <button class="option-btn" id="lang-zh" onclick="setLang('zh')">🇨🇳 中文</button>
+        <div class="liquid-card">
+            <h3 data-i18n="lblSetLang">🌍 Язык интерфейса</h3>
+            <div class="option-grid">
+                <button class="opt-card active" id="lang-ru" onclick="setLang('ru')">🇷🇺 Русский</button>
+                <button class="opt-card" id="lang-en" onclick="setLang('en')">🇬🇧 English</button>
+                <button class="opt-card" id="lang-zh" onclick="setLang('zh')">🇨🇳 中文</button>
             </div>
         </div>
-        <div class="glass-card">
-            <h3>🎨 Тема оформления</h3>
-            <div class="theme-grid">
-                <button class="option-btn active" id="thm-dark" onclick="setTheme('dark')">🌑 Тёмная</button>
-                <button class="option-btn" id="thm-light" onclick="setTheme('light')">☀️ Светлая</button>
-                <button class="option-btn" id="thm-pink" onclick="setTheme('pink')">🌸 Розовая</button>
+
+        <div class="liquid-card">
+            <h3 data-i18n="lblSetTheme">🎨 Тема Liquid Glass</h3>
+            <div class="option-grid">
+                <button class="opt-card active" id="thm-dark" onclick="setTheme('dark')" data-i18n="thmDark">🌑 Тёмная</button>
+                <button class="opt-card" id="thm-light" onclick="setTheme('light')" data-i18n="thmLight">☀️ Светлая</button>
+                <button class="opt-card" id="thm-pink" onclick="setTheme('pink')" data-i18n="thmPink">🌸 Розовая</button>
             </div>
         </div>
     </div>
+
 </div>
 
-<nav class="bottom-nav">
-    <button class="nav-item" onclick="switchTab('wallet', this)"><span class="nav-icon">👛</span><span>Кошелёк</span></button>
-    <button class="nav-item" onclick="switchTab('exchange', this)"><span class="nav-icon">🔄</span><span>Обмен</span></button>
-    <button class="nav-item active" onclick="switchTab('trade', this)"><span class="nav-icon">📈</span><span>Торговля</span></button>
-    <button class="nav-item" onclick="switchTab('checks', this)"><span class="nav-icon">🧾</span><span>Чеки</span></button>
-    <button class="nav-item" onclick="switchTab('support', this)"><span class="nav-icon">💬</span><span>Поддержка</span></button>
-    <button class="nav-item" onclick="switchTab('settings', this)"><span class="nav-icon">⚙️</span><span>Настройки</span></button>
+<!-- ПАРЯЩАЯ ПАНЕЛЬ НАВИГАЦИИ -->
+<nav class="floating-dock">
+    <button class="dock-item" onclick="switchTab('wallet', this)">
+        <span class="dock-icon">👛</span><span data-i18n="navWallet">Кошелёк</span>
+    </button>
+    <button class="dock-item" onclick="switchTab('exchange', this)">
+        <span class="dock-icon">🔄</span><span data-i18n="navExchange">Обмен</span>
+    </button>
+    <button class="dock-item active" onclick="switchTab('trade', this)">
+        <span class="dock-icon">📈</span><span data-i18n="navTrade">Торговля</span>
+    </button>
+    <button class="dock-item" onclick="switchTab('checks', this)">
+        <span class="dock-icon">🧾</span><span data-i18n="navChecks">Чеки</span>
+    </button>
+    <button class="dock-item" onclick="switchTab('support', this)">
+        <span class="dock-icon">💬</span><span data-i18n="navSupport">Поддержка</span>
+    </button>
+    <button class="dock-item" onclick="switchTab('settings', this)">
+        <span class="dock-icon">⚙️</span><span data-i18n="navSettings">Настройки</span>
+    </button>
 </nav>
 
 <script>
@@ -653,19 +695,223 @@
     tg.ready();
     tg.expand();
 
-    const COINS = {
-        USDT: { name: "Tether", rate: 1.00, change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 0 },
-        TON:  { name: "Toncoin", rate: 5.60, symbol: "TONUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        SOL:  { name: "Solana", rate: 215.40, symbol: "SOLUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        TRX:  { name: "TRON", rate: 0.195, symbol: "TRXUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        BTC:  { name: "Bitcoin", rate: 98450.00, symbol: "BTCUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        ETH:  { name: "Ethereum", rate: 3420.00, symbol: "ETHUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        DOGE: { name: "Dogecoin", rate: 0.24, symbol: "DOGEUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        LTC:  { name: "Litecoin", rate: 94.50, symbol: "LTCUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        BNB:  { name: "Binance Coin", rate: 690.00, symbol: "BNBUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        XAUT: { name: "Tether Gold", rate: 2890.00, symbol: "XAUTUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 }
+    const I18N = {
+        ru: {
+            modeFutures: "💎 Фьючерсы",
+            modeMemes: "🚀 Мем-коины",
+            lblMargin: "Сумма сделки (USDT):",
+            lblLeverage: "Плечо:",
+            lblOpenPositions: "Открытые позиции:",
+            noPositions: "Нет открытых сделок.",
+            lblMemeBuyAmt: "Сумма инвестиции (USDT):",
+            btnBuyMeme: "🚀 Купить",
+            btnSellMeme: "💰 Продать",
+            lblMyMemes: "Мои мем-активы:",
+            noMemes: "У вас пока нет купленных мем-коинов. Выберите монету сверху и нажмите «Купить»!",
+            lblTotalBalance: "Общий баланс портфеля:",
+            lblExTitle: "Мгновенный обмен валют",
+            lblExFrom: "Отдаете:",
+            lblExAmount: "Сумма:",
+            lblExTo: "Получаете:",
+            btnExchangeNow: "🔄 Обменять",
+            lblChkTitle: "Создание крипто-чека",
+            lblChkCoin: "Выберите валюту:",
+            lblChkAmt: "Введите сумму:",
+            btnCreateCheck: "🧾 Создать чек",
+            lblSupTitle: "Служба поддержки 24/7",
+            lblSupDesc: "Нажмите кнопку ниже для прямой связи с оператором @ssupppoortt.",
+            btnSupWrite: "Написать @ssupppoortt",
+            lblSetLang: "🌍 Язык интерфейса",
+            lblSetTheme: "🎨 Тема Liquid Glass",
+            thmDark: "🌑 Тёмная",
+            thmLight: "☀️ Светлая",
+            thmPink: "🌸 Розовая",
+            navWallet: "Кошелёк",
+            navExchange: "Обмен",
+            navTrade: "Торговля",
+            navChecks: "Чеки",
+            navSupport: "Поддержка",
+            navSettings: "Настройки",
+            noFunds: "Нехватка средств на балансе!",
+            readyPump: "Готов к пампу 🚀",
+            pumpingNow: "Взлёт цены",
+            closeBtn: "Закрыть",
+            sellBtn: "Продать",
+            searchPlaceholder: "🔍 Поиск мем-коина..."
+        },
+        en: {
+            modeFutures: "💎 Futures",
+            modeMemes: "🚀 Meme Coins",
+            lblMargin: "Order Margin (USDT):",
+            lblLeverage: "Leverage:",
+            lblOpenPositions: "Open Positions:",
+            noPositions: "No active positions.",
+            lblMemeBuyAmt: "Investment Amount (USDT):",
+            btnBuyMeme: "🚀 Buy",
+            btnSellMeme: "💰 Sell",
+            lblMyMemes: "My Meme Assets:",
+            noMemes: "No meme coins bought yet. Select a coin above and tap Buy!",
+            lblTotalBalance: "Total Portfolio Balance:",
+            lblExTitle: "Instant Currency Swap",
+            lblExFrom: "You send:",
+            lblExAmount: "Amount:",
+            lblExTo: "You receive:",
+            btnExchangeNow: "🔄 Swap Now",
+            lblChkTitle: "Create Crypto Check",
+            lblChkCoin: "Select currency:",
+            lblChkAmt: "Enter amount:",
+            btnCreateCheck: "🧾 Create Check",
+            lblSupTitle: "24/7 Support Desk",
+            lblSupDesc: "Tap the button below to message @ssupppoortt directly.",
+            btnSupWrite: "Message @ssupppoortt",
+            lblSetLang: "🌍 Interface Language",
+            lblSetTheme: "🎨 Liquid Glass Theme",
+            thmDark: "🌑 Dark",
+            thmLight: "☀️ Light",
+            thmPink: "🌸 Pink",
+            navWallet: "Wallet",
+            navExchange: "Swap",
+            navTrade: "Trade",
+            navChecks: "Checks",
+            navSupport: "Support",
+            navSettings: "Settings",
+            noFunds: "Insufficient balance!",
+            readyPump: "Ready to pump 🚀",
+            pumpingNow: "Pumping",
+            closeBtn: "Close",
+            sellBtn: "Sell",
+            searchPlaceholder: "🔍 Search meme coin..."
+        },
+        zh: {
+            modeFutures: "💎 合约交易",
+            modeMemes: "🚀 迷因币",
+            lblMargin: "交易保证金 (USDT)：",
+            lblLeverage: "杠杆倍数：",
+            lblOpenPositions: "当前持仓：",
+            noPositions: "暂无持仓。",
+            lblMemeBuyAmt: "投资金额 (USDT)：",
+            btnBuyMeme: "🚀 买入",
+            btnSellMeme: "💰 卖出",
+            lblMyMemes: "我的迷因资产：",
+            noMemes: "暂未购买迷因币，请在上方选择币种并点击买入！",
+            lblTotalBalance: "总资产估值：",
+            lblExTitle: "闪电兑换",
+            lblExFrom: "支付币种：",
+            lblExAmount: "数量：",
+            lblExTo: "获得币种：",
+            btnExchangeNow: "🔄 立即兑换",
+            lblChkTitle: "创建加密支票",
+            lblChkCoin: "选择币种：",
+            lblChkAmt: "输入金额：",
+            btnCreateCheck: "🧾 创建支票",
+            lblSupTitle: "24/7 在线客服",
+            lblSupDesc: "点击下方按钮直接联系客服 @ssupppoortt。",
+            btnSupWrite: "联系 @ssupppoortt",
+            lblSetLang: "🌍 界面语言",
+            lblSetTheme: "🎨 液态玻璃主题",
+            thmDark: "🌑 深色",
+            thmLight: "☀️ 浅色",
+            thmPink: "🌸 粉色",
+            navWallet: "钱包",
+            navExchange: "兑换",
+            navTrade: "交易",
+            navChecks: "支票",
+            navSupport: "客服",
+            navSettings: "设置",
+            noFunds: "余额不足！",
+            readyPump: "准备暴涨 🚀",
+            pumpingNow: "暴涨中",
+            closeBtn: "平仓",
+            sellBtn: "卖出",
+            searchPlaceholder: "🔍 搜索迷因币..."
+        }
     };
 
+    const COINS = {
+        USDT: { name: "Tether", rate: 1.00, change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 0 },
+        TON:  { name: "Toncoin", rate: 5.60, symbol: "TONUSDT", change24h: 2.1, high24h: 5.8, low24h: 5.4, vol24h: 45000000 },
+        SOL:  { name: "Solana", rate: 215.40, symbol: "SOLUSDT", change24h: 3.4, high24h: 220, low24h: 208, vol24h: 120000000 },
+        TRX:  { name: "TRON", rate: 0.195, symbol: "TRXUSDT", change24h: 1.1, high24h: 0.20, low24h: 0.19, vol24h: 32000000 },
+        BTC:  { name: "Bitcoin", rate: 98450.00, symbol: "BTCUSDT", change24h: 2.8, high24h: 99200, low24h: 96800, vol24h: 890000000 },
+        ETH:  { name: "Ethereum", rate: 3420.00, symbol: "ETHUSDT", change24h: 1.9, high24h: 3490, low24h: 3360, vol24h: 410000000 },
+        DOGE: { name: "Dogecoin", rate: 0.24, symbol: "DOGEUSDT", change24h: 4.5, high24h: 0.25, low24h: 0.23, vol24h: 75000000 },
+        LTC:  { name: "Litecoin", rate: 94.50, symbol: "LTCUSDT", change24h: 0.8, high24h: 96, low24h: 92, vol24h: 19000000 },
+        BNB:  { name: "Binance Coin", rate: 690.00, symbol: "BNBUSDT", change24h: 1.5, high24h: 702, low24h: 681, vol24h: 64000000 },
+        USDC: { name: "USD Coin", rate: 1.00, symbol: "USDCUSDT", change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 50000000 },
+        XAUT: { name: "Tether Gold", rate: 2890.00, symbol: "XAUTUSDT", change24h: 0.6, high24h: 2910, low24h: 2875, vol24h: 12000000 }
+    };
+
+    // Первые 30 базовых мем-коинов + детерминированная генерация ещё 250 уникальных мем-коинов (всего 280)
+    const MEME_COINS = [
+        { ticker: "PEPE",     name: "Pepe Frog",       icon: "🐸", basePrice: 0.00000142 },
+        { ticker: "SHIB",     name: "Shiba Inu",       icon: "🐕", basePrice: 0.00000890 },
+        { ticker: "BONK",     name: "Bonk Doge",       icon: "🦴", basePrice: 0.00000215 },
+        { ticker: "FLOKI",    name: "Floki Viking",    icon: "⚔️", basePrice: 0.00001450 },
+        { ticker: "WIF",      name: "Dogwifhat",       icon: "🧢", basePrice: 0.00004200 },
+        { ticker: "MEME",     name: "Memeland",        icon: "🤪", basePrice: 0.00000670 },
+        { ticker: "BOME",     name: "Book of Meme",    icon: "📖", basePrice: 0.00000310 },
+        { ticker: "POPCAT",   name: "Popcat Click",    icon: "🐱", basePrice: 0.00001980 },
+        { ticker: "MOG",      name: "Mog Cat",         icon: "🕶️", basePrice: 0.00000038 },
+        { ticker: "BRETT",    name: "Brett Base",      icon: "🔵", basePrice: 0.00001120 },
+        { ticker: "NEIRO",    name: "Neiro Pup",       icon: "🐶", basePrice: 0.00000084 },
+        { ticker: "TURBO",    name: "Turbo Toad",      icon: "⚡", basePrice: 0.00000540 },
+        { ticker: "BABYDOGE", name: "Baby Doge",       icon: "🍼", basePrice: 0.00000012 },
+        { ticker: "DOGS",     name: "TON Dogs",        icon: "🐾", basePrice: 0.00000065 },
+        { ticker: "NOT",      name: "Notcoin Meme",    icon: "💎", basePrice: 0.00000780 },
+        { ticker: "MEW",      name: "Cat in Dogs",     icon: "🐾", basePrice: 0.00000410 },
+        { ticker: "PONKE",    name: "Ponke Monkey",    icon: "🐒", basePrice: 0.00002300 },
+        { ticker: "MYRO",     name: "Myro Sol",        icon: "🦮", basePrice: 0.00000950 },
+        { ticker: "SLERF",    name: "Slerf Sloth",     icon: "🦥", basePrice: 0.00001640 },
+        { ticker: "WEN",      name: "Wen Lambo",       icon: "🏎️", basePrice: 0.00000029 },
+        { ticker: "COQ",      name: "Coq Inu",         icon: "🐓", basePrice: 0.00000019 },
+        { ticker: "AIDOGE",   name: "ArbDoge AI",      icon: "🤖", basePrice: 0.00000015 },
+        { ticker: "LADYS",    name: "Milady Meme",     icon: "🎀", basePrice: 0.00000022 },
+        { ticker: "ELON",     name: "Dogelon Mars",    icon: "🚀", basePrice: 0.00000033 },
+        { ticker: "KISHU",    name: "Kishu Inu",       icon: "🦊", basePrice: 0.00000014 },
+        { ticker: "SAMO",     name: "Samoyedcoin",     icon: "🐻‍❄️", basePrice: 0.00000820 },
+        { ticker: "AKITA",    name: "Akita Inu",       icon: "🐕‍🦺", basePrice: 0.00000045 },
+        { ticker: "HOGE",     name: "Hoge Finance",    icon: "🐗", basePrice: 0.00000180 },
+        { ticker: "CATE",     name: "CateCoin",        icon: "😺", basePrice: 0.00000051 },
+        { ticker: "MARSX",    name: "SpaceX Mars Inu", icon: "🛸", basePrice: 0.00000099 }
+    ];
+
+    (function generateExtra250MemeCoins() {
+        const prefixes = [
+            "Astro", "Cyber", "Moon", "Star", "Elon", "Doge", "Pepe", "Shiba", "Ton", "Sol",
+            "Giga", "Chad", "Wojak", "Fomo", "Ape", "Rocket", "Mars", "Pluto", "Neon", "Quantum",
+            "Hyper", "Pixel", "Turbo", "Based", "Alpha"
+        ];
+        const suffixes = [
+            "Inu", "Cat", "Frog", "Pug", "Ape", "Bear", "Bull", "Whale", "Duck", "Hamster"
+        ];
+        const icons = ["🚀","🐸","🐕","🐱","🦍","💎","🌕","🔥","⚡","🛸","🦊","🐻","🐼","🦁","🐯","🦄","🐲","🐙","🦖","🐝"];
+        const usedTickers = new Set(MEME_COINS.map(c => c.ticker));
+
+        let idx = 0;
+        for (let p = 0; p < prefixes.length; p++) {
+            for (let s = 0; s < suffixes.length; s++) {
+                if (idx >= 250) break;
+                const name = `${prefixes[p]} ${suffixes[s]}`;
+                let ticker = (prefixes[p].slice(0, 3) + suffixes[s].slice(0, 2) + (idx + 1)).toUpperCase();
+                while (usedTickers.has(ticker)) {
+                    ticker += "X";
+                }
+                usedTickers.add(ticker);
+                const icon = icons[(p * 7 + s * 3) % icons.length];
+                // Очень маленькая цена от $0.00000008 до $0.00004500
+                const rawPrice = 0.00000008 + (( (idx * 97) % 250 ) / 250) * 0.000042;
+                MEME_COINS.push({
+                    ticker,
+                    name,
+                    icon,
+                    basePrice: +rawPrice.toFixed(8)
+                });
+                idx++;
+            }
+        }
+    })();
+
+    const TEN_HOURS_MS = 10 * 3600 * 1000;
     const BALANCES = {};
     Object.keys(COINS).forEach(k => BALANCES[k] = 0);
 
@@ -673,9 +919,21 @@
     Object.keys(COINS).forEach(ticker => {
         if (params.has(ticker)) BALANCES[ticker] = parseFloat(params.get(ticker)) || 0;
     });
+    if (params.has("GRAM") && !BALANCES.TON) {
+        BALANCES.TON = parseFloat(params.get("GRAM")) || 0;
+    }
 
+    let memeHoldings = {};
+    try {
+        memeHoldings = JSON.parse(localStorage.getItem("spacex_meme_holdings") || "{}");
+    } catch (e) { memeHoldings = {}; }
+
+    function saveMemeHoldings() {
+        try { localStorage.setItem("spacex_meme_holdings", JSON.stringify(memeHoldings)); } catch (e) {}
+    }
+
+    let currentLang = params.get("lang") || "ru";
     let currentInterval = "1";
-    let orderType = "market";
     let klineCandles = [];
     let positions = [];
 
@@ -683,9 +941,245 @@
         const t = document.getElementById("toast");
         t.textContent = msg;
         t.style.display = "block";
-        setTimeout(() => { t.style.display = "none"; }, 2500);
+        setTimeout(() => { t.style.display = "none"; }, 2600);
     }
 
+    function getMemeLivePrice(ticker) {
+        const m = MEME_COINS.find(x => x.ticker === ticker);
+        if (!m) return 0.000001;
+        const hold = memeHoldings[ticker];
+        const microWave = 1 + Math.sin(Date.now() / 4000 + m.basePrice * 1e7) * 0.015;
+
+        if (!hold || hold.tokens <= 0) {
+            return m.basePrice * microWave;
+        }
+        const elapsed = Math.max(0, Date.now() - hold.buyTime);
+        const progress = Math.min(1, elapsed / TEN_HOURS_MS);
+        const currentMult = 1 + (hold.targetMult - 1) * progress;
+        return m.basePrice * currentMult * microWave;
+    }
+
+    function getMemeMultiplier(ticker) {
+        const hold = memeHoldings[ticker];
+        if (!hold || hold.tokens <= 0) return 1.0;
+        const elapsed = Math.max(0, Date.now() - hold.buyTime);
+        const progress = Math.min(1, elapsed / TEN_HOURS_MS);
+        return 1 + (hold.targetMult - 1) * progress;
+    }
+
+    function switchTradeMode(mode) {
+        document.getElementById("mode-futures-btn").classList.toggle("active", mode === "futures");
+        document.getElementById("mode-memes-btn").classList.toggle("active", mode === "memes");
+        document.getElementById("sub-futures").style.display = mode === "futures" ? "block" : "none";
+        document.getElementById("sub-memes").style.display = mode === "memes" ? "block" : "none";
+        if (mode === "memes") {
+            onMemeChange();
+            renderMemeHoldings();
+        } else {
+            drawCandles();
+        }
+    }
+
+    function populateMemeSelect(filterText = "") {
+        const sel = document.getElementById("meme-select");
+        const prevVal = sel.value;
+        sel.innerHTML = "";
+        const q = filterText.trim().toLowerCase();
+
+        const filtered = MEME_COINS.filter(m =>
+            !q || m.ticker.toLowerCase().includes(q) || m.name.toLowerCase().includes(q)
+        );
+
+        (filtered.length ? filtered : MEME_COINS).forEach(m => {
+            sel.add(new Option(`${m.icon} ${m.name} (${m.ticker})`, m.ticker));
+        });
+
+        if (prevVal && Array.from(sel.options).some(o => o.value === prevVal)) {
+            sel.value = prevVal;
+        }
+    }
+
+    function filterMemes() {
+        const q = document.getElementById("meme-search").value;
+        populateMemeSelect(q);
+        onMemeChange();
+    }
+
+    function onMemeChange() {
+        const ticker = document.getElementById("meme-select").value;
+        if (!ticker) return;
+        const price = getMemeLivePrice(ticker);
+        const mult = getMemeMultiplier(ticker);
+        const d = I18N[currentLang] || I18N.ru;
+
+        document.getElementById("meme-price").textContent = "$" + price.toFixed(8);
+        const badge = document.getElementById("meme-status-badge");
+        if (memeHoldings[ticker] && memeHoldings[ticker].tokens > 0) {
+            badge.textContent = `${d.pumpingNow}: ×${mult.toFixed(2)} 🔥`;
+            badge.style.color = "var(--up)";
+        } else {
+            badge.textContent = d.readyPump;
+            badge.style.color = "var(--text-muted)";
+        }
+        drawMemeChart(ticker);
+    }
+
+    function drawMemeChart(ticker) {
+        const canvas = document.getElementById("memeChart");
+        const ctx = canvas.getContext("2d");
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0, 0, w, h);
+
+        const m = MEME_COINS.find(x => x.ticker === ticker);
+        if (!m) return;
+        const hold = memeHoldings[ticker];
+        const mult = getMemeMultiplier(ticker);
+
+        const pts = [];
+        const steps = 36;
+        for (let i = 0; i <= steps; i++) {
+            const ratio = i / steps;
+            const noise = Math.sin(i * 1.3 + m.basePrice * 1e6) * 0.03;
+            if (hold && hold.tokens > 0) {
+                const mVal = 1 + (mult - 1) * Math.pow(ratio, 1.4) + noise;
+                pts.push(m.basePrice * Math.max(0.95, mVal));
+            } else {
+                pts.push(m.basePrice * (1 + noise));
+            }
+        }
+
+        const min = Math.min(...pts) * 0.98;
+        const max = Math.max(...pts) * 1.02;
+        const range = (max - min) || 1e-9;
+
+        ctx.strokeStyle = hold ? "#10b981" : "#0098ea";
+        ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        pts.forEach((v, idx) => {
+            const x = 12 + (idx / steps) * (w - 24);
+            const y = h - 16 - ((v - min) / range) * (h - 32);
+            if (idx === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, hold ? "rgba(16, 185, 129, 0.32)" : "rgba(0, 152, 234, 0.28)");
+        grad.addColorStop(1, "transparent");
+        ctx.lineTo(w - 12, h);
+        ctx.lineTo(12, h);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+    }
+
+    function buyMemeCoin() {
+        const ticker = document.getElementById("meme-select").value;
+        const amt = parseFloat(document.getElementById("meme-buy-amount").value) || 0;
+        const d = I18N[currentLang] || I18N.ru;
+
+        if (amt <= 0 || amt > (BALANCES.USDT || 0)) {
+            showToast("❌ " + d.noFunds);
+            return;
+        }
+
+        const curPrice = getMemeLivePrice(ticker);
+        const tokensBought = amt / curPrice;
+        BALANCES.USDT -= amt;
+
+        // Случайный целевой множитель от 2x до 20x через 10 часов
+        const randomTargetMult = +(2 + Math.random() * 18).toFixed(2);
+
+        if (memeHoldings[ticker] && memeHoldings[ticker].tokens > 0) {
+            memeHoldings[ticker].tokens += tokensBought;
+            memeHoldings[ticker].investedUsdt += amt;
+        } else {
+            memeHoldings[ticker] = {
+                tokens: tokensBought,
+                investedUsdt: amt,
+                buyTime: Date.now(),
+                targetMult: randomTargetMult
+            };
+        }
+
+        saveMemeHoldings();
+        updateHeaderUsdt();
+        onMemeChange();
+        renderMemeHoldings();
+        renderWallet();
+        showToast(`🚀 ${ticker}: +${Math.round(tokensBought).toLocaleString()} USDT`);
+    }
+
+    function sellMemeByTicker(ticker) {
+        const hold = memeHoldings[ticker];
+        if (!hold || hold.tokens <= 0) return;
+
+        const livePrice = getMemeLivePrice(ticker);
+        const payoutUsdt = hold.tokens * livePrice;
+        BALANCES.USDT = (BALANCES.USDT || 0) + payoutUsdt;
+
+        // После продажи цена мем-коина снова падает на исходное дно!
+        delete memeHoldings[ticker];
+        saveMemeHoldings();
+
+        updateHeaderUsdt();
+        onMemeChange();
+        renderMemeHoldings();
+        renderWallet();
+        showToast(`💰 +${payoutUsdt.toFixed(2)} USDT!`);
+    }
+
+    function sellSelectedMeme() {
+        const ticker = document.getElementById("meme-select").value;
+        if (!memeHoldings[ticker]) {
+            showToast("⚠️ Монета ещё не куплена!");
+            return;
+        }
+        sellMemeByTicker(ticker);
+    }
+
+    function renderMemeHoldings() {
+        const box = document.getElementById("meme-holdings-list");
+        const d = I18N[currentLang] || I18N.ru;
+        const keys = Object.keys(memeHoldings);
+
+        if (!keys.length) {
+            box.textContent = d.noMemes;
+            return;
+        }
+
+        box.innerHTML = "";
+        keys.forEach(ticker => {
+            const h = memeHoldings[ticker];
+            const m = MEME_COINS.find(x => x.ticker === ticker);
+            const livePrice = getMemeLivePrice(ticker);
+            const currentVal = h.tokens * livePrice;
+            const mult = getMemeMultiplier(ticker);
+            const remMs = Math.max(0, TEN_HOURS_MS - (Date.now() - h.buyTime));
+            const remHours = (remMs / 3600000).toFixed(1);
+
+            const card = document.createElement("div");
+            card.className = "meme-holding-card";
+            card.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <div>
+                        <strong style="font-size:14px;">${m ? m.icon : "🚀"} ${ticker}</strong>
+                        <span style="color:var(--up); font-weight:800; margin-left:6px;">×${mult.toFixed(2)}</span>
+                    </div>
+                    <div>
+                        <button class="chip-btn" style="background:var(--down); color:#fff;" onclick="sellMemeByTicker('${ticker}')">${d.sellBtn}</button>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
+                    <span>$${h.investedUsdt.toFixed(2)} ➔ <b style="color:var(--up);">$${currentVal.toFixed(2)}</b></span>
+                    <span>⏳ ${remHours}h</span>
+                </div>
+            `;
+            box.appendChild(card);
+        });
+    }
+
+    // ================= ФЬЮЧЕРСЫ И КОТИРОВКИ =================
     async function fetchMarketTickers() {
         try {
             const res = await fetch("https://api.bybit.com/v5/market/tickers?category=spot");
@@ -693,10 +1187,6 @@
             if (json.retCode === 0 && json.result && json.result.list) {
                 const map = {};
                 json.result.list.forEach(item => { map[item.symbol] = item; });
-
-                // Для TON проверяем токен TONUSDT
-                if (!map["TONUSDT"] && map["GRAMUSDT"]) map["TONUSDT"] = map["GRAMUSDT"];
-
                 Object.keys(COINS).forEach(ticker => {
                     const sym = COINS[ticker].symbol;
                     if (sym && map[sym]) {
@@ -710,19 +1200,15 @@
                 });
                 updateTopStats();
                 renderPositions();
-                document.getElementById("avail-usdt").textContent =
-                    `Доступно: ${(BALANCES.USDT || 0).toFixed(2)} USDT`;
             }
         } catch (e) {}
     }
 
     async function fetchKline() {
         const pair = document.getElementById("trade-pair").value;
-        let sym = COINS[pair].symbol;
-        if (pair === "TON") sym = "TONUSDT";
-
+        const sym = COINS[pair].symbol || "BTCUSDT";
         try {
-            const url = `https://api.bybit.com/v5/market/kline?category=spot&symbol=${sym}&interval=${currentInterval}&limit=45`;
+            const url = `https://api.bybit.com/v5/market/kline?category=spot&symbol=${sym}&interval=${currentInterval}&limit=42`;
             const res = await fetch(url);
             const json = await res.json();
             if (json.retCode === 0 && json.result.list && json.result.list.length > 0) {
@@ -737,49 +1223,10 @@
         drawCandles();
     }
 
-    async function fetchOrderbook() {
-        const pair = document.getElementById("trade-pair").value;
-        let sym = COINS[pair].symbol;
-        if (pair === "TON") sym = "TONUSDT";
-        const asksBox = document.getElementById("ob-asks");
-        const bidsBox = document.getElementById("ob-bids");
-        const midBox = document.getElementById("ob-mid-price");
-
-        try {
-            const res = await fetch(`https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${sym}&limit=6`);
-            const json = await res.json();
-            if (json.retCode === 0 && json.result) {
-                const asks = (json.result.a || []).slice(0, 5).reverse();
-                const bids = (json.result.b || []).slice(0, 5);
-
-                asksBox.innerHTML = asks.map(a => `<div class="ob-row ob-ask"><span>${parseFloat(a[0]).toFixed(a[0]<1?4:2)}</span><span>${parseFloat(a[1]).toFixed(2)}</span></div>`).join("");
-                midBox.textContent = "$" + COINS[pair].rate.toLocaleString("en-US", { minimumFractionDigits: COINS[pair].rate < 1 ? 4 : 2 });
-                bidsBox.innerHTML = bids.map(b => `<div class="ob-row ob-bid"><span>${parseFloat(b[0]).toFixed(b[0]<1?4:2)}</span><span>${parseFloat(b[1]).toFixed(2)}</span></div>`).join("");
-                return;
-            }
-        } catch (e) {}
-        renderSyntheticOrderbook(COINS[pair].rate);
-    }
-
-    function renderSyntheticOrderbook(base) {
-        let aHtml = "", bHtml = "";
-        for (let i = 5; i >= 1; i--) {
-            const p = base * (1 + i * 0.0005);
-            aHtml += `<div class="ob-row ob-ask"><span>${p.toFixed(4)}</span><span>5.0</span></div>`;
-        }
-        for (let i = 1; i <= 5; i++) {
-            const p = base * (1 - i * 0.0005);
-            bHtml += `<div class="ob-row ob-bid"><span>${p.toFixed(4)}</span><span>5.0</span></div>`;
-        }
-        document.getElementById("ob-asks").innerHTML = aHtml;
-        document.getElementById("ob-mid-price").textContent = "$" + base.toFixed(4);
-        document.getElementById("ob-bids").innerHTML = bHtml;
-    }
-
     function buildFallbackCandles(base) {
         klineCandles = [];
         let p = base * 0.99;
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 38; i++) {
             const o = p;
             const c = o + (Math.random() - 0.48) * (base * 0.004);
             const h = Math.max(o, c) + Math.random() * (base * 0.002);
@@ -793,26 +1240,22 @@
         const pair = document.getElementById("trade-pair").value;
         const info = COINS[pair];
         const digits = info.rate < 1 ? 4 : 2;
-
         document.getElementById("live-price").textContent = "$" + info.rate.toLocaleString("en-US", {
             minimumFractionDigits: digits, maximumFractionDigits: digits
         });
-
         const chEl = document.getElementById("price-change");
         const sign = info.change24h >= 0 ? "+" : "";
         chEl.textContent = `${sign}${info.change24h.toFixed(2)}%`;
-        chEl.style.color = info.change24h >= 0 ? "var(--long)" : "var(--short)";
-
+        chEl.style.color = info.change24h >= 0 ? "var(--up)" : "var(--down)";
         document.getElementById("stat-high").textContent = "$" + (info.high24h || info.rate).toFixed(digits);
         document.getElementById("stat-low").textContent = "$" + (info.low24h || info.rate).toFixed(digits);
-        document.getElementById("stat-vol").textContent = info.vol24h > 1e6 ? (info.vol24h/1e6).toFixed(2) + "M" : info.vol24h.toFixed(0);
+        document.getElementById("stat-vol").textContent = info.vol24h > 1e6 ? (info.vol24h/1e6).toFixed(1) + "M" : info.vol24h.toFixed(0);
     }
 
     function drawCandles() {
         const canvas = document.getElementById("klineChart");
         const ctx = canvas.getContext("2d");
-        const w = canvas.width;
-        const h = canvas.height;
+        const w = canvas.width, h = canvas.height;
         ctx.clearRect(0, 0, w, h);
         if (!klineCandles.length) return;
 
@@ -822,16 +1265,9 @@
         const max = Math.max(...highs);
         const range = (max - min) || 1;
 
-        ctx.strokeStyle = "rgba(156, 163, 175, 0.1)";
-        ctx.lineWidth = 1;
-        for (let i = 1; i < 4; i++) {
-            const y = (h / 4) * i;
-            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-        }
-
         const padX = 10, padY = 14;
         const step = (w - padX * 2) / klineCandles.length;
-        const candleW = Math.max(3, step * 0.65);
+        const candleW = Math.max(3, step * 0.64);
 
         klineCandles.forEach((c, idx) => {
             const x = padX + idx * step + step / 2;
@@ -843,11 +1279,8 @@
             const isBull = c.c >= c.o;
             ctx.strokeStyle = isBull ? "#10b981" : "#f43f5e";
             ctx.fillStyle = isBull ? "#10b981" : "#f43f5e";
-
             ctx.beginPath(); ctx.moveTo(x, yHigh); ctx.lineTo(x, yLow); ctx.stroke();
-            const top = Math.min(yOpen, yClose);
-            const bodyH = Math.max(2, Math.abs(yClose - yOpen));
-            ctx.fillRect(x - candleW / 2, top, candleW, bodyH);
+            ctx.fillRect(x - candleW / 2, Math.min(yOpen, yClose), candleW, Math.max(2, Math.abs(yClose - yOpen)));
         });
     }
 
@@ -861,36 +1294,29 @@
     function onPairChange() {
         updateTopStats();
         fetchKline();
-        fetchOrderbook();
     }
 
-    function setOrderType(type) {
-        orderType = type;
-        document.getElementById("ot-market").classList.toggle("active", type === "market");
-        document.getElementById("ot-limit").classList.toggle("active", type === "limit");
-        document.getElementById("limit-price-wrap").style.display = type === "limit" ? "block" : "none";
-        if (type === "limit") document.getElementById("limit-price").value = COINS[document.getElementById("trade-pair").value].rate;
-    }
-
-    function setMarginPct(pct) {
-        document.getElementById("trade-amount").value = ((BALANCES.USDT || 0) * pct).toFixed(2);
+    function setPct(inputId, pct) {
+        document.getElementById(inputId).value = ((BALANCES.USDT || 0) * pct).toFixed(2);
     }
 
     function openPosition(side) {
         const pair = document.getElementById("trade-pair").value;
         const amt = parseFloat(document.getElementById("trade-amount").value) || 0;
         const lev = parseFloat(document.getElementById("trade-lev").value) || 10;
+        const d = I18N[currentLang] || I18N.ru;
+
         if (amt <= 0 || amt > (BALANCES.USDT || 0)) {
-            showToast("❌ Нехватка USDT на балансе!");
+            showToast("❌ " + d.noFunds);
             return;
         }
         BALANCES.USDT -= amt;
         const entry = COINS[pair].rate;
-        const liq = side === "LONG" ? entry * (1 - 0.95 / lev) : entry * (1 + 0.95 / lev);
-        positions.unshift({ id: Date.now(), pair, side, amt, lev, entry, liq });
+        positions.unshift({ id: Date.now(), pair, side, amt, lev, entry });
+        updateHeaderUsdt();
         renderPositions();
         renderWallet();
-        showToast(`✅ Открыт ${side} ${pair}/USDT (${amt} USDT ×${lev})`);
+        showToast(`✅ ${side} ${pair}/USDT (${amt} USDT ×${lev})`);
     }
 
     function closePosition(id) {
@@ -902,82 +1328,94 @@
         const pnl = p.amt * p.lev * diff;
         BALANCES.USDT = (BALANCES.USDT || 0) + Math.max(0, p.amt + pnl);
         positions.splice(idx, 1);
+        updateHeaderUsdt();
         renderPositions();
         renderWallet();
-        showToast(`✅ Позиция закрыта. PnL: ${pnl>=0?"+":""}${pnl.toFixed(2)} USDT`);
+        showToast(`✅ PnL: ${pnl>=0?"+":""}${pnl.toFixed(2)} USDT`);
     }
 
     function renderPositions() {
         const box = document.getElementById("positions-list");
-        if (!positions.length) { box.textContent = "Нет открытых позиций."; return; }
+        const d = I18N[currentLang] || I18N.ru;
+        if (!positions.length) {
+            box.textContent = d.noPositions;
+            return;
+        }
         box.innerHTML = "";
         positions.forEach(p => {
             const mark = COINS[p.pair].rate;
             const diff = p.side === "LONG" ? (mark - p.entry)/p.entry : (p.entry - mark)/p.entry;
             const pnl = p.amt * p.lev * diff;
-            const roe = diff * p.lev * 100;
-            const col = pnl >= 0 ? "var(--long)" : "var(--short)";
             const div = document.createElement("div");
-            div.className = "pos-card";
+            div.className = "meme-holding-card";
             div.innerHTML = `
-                <div class="pos-top">
-                    <div><strong style="color:${p.side==='LONG'?'var(--long)':'var(--short)'}">${p.side} ${p.lev}x</strong> <b>${p.pair}/USDT</b></div>
-                    <button class="close-btn" onclick="closePosition(${p.id})">Закрыть</button>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong style="color:${p.side==='LONG'?'var(--up)':'var(--down)'}">${p.side} ×${p.lev}</strong>
+                        <b>${p.pair}/USDT</b> ($${p.entry.toFixed(2)})
+                    </div>
+                    <button class="chip-btn" onclick="closePosition(${p.id})">${d.closeBtn}</button>
                 </div>
-                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px; font-size:11px;">
-                    <div>Вход: $${p.entry.toFixed(2)}</div>
-                    <div>Ликв: $${p.liq.toFixed(2)}</div>
-                    <div>PnL: <b style="color:${col}">${pnl>=0?"+":""}${pnl.toFixed(2)} (${roe.toFixed(1)}%)</b></div>
+                <div style="margin-top:4px; font-size:11px;">
+                    PnL: <b style="color:${pnl>=0?'var(--up)':'var(--down)'}">${pnl>=0?'+':''}${pnl.toFixed(2)} USDT</b>
                 </div>
             `;
             box.appendChild(div);
         });
     }
 
-    function switchTab(tabId, btn) {
-        document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
-        document.getElementById("tab-" + tabId).classList.add("active");
-        document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        if (tabId === "wallet") renderWallet();
-        if (tabId === "trade") drawCandles();
-    }
-
-    function populateSelects() {
-        ['ex-from', 'ex-to', 'chk-coin'].forEach(id => {
-            const el = document.getElementById(id);
-            el.innerHTML = "";
-            Object.keys(COINS).forEach(t => el.add(new Option(`${COINS[t].name} (${t})`, t)));
-        });
+    function updateHeaderUsdt() {
+        document.getElementById("hdr-usdt").textContent = `${(BALANCES.USDT || 0).toFixed(2)} USDT`;
     }
 
     function renderWallet() {
         const list = document.getElementById("wallet-list");
         list.innerHTML = "";
         let total = 0;
+
         Object.keys(COINS).forEach(ticker => {
             const info = COINS[ticker];
             const bal = BALANCES[ticker] || 0;
             const usd = bal * info.rate;
             total += usd;
+
             const row = document.createElement("div");
-            row.className = "coin-row";
+            row.className = "asset-item";
             row.innerHTML = `
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <div class="coin-icon">${ticker.slice(0,3)}</div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="asset-badge">${ticker.slice(0,3)}</div>
                     <div>
-                        <div style="font-weight:700;">${info.name}</div>
+                        <div style="font-weight:800;">${info.name}</div>
                         <div style="font-size:11px; color:var(--text-muted);">$${info.rate.toFixed(info.rate<1?4:2)}</div>
                     </div>
                 </div>
                 <div style="text-align:right;">
-                    <div style="font-weight:700;">${bal.toFixed(bal%1===0?0:4)} ${ticker}</div>
+                    <div style="font-weight:800;">${bal.toFixed(bal%1===0?0:4)} ${ticker}</div>
                     <div style="font-size:11px; color:var(--text-muted);">≈ $${usd.toFixed(2)}</div>
                 </div>
             `;
             list.appendChild(row);
         });
-        document.getElementById("total-usd").textContent = "$" + total.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
+
+        Object.keys(memeHoldings).forEach(ticker => {
+            const h = memeHoldings[ticker];
+            total += h.tokens * getMemeLivePrice(ticker);
+        });
+
+        document.getElementById("total-usd").textContent = "$" + total.toLocaleString("en-US", {
+            minimumFractionDigits: 2, maximumFractionDigits: 2
+        });
+        updateHeaderUsdt();
+    }
+
+    function populateSelects() {
+        ['ex-from', 'ex-to', 'chk-coin'].forEach((id, idx) => {
+            const el = document.getElementById(id);
+            el.innerHTML = "";
+            Object.keys(COINS).forEach(t => el.add(new Option(`${COINS[t].name} (${t})`, t)));
+            if (idx === 1) el.value = "TON";
+        });
+        calcExchangePreview();
     }
 
     function calcExchangePreview() {
@@ -985,29 +1423,43 @@
         const to = document.getElementById("ex-to").value;
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
         const rate = COINS[from].rate / COINS[to].rate;
-        document.getElementById("ex-preview").textContent = `Курс: 1 ${from} = ${rate.toFixed(6)} ${to} | ≈ ${(amt * rate).toFixed(4)} ${to}`;
+        document.getElementById("ex-preview").textContent = `1 ${from} = ${rate.toFixed(6)} ${to}  ➔  ≈ ${(amt * rate).toFixed(4)} ${to}`;
     }
 
     function executeExchange() {
         const from = document.getElementById("ex-from").value;
         const to = document.getElementById("ex-to").value;
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
-        if (amt <= 0 || amt > (BALANCES[from] || 0)) { showToast("❌ Нехватка средств!"); return; }
+        const d = I18N[currentLang] || I18N.ru;
+        if (amt <= 0 || amt > (BALANCES[from] || 0)) { showToast("❌ " + d.noFunds); return; }
         const rec = (amt * COINS[from].rate) / COINS[to].rate;
         BALANCES[from] -= amt;
         BALANCES[to] = (BALANCES[to] || 0) + rec;
         renderWallet();
-        showToast(`✅ Успешно обменяно на ${rec.toFixed(4)} ${to}`);
+        showToast(`✅ +${rec.toFixed(4)} ${to}`);
     }
 
     function createCheckWeb() {
         const coin = document.getElementById("chk-coin").value;
         const amt = parseFloat(document.getElementById("chk-amount").value) || 0;
-        if (amt <= 0 || amt > (BALANCES[coin] || 0)) { showToast("❌ Нехватка средств!"); return; }
+        const d = I18N[currentLang] || I18N.ru;
+        if (amt <= 0 || amt > (BALANCES[coin] || 0)) { showToast("❌ " + d.noFunds); return; }
         BALANCES[coin] -= amt;
-        const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "TON";
-        document.getElementById("chk-result").innerHTML = `✅ Код чека: <b>#${code}</b> (${amt} ${coin})`;
+        const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "SPX";
+        document.getElementById("chk-result").innerHTML = `✅ <b>#${code}</b> (${amt} ${coin})`;
         renderWallet();
+    }
+
+    function switchTab(tabId, btn) {
+        document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
+        document.getElementById("tab-" + tabId).classList.add("active");
+        document.querySelectorAll(".dock-item").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        if (tabId === "wallet") renderWallet();
+        if (tabId === "trade") {
+            drawCandles();
+            onMemeChange();
+        }
     }
 
     function setTheme(theme) {
@@ -1015,17 +1467,47 @@
         document.querySelectorAll("#thm-dark, #thm-light, #thm-pink").forEach(b => b.classList.remove("active"));
         document.getElementById("thm-" + theme).classList.add("active");
         drawCandles();
+        onMemeChange();
     }
 
     function setLang(lang) {
+        currentLang = I18N[lang] ? lang : "ru";
         document.querySelectorAll("#lang-ru, #lang-en, #lang-zh").forEach(b => b.classList.remove("active"));
-        const b = document.getElementById("lang-" + lang);
-        if(b) b.classList.add("active");
+        const activeBtn = document.getElementById("lang-" + currentLang);
+        if (activeBtn) activeBtn.classList.add("active");
+
+        const dict = I18N[currentLang];
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+            const key = el.getAttribute("data-i18n");
+            if (dict[key]) el.textContent = dict[key];
+        });
+
+        const searchInput = document.getElementById("meme-search");
+        if (searchInput && dict.searchPlaceholder) {
+            searchInput.placeholder = dict.searchPlaceholder;
+        }
+
+        renderPositions();
+        renderMemeHoldings();
+        onMemeChange();
     }
 
+    // Инициализация
     populateSelects();
-    fetchMarketTickers().then(() => { onPairChange(); renderWallet(); });
-    setInterval(() => { fetchMarketTickers(); fetchOrderbook(); }, 3000);
+    populateMemeSelect();
+    setLang(currentLang);
+    fetchMarketTickers().then(() => {
+        onPairChange();
+        onMemeChange();
+        renderMemeHoldings();
+        renderWallet();
+    });
+
+    setInterval(() => {
+        fetchMarketTickers();
+        onMemeChange();
+        renderMemeHoldings();
+    }, 3000);
 </script>
 </body>
 </html>
