@@ -231,8 +231,28 @@
             color: #fff;
         }
 
+        .token-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid var(--border-light);
+            background: var(--glass-input);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        .token-avatar-sm {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 1px solid var(--border-light);
+        }
+
         .price-hero {
-            font-size: 27px;
+            font-size: 26px;
             font-weight: 800;
             letter-spacing: -0.6px;
         }
@@ -338,19 +358,6 @@
             border-bottom: 1px solid var(--border-light);
         }
         .asset-item:last-child { border-bottom: none; }
-
-        .asset-badge {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            background: var(--accent-grad);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 800;
-            color: #fff;
-        }
 
         .meme-holding-card {
             background: var(--glass-input);
@@ -481,18 +488,21 @@
         <!-- ПОДВКЛАДКА 1А: ФЬЮЧЕРСЫ LONG/SHORT -->
         <div id="sub-futures">
             <div class="liquid-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <select id="trade-pair" onchange="onPairChange()" style="width:auto; font-size:15px; font-weight:800;">
-                        <option value="BTC">BTC / USDT</option>
-                        <option value="ETH">ETH / USDT</option>
-                        <option value="TON">TON / USDT</option>
-                        <option value="SOL">SOL / USDT</option>
-                        <option value="BNB">BNB / USDT</option>
-                        <option value="XAUT">XAUT / USDT</option>
-                        <option value="LTC">LTC / USDT</option>
-                        <option value="TRX">TRX / USDT</option>
-                        <option value="DOGE">DOGE / USDT</option>
-                    </select>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <img id="fut-coin-img" class="token-avatar" src="" alt="coin">
+                        <select id="trade-pair" onchange="onPairChange()" style="width:auto; font-size:15px; font-weight:800;">
+                            <option value="BTC">BTC / USDT</option>
+                            <option value="ETH">ETH / USDT</option>
+                            <option value="TON">TON / USDT</option>
+                            <option value="SOL">SOL / USDT</option>
+                            <option value="BNB">BNB / USDT</option>
+                            <option value="XAUT">XAUT / USDT</option>
+                            <option value="LTC">LTC / USDT</option>
+                            <option value="TRX">TRX / USDT</option>
+                            <option value="DOGE">DOGE / USDT</option>
+                        </select>
+                    </div>
                     <div style="text-align:right;">
                         <div class="price-hero" id="live-price">$98,450.00</div>
                         <div id="price-change" style="font-size:12px; font-weight:700; color:var(--up);">+2.14%</div>
@@ -554,11 +564,14 @@
             <div class="liquid-card">
                 <input type="text" id="meme-search" oninput="filterMemes()" placeholder="🔍 Поиск мем-коина..." style="margin-bottom: 10px; font-size: 13px;">
 
-                <div style="display:flex; justify-content:space-between; align-items:center; gap: 8px;">
-                    <select id="meme-select" onchange="onMemeChange()" style="width:62%; font-weight:800;"></select>
-                    <div style="text-align:right;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                    <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+                        <img id="meme-coin-img" class="token-avatar" src="" alt="meme">
+                        <select id="meme-select" onchange="onMemeChange()" style="width:100%; font-weight:800;"></select>
+                    </div>
+                    <div style="text-align:right; flex-shrink:0;">
                         <div id="meme-price" style="font-size:19px; font-weight:800; color:var(--accent);">$0.00000042</div>
-                        <div id="meme-status-badge" style="font-size:11px; color:var(--up); font-weight:700;">Готов к пампу 🚀</div>
+                        <div id="meme-status-badge" style="font-size:11px; color:var(--up); font-weight:700;"></div>
                     </div>
                 </div>
 
@@ -733,8 +746,7 @@
             navSupport: "Поддержка",
             navSettings: "Настройки",
             noFunds: "Нехватка средств на балансе!",
-            readyPump: "Готов к пампу 🚀",
-            pumpingNow: "Взлёт цены",
+            pumpingNow: "Рост",
             closeBtn: "Закрыть",
             sellBtn: "Продать",
             searchPlaceholder: "🔍 Поиск мем-коина..."
@@ -776,8 +788,7 @@
             navSupport: "Support",
             navSettings: "Settings",
             noFunds: "Insufficient balance!",
-            readyPump: "Ready to pump 🚀",
-            pumpingNow: "Pumping",
+            pumpingNow: "Growth",
             closeBtn: "Close",
             sellBtn: "Sell",
             searchPlaceholder: "🔍 Search meme coin..."
@@ -819,49 +830,73 @@
             navSupport: "客服",
             navSettings: "设置",
             noFunds: "余额不足！",
-            readyPump: "准备暴涨 🚀",
-            pumpingNow: "暴涨中",
+            pumpingNow: "涨幅",
             closeBtn: "平仓",
             sellBtn: "卖出",
             searchPlaceholder: "🔍 搜索迷因币..."
         }
     };
 
+    // Генератор уникальной круглой SVG-иконки для любого токена
+    function makeSvgAvatar(ticker, emoji, idx = 0) {
+        const palettes = [
+            ["#0098ea", "#6366f1"], ["#10b981", "#059669"], ["#f43f5e", "#a855f7"],
+            ["#f59e0b", "#ef4444"], ["#8b5cf6", "#ec4899"], ["#06b6d4", "#3b82f6"],
+            ["#14b8a6", "#6366f1"], ["#ec4899", "#f97316"], ["#3b82f6", "#1d4ed8"]
+        ];
+        const pal = palettes[idx % palettes.length];
+        const shortT = ticker.slice(0, 4);
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+            <defs>
+                <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="${pal[0]}"/>
+                    <stop offset="100%" stop-color="${pal[1]}"/>
+                </linearGradient>
+            </defs>
+            <circle cx="40" cy="40" r="40" fill="url(#g)"/>
+            <circle cx="40" cy="40" r="36" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <text x="40" y="39" font-size="26" text-anchor="middle" dominant-baseline="middle">${emoji}</text>
+            <text x="40" y="63" font-size="11" font-family="sans-serif" font-weight="800" fill="#ffffff" text-anchor="middle">${shortT}</text>
+        </svg>`;
+        return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    }
+
+    // Основные монеты с реальными логотипами
     const COINS = {
-        USDT: { name: "Tether", rate: 1.00, change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 0 },
-        TON:  { name: "Toncoin", rate: 5.60, symbol: "TONUSDT", change24h: 2.1, high24h: 5.8, low24h: 5.4, vol24h: 45000000 },
-        SOL:  { name: "Solana", rate: 215.40, symbol: "SOLUSDT", change24h: 3.4, high24h: 220, low24h: 208, vol24h: 120000000 },
-        TRX:  { name: "TRON", rate: 0.195, symbol: "TRXUSDT", change24h: 1.1, high24h: 0.20, low24h: 0.19, vol24h: 32000000 },
-        BTC:  { name: "Bitcoin", rate: 98450.00, symbol: "BTCUSDT", change24h: 2.8, high24h: 99200, low24h: 96800, vol24h: 890000000 },
-        ETH:  { name: "Ethereum", rate: 3420.00, symbol: "ETHUSDT", change24h: 1.9, high24h: 3490, low24h: 3360, vol24h: 410000000 },
-        DOGE: { name: "Dogecoin", rate: 0.24, symbol: "DOGEUSDT", change24h: 4.5, high24h: 0.25, low24h: 0.23, vol24h: 75000000 },
-        LTC:  { name: "Litecoin", rate: 94.50, symbol: "LTCUSDT", change24h: 0.8, high24h: 96, low24h: 92, vol24h: 19000000 },
-        BNB:  { name: "Binance Coin", rate: 690.00, symbol: "BNBUSDT", change24h: 1.5, high24h: 702, low24h: 681, vol24h: 64000000 },
-        USDC: { name: "USD Coin", rate: 1.00, symbol: "USDCUSDT", change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 50000000 },
-        XAUT: { name: "Tether Gold", rate: 2890.00, symbol: "XAUTUSDT", change24h: 0.6, high24h: 2910, low24h: 2875, vol24h: 12000000 }
+        USDT: { name: "Tether", rate: 1.00, change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 0, logo: "https://assets.coingecko.com/coins/images/325/small/Tether.png" },
+        TON:  { name: "Toncoin", rate: 5.60, symbol: "TONUSDT", change24h: 2.1, high24h: 5.8, low24h: 5.4, vol24h: 45000000, logo: "https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png" },
+        SOL:  { name: "Solana", rate: 215.40, symbol: "SOLUSDT", change24h: 3.4, high24h: 220, low24h: 208, vol24h: 120000000, logo: "https://assets.coingecko.com/coins/images/4128/small/solana.png" },
+        TRX:  { name: "TRON", rate: 0.195, symbol: "TRXUSDT", change24h: 1.1, high24h: 0.20, low24h: 0.19, vol24h: 32000000, logo: "https://assets.coingecko.com/coins/images/1094/small/tron-logo.png" },
+        BTC:  { name: "Bitcoin", rate: 98450.00, symbol: "BTCUSDT", change24h: 2.8, high24h: 99200, low24h: 96800, vol24h: 890000000, logo: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png" },
+        ETH:  { name: "Ethereum", rate: 3420.00, symbol: "ETHUSDT", change24h: 1.9, high24h: 3490, low24h: 3360, vol24h: 410000000, logo: "https://assets.coingecko.com/coins/images/279/small/ethereum.png" },
+        DOGE: { name: "Dogecoin", rate: 0.24, symbol: "DOGEUSDT", change24h: 4.5, high24h: 0.25, low24h: 0.23, vol24h: 75000000, logo: "https://assets.coingecko.com/coins/images/5/small/dogecoin.png" },
+        LTC:  { name: "Litecoin", rate: 94.50, symbol: "LTCUSDT", change24h: 0.8, high24h: 96, low24h: 92, vol24h: 19000000, logo: "https://assets.coingecko.com/coins/images/2/small/litecoin.png" },
+        BNB:  { name: "Binance Coin", rate: 690.00, symbol: "BNBUSDT", change24h: 1.5, high24h: 702, low24h: 681, vol24h: 64000000, logo: "https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png" },
+        USDC: { name: "USD Coin", rate: 1.00, symbol: "USDCUSDT", change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 50000000, logo: "https://assets.coingecko.com/coins/images/6319/small/usdc.png" },
+        XAUT: { name: "Tether Gold", rate: 2890.00, symbol: "XAUTUSDT", change24h: 0.6, high24h: 2910, low24h: 2875, vol24h: 12000000, logo: "https://assets.coingecko.com/coins/images/10481/small/Tether_Gold.png" }
     };
 
-    // Первые 30 базовых мем-коинов + детерминированная генерация ещё 250 уникальных мем-коинов (всего 280)
+    // Первые 30 базовых мем-коинов с реальными картинками + генерация ещё 250 мем-коинов с индивидуальными SVG-логотипами
     const MEME_COINS = [
-        { ticker: "PEPE",     name: "Pepe Frog",       icon: "🐸", basePrice: 0.00000142 },
-        { ticker: "SHIB",     name: "Shiba Inu",       icon: "🐕", basePrice: 0.00000890 },
-        { ticker: "BONK",     name: "Bonk Doge",       icon: "🦴", basePrice: 0.00000215 },
-        { ticker: "FLOKI",    name: "Floki Viking",    icon: "⚔️", basePrice: 0.00001450 },
-        { ticker: "WIF",      name: "Dogwifhat",       icon: "🧢", basePrice: 0.00004200 },
-        { ticker: "MEME",     name: "Memeland",        icon: "🤪", basePrice: 0.00000670 },
-        { ticker: "BOME",     name: "Book of Meme",    icon: "📖", basePrice: 0.00000310 },
-        { ticker: "POPCAT",   name: "Popcat Click",    icon: "🐱", basePrice: 0.00001980 },
-        { ticker: "MOG",      name: "Mog Cat",         icon: "🕶️", basePrice: 0.00000038 },
-        { ticker: "BRETT",    name: "Brett Base",      icon: "🔵", basePrice: 0.00001120 },
+        { ticker: "PEPE",     name: "Pepe Frog",       icon: "🐸", basePrice: 0.00000142, logo: "https://assets.coingecko.com/coins/images/29850/small/pepe-token.jpeg" },
+        { ticker: "SHIB",     name: "Shiba Inu",       icon: "🐕", basePrice: 0.00000890, logo: "https://assets.coingecko.com/coins/images/11939/small/shiba.png" },
+        { ticker: "BONK",     name: "Bonk Doge",       icon: "🦴", basePrice: 0.00000215, logo: "https://assets.coingecko.com/coins/images/28600/small/bonk.jpg" },
+        { ticker: "FLOKI",    name: "Floki Viking",    icon: "⚔️", basePrice: 0.00001450, logo: "https://assets.coingecko.com/coins/images/16746/small/PNG_image.png" },
+        { ticker: "WIF",      name: "Dogwifhat",       icon: "🧢", basePrice: 0.00004200, logo: "https://assets.coingecko.com/coins/images/33566/small/dogwifhat.jpg" },
+        { ticker: "MEME",     name: "Memeland",        icon: "🤪", basePrice: 0.00000670, logo: "https://assets.coingecko.com/coins/images/32528/small/memecoin.png" },
+        { ticker: "BOME",     name: "Book of Meme",    icon: "📖", basePrice: 0.00000310, logo: "https://assets.coingecko.com/coins/images/36071/small/bome.png" },
+        { ticker: "POPCAT",   name: "Popcat Click",    icon: "🐱", basePrice: 0.00001980, logo: "https://assets.coingecko.com/coins/images/33760/small/image.png" },
+        { ticker: "MOG",      name: "Mog Coin",        icon: "🕶️", basePrice: 0.00000038, logo: "https://assets.coingecko.com/coins/images/31059/small/MOG_LOGO_200x200.png" },
+        { ticker: "BRETT",    name: "Brett Base",      icon: "🔵", basePrice: 0.00001120, logo: "https://assets.coingecko.com/coins/images/35529/small/1000050750.png" },
         { ticker: "NEIRO",    name: "Neiro Pup",       icon: "🐶", basePrice: 0.00000084 },
-        { ticker: "TURBO",    name: "Turbo Toad",      icon: "⚡", basePrice: 0.00000540 },
-        { ticker: "BABYDOGE", name: "Baby Doge",       icon: "🍼", basePrice: 0.00000012 },
-        { ticker: "DOGS",     name: "TON Dogs",        icon: "🐾", basePrice: 0.00000065 },
-        { ticker: "NOT",      name: "Notcoin Meme",    icon: "💎", basePrice: 0.00000780 },
-        { ticker: "MEW",      name: "Cat in Dogs",     icon: "🐾", basePrice: 0.00000410 },
-        { ticker: "PONKE",    name: "Ponke Monkey",    icon: "🐒", basePrice: 0.00002300 },
-        { ticker: "MYRO",     name: "Myro Sol",        icon: "🦮", basePrice: 0.00000950 },
-        { ticker: "SLERF",    name: "Slerf Sloth",     icon: "🦥", basePrice: 0.00001640 },
+        { ticker: "TURBO",    name: "Turbo Toad",      icon: "⚡", basePrice: 0.00000540, logo: "https://assets.coingecko.com/coins/images/30117/small/turbo.png" },
+        { ticker: "BABYDOGE", name: "Baby Doge",       icon: "🍼", basePrice: 0.00000012, logo: "https://assets.coingecko.com/coins/images/16125/small/babydoge.jpg" },
+        { ticker: "DOGS",     name: "TON Dogs",        icon: "🐾", basePrice: 0.00000065, logo: "https://assets.coingecko.com/coins/images/39699/small/dogs_logo_200x200.png" },
+        { ticker: "NOT",      name: "Notcoin Meme",    icon: "💎", basePrice: 0.00000780, logo: "https://assets.coingecko.com/coins/images/33453/small/rFmThDi_400x400.jpg" },
+        { ticker: "MEW",      name: "Cat in Dogs",     icon: "🐾", basePrice: 0.00000410, logo: "https://assets.coingecko.com/coins/images/36440/small/MEW.png" },
+        { ticker: "PONKE",    name: "Ponke Monkey",    icon: "🐒", basePrice: 0.00002300, logo: "https://assets.coingecko.com/coins/images/33929/small/ponke.jpeg" },
+        { ticker: "MYRO",     name: "Myro Sol",        icon: "🦮", basePrice: 0.00000950, logo: "https://assets.coingecko.com/coins/images/32878/small/MYRO_200x200.png" },
+        { ticker: "SLERF",    name: "Slerf Sloth",     icon: "🦥", basePrice: 0.00001640, logo: "https://assets.coingecko.com/coins/images/36190/small/slerf.jpg" },
         { ticker: "WEN",      name: "Wen Lambo",       icon: "🏎️", basePrice: 0.00000029 },
         { ticker: "COQ",      name: "Coq Inu",         icon: "🐓", basePrice: 0.00000019 },
         { ticker: "AIDOGE",   name: "ArbDoge AI",      icon: "🤖", basePrice: 0.00000015 },
@@ -898,17 +933,25 @@
                 }
                 usedTickers.add(ticker);
                 const icon = icons[(p * 7 + s * 3) % icons.length];
-                // Очень маленькая цена от $0.00000008 до $0.00004500
-                const rawPrice = 0.00000008 + (( (idx * 97) % 250 ) / 250) * 0.000042;
+                const rawPrice = 0.00000008 + (((idx * 97) % 250) / 250) * 0.000042;
                 MEME_COINS.push({
                     ticker,
                     name,
                     icon,
-                    basePrice: +rawPrice.toFixed(8)
+                    basePrice: +rawPrice.toFixed(8),
+                    logo: makeSvgAvatar(ticker, icon, idx + 30)
                 });
                 idx++;
             }
         }
+
+        // Назначаем индивидуальные картинки тем из первых 30 монет, у которых нет внешней ссылки
+        MEME_COINS.forEach((m, i) => {
+            if (!m.logo) {
+                m.logo = makeSvgAvatar(m.ticker, m.icon, i);
+            }
+            m.fallbackLogo = makeSvgAvatar(m.ticker, m.icon, i);
+        });
     })();
 
     const TEN_HOURS_MS = 10 * 3600 * 1000;
@@ -991,7 +1034,7 @@
         );
 
         (filtered.length ? filtered : MEME_COINS).forEach(m => {
-            sel.add(new Option(`${m.icon} ${m.name} (${m.ticker})`, m.ticker));
+            sel.add(new Option(`${m.name} (${m.ticker})`, m.ticker));
         });
 
         if (prevVal && Array.from(sel.options).some(o => o.value === prevVal)) {
@@ -1008,18 +1051,23 @@
     function onMemeChange() {
         const ticker = document.getElementById("meme-select").value;
         if (!ticker) return;
+        const m = MEME_COINS.find(x => x.ticker === ticker);
         const price = getMemeLivePrice(ticker);
         const mult = getMemeMultiplier(ticker);
         const d = I18N[currentLang] || I18N.ru;
+
+        const imgEl = document.getElementById("meme-coin-img");
+        if (m) {
+            imgEl.src = m.logo;
+            imgEl.onerror = () => { imgEl.src = m.fallbackLogo; };
+        }
 
         document.getElementById("meme-price").textContent = "$" + price.toFixed(8);
         const badge = document.getElementById("meme-status-badge");
         if (memeHoldings[ticker] && memeHoldings[ticker].tokens > 0) {
             badge.textContent = `${d.pumpingNow}: ×${mult.toFixed(2)} 🔥`;
-            badge.style.color = "var(--up)";
         } else {
-            badge.textContent = d.readyPump;
-            badge.style.color = "var(--text-muted)";
+            badge.textContent = "";
         }
         drawMemeChart(ticker);
     }
@@ -1087,7 +1135,6 @@
         const tokensBought = amt / curPrice;
         BALANCES.USDT -= amt;
 
-        // Случайный целевой множитель от 2x до 20x через 10 часов
         const randomTargetMult = +(2 + Math.random() * 18).toFixed(2);
 
         if (memeHoldings[ticker] && memeHoldings[ticker].tokens > 0) {
@@ -1107,7 +1154,7 @@
         onMemeChange();
         renderMemeHoldings();
         renderWallet();
-        showToast(`🚀 ${ticker}: +${Math.round(tokensBought).toLocaleString()} USDT`);
+        showToast(`🚀 ${ticker}: +${Math.round(tokensBought).toLocaleString()}`);
     }
 
     function sellMemeByTicker(ticker) {
@@ -1118,7 +1165,6 @@
         const payoutUsdt = hold.tokens * livePrice;
         BALANCES.USDT = (BALANCES.USDT || 0) + payoutUsdt;
 
-        // После продажи цена мем-коина снова падает на исходное дно!
         delete memeHoldings[ticker];
         saveMemeHoldings();
 
@@ -1157,14 +1203,16 @@
             const mult = getMemeMultiplier(ticker);
             const remMs = Math.max(0, TEN_HOURS_MS - (Date.now() - h.buyTime));
             const remHours = (remMs / 3600000).toFixed(1);
+            const logoSrc = m ? m.logo : "";
 
             const card = document.createElement("div");
             card.className = "meme-holding-card";
             card.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <div>
-                        <strong style="font-size:14px;">${m ? m.icon : "🚀"} ${ticker}</strong>
-                        <span style="color:var(--up); font-weight:800; margin-left:6px;">×${mult.toFixed(2)}</span>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <img class="token-avatar-sm" src="${logoSrc}" alt="${ticker}">
+                        <strong style="font-size:14px;">${ticker}</strong>
+                        <span style="color:var(--up); font-weight:800;">×${mult.toFixed(2)}</span>
                     </div>
                     <div>
                         <button class="chip-btn" style="background:var(--down); color:#fff;" onclick="sellMemeByTicker('${ticker}')">${d.sellBtn}</button>
@@ -1240,6 +1288,7 @@
         const pair = document.getElementById("trade-pair").value;
         const info = COINS[pair];
         const digits = info.rate < 1 ? 4 : 2;
+        document.getElementById("fut-coin-img").src = info.logo;
         document.getElementById("live-price").textContent = "$" + info.rate.toLocaleString("en-US", {
             minimumFractionDigits: digits, maximumFractionDigits: digits
         });
@@ -1350,7 +1399,8 @@
             div.className = "meme-holding-card";
             div.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <img class="token-avatar-sm" src="${COINS[p.pair].logo}" alt="${p.pair}">
                         <strong style="color:${p.side==='LONG'?'var(--up)':'var(--down)'}">${p.side} ×${p.lev}</strong>
                         <b>${p.pair}/USDT</b> ($${p.entry.toFixed(2)})
                     </div>
@@ -1383,7 +1433,7 @@
             row.className = "asset-item";
             row.innerHTML = `
                 <div style="display:flex; align-items:center; gap:12px;">
-                    <div class="asset-badge">${ticker.slice(0,3)}</div>
+                    <img class="token-avatar" src="${info.logo}" alt="${ticker}">
                     <div>
                         <div style="font-weight:800;">${info.name}</div>
                         <div style="font-size:11px; color:var(--text-muted);">$${info.rate.toFixed(info.rate<1?4:2)}</div>
