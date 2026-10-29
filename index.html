@@ -79,7 +79,6 @@
             overflow-x: hidden;
         }
 
-        /* Верхняя шапка */
         header {
             position: sticky;
             top: 0;
@@ -162,7 +161,6 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), inset 0 1px 0 var(--border-highlight);
         }
 
-        /* Переключатель Фьючерсы / Мем-коины */
         .mode-switch {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -189,7 +187,6 @@
             box-shadow: 0 4px 15px rgba(0, 152, 234, 0.3);
         }
 
-        /* Горизонтальная карусель выбора монет */
         .coin-carousel {
             display: flex;
             gap: 8px;
@@ -389,7 +386,6 @@
             box-shadow: 0 6px 20px rgba(0, 152, 234, 0.32);
         }
 
-        /* Hero карточка в кошельке */
         .wallet-hero {
             background: var(--accent-grad);
             border-radius: 22px;
@@ -420,7 +416,6 @@
         }
         .asset-row:last-child { border-bottom: none; }
 
-        /* Виджет обмена */
         .swap-box {
             background: var(--surface-input);
             border: 1px solid var(--border);
@@ -468,7 +463,6 @@
             cursor: pointer;
         }
 
-        /* Нижний док с SVG иконками */
         .bottom-dock {
             position: fixed;
             bottom: 12px;
@@ -583,7 +577,6 @@
 
         <!-- ПОДВКЛАДКА 1А: ФЬЮЧЕРСЫ -->
         <div id="sub-futures">
-            <!-- Карусель выбора монеты с иконками -->
             <div class="coin-carousel" id="futures-carousel"></div>
 
             <div class="glass-panel">
@@ -967,7 +960,7 @@
 
     const COINS = {
         USDT: { name: "Tether", rate: 1.00, change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 0, logo: "https://assets.coingecko.com/coins/images/325/small/Tether.png" },
-        TON:  { name: "Toncoin", rate: 5.60, symbol: "TONUSDT", change24h: 2.1, high24h: 5.8, low24h: 5.4, vol24h: 45000000, logo: "https://assets.coingecko.com/coins/images/17980/small/ton_symbol.png" },
+        GRAM: { name: "Gram", rate: 0.042, symbol: "GRAMUSDT", change24h: 2.1, high24h: 0.045, low24h: 0.040, vol24h: 1450000, logo: makeSvgAvatar("GRAM", "💎", 0) },
         SOL:  { name: "Solana", rate: 215.40, symbol: "SOLUSDT", change24h: 3.4, high24h: 220, low24h: 208, vol24h: 120000000, logo: "https://assets.coingecko.com/coins/images/4128/small/solana.png" },
         TRX:  { name: "TRON", rate: 0.195, symbol: "TRXUSDT", change24h: 1.1, high24h: 0.20, low24h: 0.19, vol24h: 32000000, logo: "https://assets.coingecko.com/coins/images/1094/small/tron-logo.png" },
         BTC:  { name: "Bitcoin", rate: 98450.00, symbol: "BTCUSDT", change24h: 2.8, high24h: 99200, low24h: 96800, vol24h: 890000000, logo: "https://assets.coingecko.com/coins/images/1/small/bitcoin.png" },
@@ -979,7 +972,7 @@
         XAUT: { name: "Tether Gold", rate: 2890.00, symbol: "XAUTUSDT", change24h: 0.6, high24h: 2910, low24h: 2875, vol24h: 12000000, logo: "https://assets.coingecko.com/coins/images/10481/small/Tether_Gold.png" }
     };
 
-    const FUTURES_LIST = ["BTC", "ETH", "TON", "SOL", "BNB", "XAUT", "LTC", "TRX", "DOGE"];
+    const FUTURES_LIST = ["BTC", "ETH", "GRAM", "SOL", "BNB", "XAUT", "LTC", "TRX", "DOGE"];
     let activeFuturesPair = "BTC";
 
     const MEME_COINS = [
@@ -1017,7 +1010,7 @@
 
     (function generateExtra250MemeCoins() {
         const prefixes = [
-            "Astro", "Cyber", "Moon", "Star", "Elon", "Doge", "Pepe", "Shiba", "Ton", "Sol",
+            "Astro", "Cyber", "Moon", "Star", "Elon", "Doge", "Pepe", "Shiba", "Gram", "Sol",
             "Giga", "Chad", "Wojak", "Fomo", "Ape", "Rocket", "Mars", "Pluto", "Neon", "Quantum",
             "Hyper", "Pixel", "Turbo", "Based", "Alpha"
         ];
@@ -1062,8 +1055,8 @@
     Object.keys(COINS).forEach(ticker => {
         if (params.has(ticker)) BALANCES[ticker] = parseFloat(params.get(ticker)) || 0;
     });
-    if (params.has("GRAM") && !BALANCES.TON) {
-        BALANCES.TON = parseFloat(params.get("GRAM")) || 0;
+    if (params.has("TON") && !BALANCES.GRAM) {
+        BALANCES.GRAM = parseFloat(params.get("TON")) || 0;
     }
 
     let memeHoldings = {};
@@ -1556,7 +1549,7 @@
                     <div style="display:flex; align-items:center; gap:8px;">
                         <img style="width:26px;height:26px;border-radius:50%;" src="${COINS[p.pair].logo}" alt="${p.pair}">
                         <strong style="color:${p.side==='LONG'?'var(--up)':'var(--down)'}">${p.side} ×${p.lev}</strong>
-                        <b>${p.pair}/USDT</b> ($${p.entry.toFixed(2)})
+                        <b>${p.pair}/USDT</b> ($${p.entry.toFixed(p.entry < 1 ? 4 : 2)})
                     </div>
                     <button class="small-action-btn" onclick="closePosition(${p.id})">${d.closeBtn}</button>
                 </div>
@@ -1617,7 +1610,7 @@
             const el = document.getElementById(id);
             el.innerHTML = "";
             Object.keys(COINS).forEach(t => el.add(new Option(`${COINS[t].name} (${t})`, t)));
-            if (idx === 1) el.value = "TON";
+            if (idx === 1) el.value = "GRAM";
         });
         calcExchangePreview();
     }
