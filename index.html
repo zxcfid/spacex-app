@@ -3,44 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SpaceX x Bybit Trading</title>
+    <title>SpaceX Crypto & Trading</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root[data-theme="dark"] {
-            --bg-main: #0b0e14;
-            --bg-card: #12161f;
-            --bg-input: #1e232e;
-            --text-main: #f3f4f6;
-            --text-muted: #848e9c;
-            --accent: #f7a600;
-            --accent-grad: linear-gradient(135deg, #f7a600, #ff6b00);
-            --border: rgba(255, 255, 255, 0.07);
-            --long: #20b26c;
-            --short: #ef454a;
+            --bg-grad: linear-gradient(135deg, #070913 0%, #111827 50%, #030712 100%);
+            --glass-bg: rgba(18, 24, 38, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-input: rgba(255, 255, 255, 0.04);
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --accent: #0098ea; /* TON Blue */
+            --accent-grad: linear-gradient(135deg, #0098ea, #6366f1);
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --long: #10b981;
+            --short: #f43f5e;
         }
 
         :root[data-theme="light"] {
-            --bg-main: #f4f6f9;
-            --bg-card: #ffffff;
-            --bg-input: #edf0f5;
-            --text-main: #12161f;
+            --bg-grad: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(15, 23, 42, 0.08);
+            --glass-input: rgba(15, 23, 42, 0.04);
+            --text-main: #0f172a;
             --text-muted: #64748b;
-            --accent: #f7a600;
-            --accent-grad: linear-gradient(135deg, #f7a600, #ea580c);
-            --border: rgba(15, 23, 42, 0.08);
-            --long: #16a34a;
+            --accent: #0098ea;
+            --accent-grad: linear-gradient(135deg, #0098ea, #4f46e5);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --long: #059669;
             --short: #dc2626;
         }
 
         :root[data-theme="pink"] {
-            --bg-main: #1a0812;
-            --bg-card: #2b0e1e;
-            --bg-input: #3d142b;
+            --bg-grad: linear-gradient(135deg, #1f0916 0%, #321024 50%, #12040d 100%);
+            --glass-bg: rgba(50, 16, 36, 0.65);
+            --glass-border: rgba(244, 114, 182, 0.15);
+            --glass-input: rgba(255, 255, 255, 0.05);
             --text-main: #fdf2f8;
             --text-muted: #f472b6;
             --accent: #ec4899;
             --accent-grad: linear-gradient(135deg, #ec4899, #a855f7);
-            --border: rgba(244, 114, 182, 0.2);
+            --shadow: 0 8px 32px 0 rgba(236, 72, 153, 0.2);
             --long: #10b981;
             --short: #f43f5e;
         }
@@ -53,29 +56,33 @@
         }
 
         body {
-            background-color: var(--bg-main);
+            background: var(--bg-grad);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             padding-bottom: 84px;
             font-size: 14px;
+            min-height: 100vh;
+            background-attachment: fixed;
         }
 
         header {
-            padding: 12px 16px;
+            padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
-            background: var(--bg-card);
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
             position: sticky;
             top: 0;
             z-index: 25;
         }
 
         .brand {
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 800;
-            letter-spacing: 0.6px;
+            letter-spacing: 0.8px;
             background: var(--accent-grad);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -87,10 +94,11 @@
             gap: 6px;
             font-size: 11px;
             color: var(--long);
-            background: rgba(32, 178, 108, 0.12);
-            padding: 4px 8px;
-            border-radius: 6px;
+            background: rgba(16, 185, 129, 0.12);
+            padding: 4px 10px;
+            border-radius: 20px;
             font-weight: 600;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
         .live-dot::before {
             content: "";
@@ -98,7 +106,7 @@
             height: 6px;
             border-radius: 50%;
             background: var(--long);
-            animation: pulse 1.4s infinite;
+            animation: pulse 1.5s infinite;
         }
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -106,45 +114,49 @@
         }
 
         .container {
-            padding: 12px;
-            max-width: 540px;
+            padding: 14px;
+            max-width: 520px;
             margin: 0 auto;
         }
 
         .tab-section { display: none; }
         .tab-section.active { display: block; }
 
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 12px;
+        /* Эффект жидкого стекла (Glassmorphism) */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow);
         }
 
-        /* Статистика пары Bybit */
         .ticker-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 10px;
         }
 
         .price-big {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            gap: 8px;
             width: 100%;
-            margin-top: 6px;
-            padding-top: 8px;
-            border-top: 1px solid var(--border);
+            margin-top: 8px;
+            padding-top: 10px;
+            border-top: 1px solid var(--glass-border);
             font-size: 11px;
         }
         .stat-label { color: var(--text-muted); }
@@ -152,35 +164,37 @@
 
         canvas {
             width: 100%;
-            height: 220px;
-            background: var(--bg-input);
-            border-radius: 10px;
+            height: 210px;
+            background: var(--glass-input);
+            border-radius: 14px;
             display: block;
+            border: 1px solid var(--glass-border);
         }
 
         .tf-bar {
             display: flex;
             gap: 6px;
-            margin: 8px 0 12px;
+            margin: 10px 0 14px;
         }
         .tf-btn {
             flex: 1;
-            padding: 6px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            background: var(--bg-input);
+            padding: 7px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-input);
             color: var(--text-muted);
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
+            transition: all 0.2s;
         }
         .tf-btn.active {
             background: var(--accent);
-            color: #000;
+            color: #fff;
             border-color: transparent;
+            box-shadow: 0 4px 12px rgba(0, 152, 234, 0.3);
         }
 
-        /* Терминал + Стакан Bybit */
         .terminal-grid {
             display: grid;
             grid-template-columns: 1.35fr 1fr;
@@ -191,87 +205,97 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4px;
-            background: var(--bg-input);
+            background: var(--glass-input);
             padding: 3px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 8px;
+            border: 1px solid var(--glass-border);
         }
         .order-tab {
             padding: 6px;
             text-align: center;
             font-size: 11px;
             font-weight: 700;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             color: var(--text-muted);
         }
         .order-tab.active {
-            background: var(--bg-card);
+            background: var(--glass-bg);
             color: var(--text-main);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         label {
             display: block;
             font-size: 11px;
             color: var(--text-muted);
-            margin: 6px 0 4px;
+            margin: 8px 0 4px;
+            font-weight: 600;
         }
 
         select, input {
             width: 100%;
-            padding: 9px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--bg-input);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-input);
             color: var(--text-main);
             font-size: 13px;
             outline: none;
+            backdrop-filter: blur(10px);
+        }
+        select:focus, input:focus {
+            border-color: var(--accent);
         }
 
         .pct-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
+            gap: 5px;
             margin-top: 6px;
         }
         .pct-btn {
-            padding: 4px;
+            padding: 5px;
             font-size: 10px;
-            border-radius: 5px;
-            border: 1px solid var(--border);
-            background: var(--bg-input);
+            border-radius: 6px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-input);
             color: var(--text-muted);
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .trade-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
-            margin-top: 10px;
+            margin-top: 12px;
         }
         .btn-long, .btn-short {
-            padding: 11px 6px;
+            padding: 12px 6px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             color: #fff;
             font-weight: 800;
             font-size: 13px;
             cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
         }
         .btn-long { background: var(--long); }
         .btn-short { background: var(--short); }
+        .btn-long:active, .btn-short:active { transform: scale(0.97); }
 
-        /* Стакан ордеров */
         .ob-box {
-            background: var(--bg-input);
-            border-radius: 8px;
+            background: var(--glass-input);
+            border-radius: 10px;
             padding: 8px;
             font-size: 11px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            border: 1px solid var(--glass-border);
         }
         .ob-header {
             display: flex;
@@ -291,20 +315,20 @@
         .ob-mid {
             text-align: center;
             font-weight: 800;
-            padding: 5px 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+            padding: 6px 0;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
             margin: 4px 0;
             font-size: 12px;
         }
 
-        /* Позиции */
         .pos-card {
-            background: var(--bg-input);
-            border-radius: 10px;
-            padding: 10px;
+            background: var(--glass-input);
+            border-radius: 12px;
+            padding: 12px;
             margin-top: 8px;
             font-size: 12px;
+            border: 1px solid var(--glass-border);
         }
         .pos-top {
             display: flex;
@@ -313,49 +337,50 @@
             margin-bottom: 6px;
         }
         .close-btn {
-            background: rgba(239, 69, 74, 0.2);
+            background: rgba(244, 63, 94, 0.15);
             color: var(--short);
-            border: 1px solid var(--short);
-            padding: 4px 8px;
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            padding: 4px 10px;
             border-radius: 6px;
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
         }
 
-        /* Кошелек */
         .coin-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 11px 0;
+            border-bottom: 1px solid var(--glass-border);
         }
         .coin-row:last-child { border-bottom: none; }
         .coin-icon {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--accent-grad);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            color: #000;
-            font-size: 11px;
+            color: #fff;
+            font-size: 12px;
+            box-shadow: 0 4px 10px rgba(0, 152, 234, 0.3);
         }
 
         .btn {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: 800;
             font-size: 14px;
             cursor: pointer;
             background: var(--accent-grad);
-            color: #000;
-            margin-top: 12px;
+            color: #fff;
+            margin-top: 14px;
+            box-shadow: 0 4px 16px rgba(0, 152, 234, 0.35);
         }
 
         .theme-grid {
@@ -365,26 +390,30 @@
             margin-top: 8px;
         }
         .option-btn {
-            padding: 10px 6px;
+            padding: 11px 6px;
             border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--bg-input);
+            border: 1px solid var(--glass-border);
+            background: var(--glass-input);
             color: var(--text-main);
             font-weight: 600;
             font-size: 12px;
             cursor: pointer;
+            backdrop-filter: blur(10px);
         }
         .option-btn.active { border: 2px solid var(--accent); }
 
         .bottom-nav {
             position: fixed;
             bottom: 0; left: 0; right: 0;
-            background: var(--bg-card);
-            border-top: 1px solid var(--border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             padding: 6px 2px 10px;
             z-index: 30;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
         }
         .nav-item {
             display: flex;
@@ -399,22 +428,23 @@
             cursor: pointer;
         }
         .nav-item.active { color: var(--accent); }
-        .nav-icon { font-size: 17px; }
+        .nav-icon { font-size: 18px; }
 
         .toast {
             position: fixed;
-            top: 14px; left: 50%;
+            top: 16px; left: 50%;
             transform: translateX(-50%);
-            background: var(--bg-card);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--accent);
             color: var(--text-main);
-            padding: 9px 16px;
-            border-radius: 10px;
+            padding: 10px 18px;
+            border-radius: 12px;
             font-weight: 700;
             font-size: 12px;
             display: none;
             z-index: 100;
-            box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
         }
     </style>
 </head>
@@ -423,25 +453,25 @@
 <div id="toast" class="toast"></div>
 
 <header>
-    <div class="brand">SPACEX × BYBIT</div>
-    <div class="live-dot" id="bybit-status">Bybit Live API</div>
+    <div class="brand">SPACEX CRYPTO</div>
+    <div class="live-dot" id="market-status">Live Market</div>
 </header>
 
 <div class="container">
-    <!-- ВКЛАДКА 1: ТОРГОВЛЯ BYBIT -->
+    <!-- ВКЛАДКА 1: ТОРГОВЛЯ -->
     <div id="tab-trade" class="tab-section active">
-        <div class="card">
+        <div class="glass-card">
             <div class="ticker-bar">
                 <select id="trade-pair" onchange="onPairChange()" style="width: auto; font-weight: 800; font-size: 15px;">
                     <option value="BTC">BTC / USDT</option>
                     <option value="ETH">ETH / USDT</option>
                     <option value="SOL">SOL / USDT</option>
+                    <option value="TON">TON / USDT</option>
                     <option value="BNB">BNB / USDT</option>
                     <option value="XAUT">XAUT / USDT</option>
                     <option value="LTC">LTC / USDT</option>
                     <option value="TRX">TRX / USDT</option>
                     <option value="DOGE">DOGE / USDT</option>
-                    <option value="GRAM">GRAM / USDT</option>
                 </select>
                 <div style="text-align: right;">
                     <div class="price-big" id="live-price">...</div>
@@ -458,14 +488,14 @@
                         <div class="stat-val" id="stat-low">--</div>
                     </div>
                     <div>
-                        <div class="stat-label">24h Оборот (USDT)</div>
+                        <div class="stat-label">24h Volume</div>
                         <div class="stat-val" id="stat-vol">--</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Свечной график Bybit -->
-            <canvas id="klineChart" width="480" height="220"></canvas>
+            <!-- График свечей -->
+            <canvas id="klineChart" width="480" height="210"></canvas>
 
             <div class="tf-bar">
                 <button class="tf-btn active" onclick="changeInterval('1', this)">1м</button>
@@ -474,7 +504,6 @@
                 <button class="tf-btn" onclick="changeInterval('D', this)">1д</button>
             </div>
 
-            <!-- Терминал сделки + Стакан ордеров Bybit -->
             <div class="terminal-grid">
                 <div>
                     <div class="order-tabs">
@@ -487,19 +516,18 @@
                         <input type="number" id="limit-price" placeholder="Цена">
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 6px;">
+                    <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 6px;">
                         <div>
-                            <label id="lbl-trade-amt">Маржа (USDT):</label>
+                            <label>Маржа (USDT):</label>
                             <input type="number" id="trade-amount" value="50">
                         </div>
                         <div>
-                            <label id="lbl-leverage">Плечо:</label>
+                            <label>Плечо:</label>
                             <select id="trade-lev">
                                 <option value="5">5x</option>
                                 <option value="10" selected>10x</option>
                                 <option value="25">25x</option>
                                 <option value="50">50x</option>
-                                <option value="100">100x</option>
                             </select>
                         </div>
                     </div>
@@ -511,27 +539,16 @@
                         <button class="pct-btn" onclick="setMarginPct(1.00)">100%</button>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-                        <div>
-                            <label>Take Profit:</label>
-                            <input type="number" id="trade-tp" placeholder="TP ($)">
-                        </div>
-                        <div>
-                            <label>Stop Loss:</label>
-                            <input type="number" id="trade-sl" placeholder="SL ($)">
-                        </div>
-                    </div>
-
                     <div class="trade-buttons">
-                        <button class="btn-long" onclick="openPosition('LONG')">Купить / Long</button>
-                        <button class="btn-short" onclick="openPosition('SHORT')">Продать / Short</button>
+                        <button class="btn-long" onclick="openPosition('LONG')">📈 LONG</button>
+                        <button class="btn-short" onclick="openPosition('SHORT')">📉 SHORT</button>
                     </div>
                 </div>
 
-                <!-- Живой стакан Bybit -->
+                <!-- Стакан ордеров -->
                 <div class="ob-box">
                     <div>
-                        <div class="ob-header"><span>Цена</span><span>Кол-во</span></div>
+                        <div class="ob-header"><span>Цена</span><span>Объем</span></div>
                         <div id="ob-asks"></div>
                     </div>
                     <div class="ob-mid" id="ob-mid-price">--</div>
@@ -540,9 +557,9 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <strong id="lbl-positions">Позиции (Bybit Perpetual):</strong>
+                <strong>Активные позиции:</strong>
                 <span style="font-size:11px; color:var(--text-muted);" id="avail-usdt">Доступно: 0 USDT</span>
             </div>
             <div id="positions-list" style="margin-top: 6px; color: var(--text-muted); font-size: 12px;">
@@ -553,70 +570,66 @@
 
     <!-- ВКЛАДКА 2: КОШЕЛЁК -->
     <div id="tab-wallet" class="tab-section">
-        <div class="card">
-            <div style="font-size:12px; color:var(--text-muted);" id="lbl-total">Оценка портфеля (Bybit Spot):</div>
+        <div class="glass-card">
+            <div style="font-size:12px; color:var(--text-muted);">Общий баланс портфеля:</div>
             <div style="font-size:28px; font-weight:800; margin:4px 0 12px;" id="total-usd">$0.00</div>
             <div id="wallet-list"></div>
         </div>
     </div>
 
-    <!-- ВКЛАДКА 3: ОБМЕН (BYBIT CONVERT) -->
+    <!-- ВКЛАДКА 3: ОБМЕН -->
     <div id="tab-exchange" class="tab-section">
-        <div class="card">
-            <h3 id="lbl-ex-title" style="margin-bottom: 6px;">Конвертация по курсу Bybit</h3>
-            <label id="lbl-ex-from">Отдаете:</label>
+        <div class="glass-card">
+            <h3 style="margin-bottom: 8px;">Мгновенный обмен</h3>
+            <label>Отдаете:</label>
             <select id="ex-from" onchange="calcExchangePreview()"></select>
 
-            <label id="lbl-ex-amt">Сумма:</label>
+            <label>Сумма:</label>
             <input type="number" id="ex-amount" placeholder="0.00" oninput="calcExchangePreview()">
 
-            <label id="lbl-ex-to">Получаете:</label>
+            <label>Получаете:</label>
             <select id="ex-to" onchange="calcExchangePreview()"></select>
 
             <div id="ex-preview" style="margin-top: 10px; font-size: 12px; color: var(--text-muted);"></div>
-            <button class="btn" id="btn-do-exchange" onclick="executeExchange()">🔄 Конвертировать</button>
+            <button class="btn" onclick="executeExchange()">🔄 Обменять</button>
         </div>
     </div>
 
     <!-- ВКЛАДКА 4: ЧЕКИ -->
     <div id="tab-checks" class="tab-section">
-        <div class="card">
-            <h3 id="lbl-chk-title" style="margin-bottom: 6px;">Создание крипто-чека</h3>
-            <label id="lbl-chk-coin">Выберите валюту:</label>
+        <div class="glass-card">
+            <h3 style="margin-bottom: 8px;">Создание крипто-чека</h3>
+            <label>Выберите валюту:</label>
             <select id="chk-coin"></select>
-            <label id="lbl-chk-amt">Введите сумму:</label>
+            <label>Введите сумму:</label>
             <input type="number" id="chk-amount" placeholder="0.00">
-            <button class="btn" id="btn-create-chk" onclick="createCheckWeb()">🧾 Создать чек</button>
+            <button class="btn" onclick="createCheckWeb()">🧾 Создать чек</button>
             <div id="chk-result" style="margin-top: 12px; font-size: 13px;"></div>
         </div>
     </div>
 
     <!-- ВКЛАДКА 5: ПОДДЕРЖКА -->
     <div id="tab-support" class="tab-section">
-        <div class="card" style="text-align: center; padding: 26px 14px;">
+        <div class="glass-card" style="text-align: center; padding: 26px 14px;">
             <div style="font-size: 42px; margin-bottom: 8px;">💬</div>
-            <h3 id="lbl-sup-title">Служба поддержки 24/7</h3>
-            <p id="lbl-sup-desc" style="color: var(--text-muted); margin: 8px 0 16px;">
-                Свяжитесь с оператором @ssupppoortt.
-            </p>
-            <button class="btn" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" id="btn-sup-open">
-                Написать @ssupppoortt
-            </button>
+            <h3>Служба поддержки 24/7</h3>
+            <p style="color: var(--text-muted); margin: 8px 0 16px;">Свяжитесь с оператором @ssupppoortt.</p>
+            <button class="btn" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')">Написать @ssupppoortt</button>
         </div>
     </div>
 
     <!-- ВКЛАДКА 6: НАСТРОЙКИ -->
     <div id="tab-settings" class="tab-section">
-        <div class="card">
-            <h3 id="lbl-set-lang">🌍 Язык интерфейса</h3>
+        <div class="glass-card">
+            <h3>🌍 Язык интерфейса</h3>
             <div class="theme-grid">
                 <button class="option-btn active" id="lang-ru" onclick="setLang('ru')">🇷🇺 Русский</button>
                 <button class="option-btn" id="lang-en" onclick="setLang('en')">🇬🇧 English</button>
                 <button class="option-btn" id="lang-zh" onclick="setLang('zh')">🇨🇳 中文</button>
             </div>
         </div>
-        <div class="card">
-            <h3 id="lbl-set-theme">🎨 Тема оформления</h3>
+        <div class="glass-card">
+            <h3>🎨 Тема оформления</h3>
             <div class="theme-grid">
                 <button class="option-btn active" id="thm-dark" onclick="setTheme('dark')">🌑 Тёмная</button>
                 <button class="option-btn" id="thm-light" onclick="setTheme('light')">☀️ Светлая</button>
@@ -627,12 +640,12 @@
 </div>
 
 <nav class="bottom-nav">
-    <button class="nav-item" onclick="switchTab('wallet', this)"><span class="nav-icon">👛</span><span id="nav-wallet">Кошелёк</span></button>
-    <button class="nav-item" onclick="switchTab('exchange', this)"><span class="nav-icon">🔄</span><span id="nav-exchange">Обмен</span></button>
-    <button class="nav-item active" onclick="switchTab('trade', this)"><span class="nav-icon">📈</span><span id="nav-trade">Торговля</span></button>
-    <button class="nav-item" onclick="switchTab('checks', this)"><span class="nav-icon">🧾</span><span id="nav-checks">Чеки</span></button>
-    <button class="nav-item" onclick="switchTab('support', this)"><span class="nav-icon">💬</span><span id="nav-support">Поддержка</span></button>
-    <button class="nav-item" onclick="switchTab('settings', this)"><span class="nav-icon">⚙️</span><span id="nav-settings">Настройки</span></button>
+    <button class="nav-item" onclick="switchTab('wallet', this)"><span class="nav-icon">👛</span><span>Кошелёк</span></button>
+    <button class="nav-item" onclick="switchTab('exchange', this)"><span class="nav-icon">🔄</span><span>Обмен</span></button>
+    <button class="nav-item active" onclick="switchTab('trade', this)"><span class="nav-icon">📈</span><span>Торговля</span></button>
+    <button class="nav-item" onclick="switchTab('checks', this)"><span class="nav-icon">🧾</span><span>Чеки</span></button>
+    <button class="nav-item" onclick="switchTab('support', this)"><span class="nav-icon">💬</span><span>Поддержка</span></button>
+    <button class="nav-item" onclick="switchTab('settings', this)"><span class="nav-icon">⚙️</span><span>Настройки</span></button>
 </nav>
 
 <script>
@@ -640,10 +653,9 @@
     tg.ready();
     tg.expand();
 
-    // Базовые монеты (обновляются в реальном времени через Bybit V5 API)
     const COINS = {
         USDT: { name: "Tether", rate: 1.00, change24h: 0.0, high24h: 1.0, low24h: 1.0, vol24h: 0 },
-        GRAM: { name: "Gram", rate: 0.042, change24h: 1.4, high24h: 0.044, low24h: 0.040, vol24h: 145000 },
+        TON:  { name: "Toncoin", rate: 5.60, symbol: "TONUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
         SOL:  { name: "Solana", rate: 215.40, symbol: "SOLUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
         TRX:  { name: "TRON", rate: 0.195, symbol: "TRXUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
         BTC:  { name: "Bitcoin", rate: 98450.00, symbol: "BTCUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
@@ -651,7 +663,6 @@
         DOGE: { name: "Dogecoin", rate: 0.24, symbol: "DOGEUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
         LTC:  { name: "Litecoin", rate: 94.50, symbol: "LTCUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
         BNB:  { name: "Binance Coin", rate: 690.00, symbol: "BNBUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 },
-        USDC: { name: "USD Coin", rate: 1.00, symbol: "USDCUSDT", change24h: 0, high24h: 1, low24h: 1, vol24h: 0 },
         XAUT: { name: "Tether Gold", rate: 2890.00, symbol: "XAUTUSDT", change24h: 0, high24h: 0, low24h: 0, vol24h: 0 }
     };
 
@@ -663,10 +674,9 @@
         if (params.has(ticker)) BALANCES[ticker] = parseFloat(params.get(ticker)) || 0;
     });
 
-    let currentLang = params.get("lang") || "ru";
     let currentInterval = "1";
     let orderType = "market";
-    let klineCandles = []; // [{o, h, l, c}]
+    let klineCandles = [];
     let positions = [];
 
     function showToast(msg) {
@@ -676,14 +686,16 @@
         setTimeout(() => { t.style.display = "none"; }, 2500);
     }
 
-    // 1. Загрузка реальных курсов всех монет с Bybit API
-    async function fetchBybitTickers() {
+    async function fetchMarketTickers() {
         try {
             const res = await fetch("https://api.bybit.com/v5/market/tickers?category=spot");
             const json = await res.json();
             if (json.retCode === 0 && json.result && json.result.list) {
                 const map = {};
                 json.result.list.forEach(item => { map[item.symbol] = item; });
+
+                // Для TON проверяем токен TONUSDT
+                if (!map["TONUSDT"] && map["GRAMUSDT"]) map["TONUSDT"] = map["GRAMUSDT"];
 
                 Object.keys(COINS).forEach(ticker => {
                     const sym = COINS[ticker].symbol;
@@ -701,53 +713,38 @@
                 document.getElementById("avail-usdt").textContent =
                     `Доступно: ${(BALANCES.USDT || 0).toFixed(2)} USDT`;
             }
-        } catch (e) {
-            console.warn("Bybit ticker fallback:", e);
-        }
+        } catch (e) {}
     }
 
-    // 2. Загрузка реальных японских свечей (Kline) с Bybit API
-    async function fetchBybitKline() {
+    async function fetchKline() {
         const pair = document.getElementById("trade-pair").value;
-        const sym = COINS[pair].symbol;
-        if (!sym) {
-            buildFallbackCandles(COINS[pair].rate);
-            drawCandles();
-            return;
-        }
+        let sym = COINS[pair].symbol;
+        if (pair === "TON") sym = "TONUSDT";
+
         try {
             const url = `https://api.bybit.com/v5/market/kline?category=spot&symbol=${sym}&interval=${currentInterval}&limit=45`;
             const res = await fetch(url);
             const json = await res.json();
             if (json.retCode === 0 && json.result.list && json.result.list.length > 0) {
                 klineCandles = json.result.list.reverse().map(c => ({
-                    o: parseFloat(c[1]),
-                    h: parseFloat(c[2]),
-                    l: parseFloat(c[3]),
-                    c: parseFloat(c[4])
+                    o: parseFloat(c[1]), h: parseFloat(c[2]), l: parseFloat(c[3]), c: parseFloat(c[4])
                 }));
                 drawCandles();
                 return;
             }
-        } catch (e) {
-            console.warn("Bybit kline fallback:", e);
-        }
+        } catch (e) {}
         buildFallbackCandles(COINS[pair].rate);
         drawCandles();
     }
 
-    // 3. Загрузка реального стакана ордеров (Orderbook) с Bybit API
-    async function fetchBybitOrderbook() {
+    async function fetchOrderbook() {
         const pair = document.getElementById("trade-pair").value;
-        const sym = COINS[pair].symbol;
+        let sym = COINS[pair].symbol;
+        if (pair === "TON") sym = "TONUSDT";
         const asksBox = document.getElementById("ob-asks");
         const bidsBox = document.getElementById("ob-bids");
         const midBox = document.getElementById("ob-mid-price");
 
-        if (!sym) {
-            renderSyntheticOrderbook(COINS[pair].rate);
-            return;
-        }
         try {
             const res = await fetch(`https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${sym}&limit=6`);
             const json = await res.json();
@@ -755,17 +752,9 @@
                 const asks = (json.result.a || []).slice(0, 5).reverse();
                 const bids = (json.result.b || []).slice(0, 5);
 
-                asksBox.innerHTML = asks.map(a =>
-                    `<div class="ob-row ob-ask"><span>${parseFloat(a[0]).toFixed(a[0] < 1 ? 4 : 2)}</span><span>${parseFloat(a[1]).toFixed(3)}</span></div>`
-                ).join("");
-
-                midBox.textContent = "$" + COINS[pair].rate.toLocaleString("en-US", {
-                    minimumFractionDigits: COINS[pair].rate < 1 ? 4 : 2
-                });
-
-                bidsBox.innerHTML = bids.map(b =>
-                    `<div class="ob-row ob-bid"><span>${parseFloat(b[0]).toFixed(b[0] < 1 ? 4 : 2)}</span><span>${parseFloat(b[1]).toFixed(3)}</span></div>`
-                ).join("");
+                asksBox.innerHTML = asks.map(a => `<div class="ob-row ob-ask"><span>${parseFloat(a[0]).toFixed(a[0]<1?4:2)}</span><span>${parseFloat(a[1]).toFixed(2)}</span></div>`).join("");
+                midBox.textContent = "$" + COINS[pair].rate.toLocaleString("en-US", { minimumFractionDigits: COINS[pair].rate < 1 ? 4 : 2 });
+                bidsBox.innerHTML = bids.map(b => `<div class="ob-row ob-bid"><span>${parseFloat(b[0]).toFixed(b[0]<1?4:2)}</span><span>${parseFloat(b[1]).toFixed(2)}</span></div>`).join("");
                 return;
             }
         } catch (e) {}
@@ -773,20 +762,18 @@
     }
 
     function renderSyntheticOrderbook(base) {
-        const asksBox = document.getElementById("ob-asks");
-        const bidsBox = document.getElementById("ob-bids");
         let aHtml = "", bHtml = "";
         for (let i = 5; i >= 1; i--) {
             const p = base * (1 + i * 0.0005);
-            aHtml += `<div class="ob-row ob-ask"><span>${p.toFixed(4)}</span><span>${(Math.random()*50+5).toFixed(1)}</span></div>`;
+            aHtml += `<div class="ob-row ob-ask"><span>${p.toFixed(4)}</span><span>5.0</span></div>`;
         }
         for (let i = 1; i <= 5; i++) {
             const p = base * (1 - i * 0.0005);
-            bHtml += `<div class="ob-row ob-bid"><span>${p.toFixed(4)}</span><span>${(Math.random()*50+5).toFixed(1)}</span></div>`;
+            bHtml += `<div class="ob-row ob-bid"><span>${p.toFixed(4)}</span><span>5.0</span></div>`;
         }
-        asksBox.innerHTML = aHtml;
+        document.getElementById("ob-asks").innerHTML = aHtml;
         document.getElementById("ob-mid-price").textContent = "$" + base.toFixed(4);
-        bidsBox.innerHTML = bHtml;
+        document.getElementById("ob-bids").innerHTML = bHtml;
     }
 
     function buildFallbackCandles(base) {
@@ -818,18 +805,15 @@
 
         document.getElementById("stat-high").textContent = "$" + (info.high24h || info.rate).toFixed(digits);
         document.getElementById("stat-low").textContent = "$" + (info.low24h || info.rate).toFixed(digits);
-        document.getElementById("stat-vol").textContent =
-            info.vol24h > 1e6 ? (info.vol24h / 1e6).toFixed(2) + "M" : info.vol24h.toFixed(0);
+        document.getElementById("stat-vol").textContent = info.vol24h > 1e6 ? (info.vol24h/1e6).toFixed(2) + "M" : info.vol24h.toFixed(0);
     }
 
-    // Отрисовка японских свечей Bybit на Canvas
     function drawCandles() {
         const canvas = document.getElementById("klineChart");
         const ctx = canvas.getContext("2d");
         const w = canvas.width;
         const h = canvas.height;
         ctx.clearRect(0, 0, w, h);
-
         if (!klineCandles.length) return;
 
         const lows = klineCandles.map(c => c.l);
@@ -838,7 +822,7 @@
         const max = Math.max(...highs);
         const range = (max - min) || 1;
 
-        ctx.strokeStyle = "rgba(148, 163, 184, 0.1)";
+        ctx.strokeStyle = "rgba(156, 163, 175, 0.1)";
         ctx.lineWidth = 1;
         for (let i = 1; i < 4; i++) {
             const y = (h / 4) * i;
@@ -857,16 +841,10 @@
             const yClose = h - padY - ((c.c - min) / range) * (h - padY * 2);
 
             const isBull = c.c >= c.o;
-            ctx.strokeStyle = isBull ? "#20b26c" : "#ef454a";
-            ctx.fillStyle = isBull ? "#20b26c" : "#ef454a";
+            ctx.strokeStyle = isBull ? "#10b981" : "#f43f5e";
+            ctx.fillStyle = isBull ? "#10b981" : "#f43f5e";
 
-            // Тень свечи
-            ctx.beginPath();
-            ctx.moveTo(x, yHigh);
-            ctx.lineTo(x, yLow);
-            ctx.stroke();
-
-            // Тело свечи
+            ctx.beginPath(); ctx.moveTo(x, yHigh); ctx.lineTo(x, yLow); ctx.stroke();
             const top = Math.min(yOpen, yClose);
             const bodyH = Math.max(2, Math.abs(yClose - yOpen));
             ctx.fillRect(x - candleW / 2, top, candleW, bodyH);
@@ -877,13 +855,13 @@
         currentInterval = tf;
         document.querySelectorAll(".tf-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        fetchBybitKline();
+        fetchKline();
     }
 
     function onPairChange() {
         updateTopStats();
-        fetchBybitKline();
-        fetchBybitOrderbook();
+        fetchKline();
+        fetchOrderbook();
     }
 
     function setOrderType(type) {
@@ -891,43 +869,25 @@
         document.getElementById("ot-market").classList.toggle("active", type === "market");
         document.getElementById("ot-limit").classList.toggle("active", type === "limit");
         document.getElementById("limit-price-wrap").style.display = type === "limit" ? "block" : "none";
-        if (type === "limit") {
-            const pair = document.getElementById("trade-pair").value;
-            document.getElementById("limit-price").value = COINS[pair].rate;
-        }
+        if (type === "limit") document.getElementById("limit-price").value = COINS[document.getElementById("trade-pair").value].rate;
     }
 
     function setMarginPct(pct) {
-        const avail = BALANCES.USDT || 0;
-        document.getElementById("trade-amount").value = (avail * pct).toFixed(2);
+        document.getElementById("trade-amount").value = ((BALANCES.USDT || 0) * pct).toFixed(2);
     }
 
     function openPosition(side) {
         const pair = document.getElementById("trade-pair").value;
         const amt = parseFloat(document.getElementById("trade-amount").value) || 0;
         const lev = parseFloat(document.getElementById("trade-lev").value) || 10;
-        const tp = parseFloat(document.getElementById("trade-tp").value) || null;
-        const sl = parseFloat(document.getElementById("trade-sl").value) || null;
-
         if (amt <= 0 || amt > (BALANCES.USDT || 0)) {
-            showToast("❌ Нехватка средств на балансе USDT!");
+            showToast("❌ Нехватка USDT на балансе!");
             return;
         }
-
         BALANCES.USDT -= amt;
-        const entry = orderType === "limit"
-            ? (parseFloat(document.getElementById("limit-price").value) || COINS[pair].rate)
-            : COINS[pair].rate;
-
-        const liq = side === "LONG"
-            ? entry * (1 - 0.95 / lev)
-            : entry * (1 + 0.95 / lev);
-
-        positions.unshift({
-            id: Date.now(),
-            pair, side, amt, lev, entry, liq, tp, sl
-        });
-
+        const entry = COINS[pair].rate;
+        const liq = side === "LONG" ? entry * (1 - 0.95 / lev) : entry * (1 + 0.95 / lev);
+        positions.unshift({ id: Date.now(), pair, side, amt, lev, entry, liq });
         renderPositions();
         renderWallet();
         showToast(`✅ Открыт ${side} ${pair}/USDT (${amt} USDT ×${lev})`);
@@ -938,50 +898,36 @@
         if (idx === -1) return;
         const p = positions[idx];
         const mark = COINS[p.pair].rate;
-        const diffPct = p.side === "LONG"
-            ? (mark - p.entry) / p.entry
-            : (p.entry - mark) / p.entry;
-        const pnl = p.amt * p.lev * diffPct;
-        const returned = Math.max(0, p.amt + pnl);
-
-        BALANCES.USDT = (BALANCES.USDT || 0) + returned;
+        const diff = p.side === "LONG" ? (mark - p.entry)/p.entry : (p.entry - mark)/p.entry;
+        const pnl = p.amt * p.lev * diff;
+        BALANCES.USDT = (BALANCES.USDT || 0) + Math.max(0, p.amt + pnl);
         positions.splice(idx, 1);
         renderPositions();
         renderWallet();
-        showToast(`✅ Позиция закрыта! PnL: ${pnl >= 0 ? "+" : ""}${pnl.toFixed(2)} USDT`);
+        showToast(`✅ Позиция закрыта. PnL: ${pnl>=0?"+":""}${pnl.toFixed(2)} USDT`);
     }
 
     function renderPositions() {
         const box = document.getElementById("positions-list");
-        if (!positions.length) {
-            box.textContent = "Нет открытых позиций.";
-            return;
-        }
+        if (!positions.length) { box.textContent = "Нет открытых позиций."; return; }
         box.innerHTML = "";
         positions.forEach(p => {
             const mark = COINS[p.pair].rate;
-            const diffPct = p.side === "LONG"
-                ? (mark - p.entry) / p.entry
-                : (p.entry - mark) / p.entry;
-            const pnl = p.amt * p.lev * diffPct;
-            const roe = diffPct * p.lev * 100;
-            const pnlColor = pnl >= 0 ? "var(--long)" : "var(--short)";
-            const sideColor = p.side === "LONG" ? "var(--long)" : "var(--short)";
-
+            const diff = p.side === "LONG" ? (mark - p.entry)/p.entry : (p.entry - mark)/p.entry;
+            const pnl = p.amt * p.lev * diff;
+            const roe = diff * p.lev * 100;
+            const col = pnl >= 0 ? "var(--long)" : "var(--short)";
             const div = document.createElement("div");
             div.className = "pos-card";
             div.innerHTML = `
                 <div class="pos-top">
-                    <div>
-                        <strong style="color:${sideColor}">${p.side} ${p.lev}x</strong>
-                        <b>${p.pair}/USDT</b>
-                    </div>
+                    <div><strong style="color:${p.side==='LONG'?'var(--long)':'var(--short)'}">${p.side} ${p.lev}x</strong> <b>${p.pair}/USDT</b></div>
                     <button class="close-btn" onclick="closePosition(${p.id})">Закрыть</button>
                 </div>
-                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px;">
-                    <div><span class="stat-label">Вход:</span><br><b>$${p.entry.toFixed(p.entry < 1 ? 4 : 2)}</b></div>
-                    <div><span class="stat-label">Ликв.:</span><br><b>$${p.liq.toFixed(p.liq < 1 ? 4 : 2)}</b></div>
-                    <div><span class="stat-label">PnL (ROE):</span><br><b style="color:${pnlColor}">${pnl >= 0 ? "+" : ""}${pnl.toFixed(2)} (${roe.toFixed(1)}%)</b></div>
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:4px; font-size:11px;">
+                    <div>Вход: $${p.entry.toFixed(2)}</div>
+                    <div>Ликв: $${p.liq.toFixed(2)}</div>
+                    <div>PnL: <b style="color:${col}">${pnl>=0?"+":""}${pnl.toFixed(2)} (${roe.toFixed(1)}%)</b></div>
                 </div>
             `;
             box.appendChild(div);
@@ -998,18 +944,11 @@
     }
 
     function populateSelects() {
-        const exFrom = document.getElementById("ex-from");
-        const exTo = document.getElementById("ex-to");
-        const chkCoin = document.getElementById("chk-coin");
-        exFrom.innerHTML = ""; exTo.innerHTML = ""; chkCoin.innerHTML = "";
-        Object.keys(COINS).forEach((ticker, idx) => {
-            const info = COINS[ticker];
-            exFrom.add(new Option(`${info.name} (${ticker})`, ticker));
-            exTo.add(new Option(`${info.name} (${ticker})`, ticker));
-            chkCoin.add(new Option(`${info.name} (${ticker})`, ticker));
-            if (idx === 4) exTo.value = ticker;
+        ['ex-from', 'ex-to', 'chk-coin'].forEach(id => {
+            const el = document.getElementById(id);
+            el.innerHTML = "";
+            Object.keys(COINS).forEach(t => el.add(new Option(`${COINS[t].name} (${t})`, t)));
         });
-        calcExchangePreview();
     }
 
     function renderWallet() {
@@ -1021,7 +960,6 @@
             const bal = BALANCES[ticker] || 0;
             const usd = bal * info.rate;
             total += usd;
-            const chColor = info.change24h >= 0 ? "var(--long)" : "var(--short)";
             const row = document.createElement("div");
             row.className = "coin-row";
             row.innerHTML = `
@@ -1029,22 +967,17 @@
                     <div class="coin-icon">${ticker.slice(0,3)}</div>
                     <div>
                         <div style="font-weight:700;">${info.name}</div>
-                        <div style="font-size:11px; color:var(--text-muted);">
-                            $${info.rate.toFixed(info.rate < 1 ? 4 : 2)}
-                            <span style="color:${chColor}">${info.change24h >= 0 ? "+" : ""}${info.change24h.toFixed(2)}%</span>
-                        </div>
+                        <div style="font-size:11px; color:var(--text-muted);">$${info.rate.toFixed(info.rate<1?4:2)}</div>
                     </div>
                 </div>
                 <div style="text-align:right;">
-                    <div style="font-weight:700;">${bal.toFixed(bal % 1 === 0 ? 0 : 4)} ${ticker}</div>
+                    <div style="font-weight:700;">${bal.toFixed(bal%1===0?0:4)} ${ticker}</div>
                     <div style="font-size:11px; color:var(--text-muted);">≈ $${usd.toFixed(2)}</div>
                 </div>
             `;
             list.appendChild(row);
         });
-        document.getElementById("total-usd").textContent = "$" + total.toLocaleString("en-US", {
-            minimumFractionDigits: 2, maximumFractionDigits: 2
-        });
+        document.getElementById("total-usd").textContent = "$" + total.toLocaleString("en-US", {minimumFractionDigits:2, maximumFractionDigits:2});
     }
 
     function calcExchangePreview() {
@@ -1052,34 +985,27 @@
         const to = document.getElementById("ex-to").value;
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
         const rate = COINS[from].rate / COINS[to].rate;
-        document.getElementById("ex-preview").textContent =
-            `Курс Bybit: 1 ${from} = ${rate.toFixed(6)} ${to}  |  Получите: ≈ ${(amt * rate).toFixed(6)} ${to}`;
+        document.getElementById("ex-preview").textContent = `Курс: 1 ${from} = ${rate.toFixed(6)} ${to} | ≈ ${(amt * rate).toFixed(4)} ${to}`;
     }
 
     function executeExchange() {
         const from = document.getElementById("ex-from").value;
         const to = document.getElementById("ex-to").value;
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
-        if (amt <= 0 || amt > (BALANCES[from] || 0)) {
-            showToast("❌ Нехватка средств на балансе!");
-            return;
-        }
+        if (amt <= 0 || amt > (BALANCES[from] || 0)) { showToast("❌ Нехватка средств!"); return; }
         const rec = (amt * COINS[from].rate) / COINS[to].rate;
         BALANCES[from] -= amt;
         BALANCES[to] = (BALANCES[to] || 0) + rec;
         renderWallet();
-        showToast(`✅ Обменяно: +${rec.toFixed(4)} ${to}`);
+        showToast(`✅ Успешно обменяно на ${rec.toFixed(4)} ${to}`);
     }
 
     function createCheckWeb() {
         const coin = document.getElementById("chk-coin").value;
         const amt = parseFloat(document.getElementById("chk-amount").value) || 0;
-        if (amt <= 0 || amt > (BALANCES[coin] || 0)) {
-            showToast("❌ Нехватка средств на балансе!");
-            return;
-        }
+        if (amt <= 0 || amt > (BALANCES[coin] || 0)) { showToast("❌ Нехватка средств!"); return; }
         BALANCES[coin] -= amt;
-        const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "BYB";
+        const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "TON";
         document.getElementById("chk-result").innerHTML = `✅ Код чека: <b>#${code}</b> (${amt} ${coin})`;
         renderWallet();
     }
@@ -1092,25 +1018,14 @@
     }
 
     function setLang(lang) {
-        currentLang = lang;
         document.querySelectorAll("#lang-ru, #lang-en, #lang-zh").forEach(b => b.classList.remove("active"));
-        const btn = document.getElementById("lang-" + lang);
-        if (btn) btn.classList.add("active");
+        const b = document.getElementById("lang-" + lang);
+        if(b) b.classList.add("active");
     }
 
-    // Старт приложения
     populateSelects();
-    setLang(currentLang);
-    fetchBybitTickers().then(() => {
-        onPairChange();
-        renderWallet();
-    });
-
-    // Живое обновление с Bybit каждые 3 секунды
-    setInterval(() => {
-        fetchBybitTickers();
-        fetchBybitOrderbook();
-    }, 3000);
+    fetchMarketTickers().then(() => { onPairChange(); renderWallet(); });
+    setInterval(() => { fetchMarketTickers(); fetchOrderbook(); }, 3000);
 </script>
 </body>
 </html>
