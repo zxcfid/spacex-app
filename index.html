@@ -405,6 +405,24 @@
             background: rgba(255,255,255,0.12);
             top: -40px;
             right: -30px;
+            pointer-events: none;
+        }
+        .hero-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .hero-btn {
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.28);
+            background: rgba(255,255,255,0.16);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
         }
 
         .asset-row {
@@ -693,8 +711,25 @@
     <div id="tab-wallet" class="tab-section">
         <div class="wallet-hero">
             <div style="font-size:12px; opacity:0.85; font-weight:600;" data-i18n="lblTotalBalance">Общий баланс портфеля</div>
-            <div style="font-size:34px; font-weight:900; margin:6px 0 4px; letter-spacing:-1px;" id="total-usd">$0.00</div>
+            <div style="font-size:32px; font-weight:900; margin:6px 0 4px; letter-spacing:-0.8px; word-break:break-all;" id="total-usd">$0.00</div>
+            <div class="hero-actions">
+                <button class="hero-btn" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnDeposit">➕ Пополнить</button>
+                <button class="hero-btn" onclick="toggleWithdrawBox()" data-i18n="btnWithdraw">📤 Вывести</button>
+            </div>
         </div>
+
+        <!-- Форма вывода в Кошельке -->
+        <div class="glass-panel" id="withdraw-panel" style="display:none;">
+            <h3 style="font-size:15px; margin-bottom:8px;" data-i18n="lblWdTitle">📤 Вывод средств</h3>
+            <label data-i18n="lblChkCoin">Выберите валюту:</label>
+            <select id="wd-coin"></select>
+            <label data-i18n="lblWdAddr">Адрес кошелька / Карта:</label>
+            <input type="text" id="wd-address" placeholder="UQ... / 0x... / Карта">
+            <label data-i18n="lblChkAmt">Введите сумму:</label>
+            <input type="number" id="wd-amount" placeholder="0.00">
+            <button class="btn-main" onclick="executeWithdrawWeb()" data-i18n="btnConfirmWd">Подтвердить вывод</button>
+        </div>
+
         <div class="glass-panel" id="wallet-list"></div>
     </div>
 
@@ -777,7 +812,6 @@
 
 </div>
 
-<!-- НИЖНИЙ ДОК С ВЕКТОРНЫМИ ИКОНКАМИ -->
 <nav class="bottom-dock">
     <button class="dock-btn" onclick="switchTab('wallet', this)">
         <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M16 12h2"/></svg>
@@ -824,6 +858,11 @@
             lblMyMemes: "Мои мем-активы:",
             noMemes: "У вас пока нет купленных мем-коинов.",
             lblTotalBalance: "Общий баланс портфеля",
+            btnDeposit: "➕ Пополнить",
+            btnWithdraw: "📤 Вывести",
+            lblWdTitle: "📤 Вывод средств",
+            lblWdAddr: "Адрес кошелька / Карта:",
+            btnConfirmWd: "Подтвердить вывод",
             lblExTitle: "Мгновенный обмен валют",
             lblExFrom: "Отдаете:",
             lblExTo: "Получаете:",
@@ -865,6 +904,11 @@
             lblMyMemes: "My Meme Assets:",
             noMemes: "No meme coins bought yet.",
             lblTotalBalance: "Total Portfolio Balance",
+            btnDeposit: "➕ Deposit",
+            btnWithdraw: "📤 Withdraw",
+            lblWdTitle: "📤 Withdraw Funds",
+            lblWdAddr: "Wallet Address / Card:",
+            btnConfirmWd: "Confirm Withdraw",
             lblExTitle: "Instant Currency Swap",
             lblExFrom: "You send:",
             lblExTo: "You receive:",
@@ -906,6 +950,11 @@
             lblMyMemes: "我的迷因资产：",
             noMemes: "暂未购买迷因币。",
             lblTotalBalance: "总资产估值",
+            btnDeposit: "➕ 充值",
+            btnWithdraw: "📤 提现",
+            lblWdTitle: "📤 提现资产",
+            lblWdAddr: "钱包地址 / 银行卡：",
+            btnConfirmWd: "确认提现",
             lblExTitle: "闪电兑换",
             lblExFrom: "支付币种：",
             lblExTo: "获得币种：",
@@ -935,6 +984,14 @@
             searchPlaceholder: "🔍 搜索迷因币..."
         }
     };
+
+    function formatUnlimitedNumber(num, maxDec = 4) {
+        if (!isFinite(num)) return "0";
+        return Number(num).toLocaleString("en-US", {
+            minimumFractionDigits: num % 1 === 0 ? 0 : 2,
+            maximumFractionDigits: maxDec
+        });
+    }
 
     function makeSvgAvatar(ticker, emoji, idx = 0) {
         const palettes = [
@@ -1090,6 +1147,32 @@
         const ctx = canvas.getContext("2d");
         ctx.scale(dpr, dpr);
         return { ctx, w, h };
+    }
+
+    function toggleWithdrawBox() {
+        const panel = document.getElementById("withdraw-panel");
+        panel.style.display = panel.style.display === "none" ? "block" : "none";
+    }
+
+    function executeWithdrawWeb() {
+        const coin = document.getElementById("wd-coin").value;
+        const addr = document.getElementById("wd-address").value.trim();
+        const amt = parseFloat(document.getElementById("wd-amount").value) || 0;
+        const d = I18N[currentLang] || I18N.ru;
+
+        if (!addr || addr.length < 4) {
+            showToast("⚠️ Введите корректный адрес или карту!");
+            return;
+        }
+        if (amt <= 0 || amt > (BALANCES[coin] || 0)) {
+            showToast("❌ " + d.noFunds);
+            return;
+        }
+        BALANCES[coin] -= amt;
+        document.getElementById("wd-amount").value = "";
+        document.getElementById("withdraw-panel").style.display = "none";
+        renderWallet();
+        showToast(`✅ Заявка на вывод ${formatUnlimitedNumber(amt)} ${coin} создана!`);
     }
 
     function renderFuturesCarousel() {
@@ -1312,7 +1395,7 @@
         onMemeChange();
         renderMemeHoldings();
         renderWallet();
-        showToast(`💰 +${payoutUsdt.toFixed(2)} USDT!`);
+        showToast(`💰 +${formatUnlimitedNumber(payoutUsdt, 2)} USDT!`);
     }
 
     function sellSelectedMeme() {
@@ -1357,7 +1440,7 @@
                     <button class="small-action-btn" onclick="sellMemeByTicker('${ticker}')">${d.sellBtn}</button>
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-secondary);">
-                    <span>$${h.investedUsdt.toFixed(2)} ➔ <b style="color:var(--up);">$${currentVal.toFixed(2)}</b></span>
+                    <span>$${formatUnlimitedNumber(h.investedUsdt, 2)} ➔ <b style="color:var(--up);">$${formatUnlimitedNumber(currentVal, 2)}</b></span>
                     <span>⏳ ${remHours}h</span>
                 </div>
             `;
@@ -1365,7 +1448,6 @@
         });
     }
 
-    // ================= ФЬЮЧЕРСЫ И КОТИРОВКИ =================
     async function fetchMarketTickers() {
         try {
             const res = await fetch("https://api.bybit.com/v5/market/tickers?category=spot");
@@ -1512,7 +1594,7 @@
         updateHeaderUsdt();
         renderPositions();
         renderWallet();
-        showToast(`✅ ${side} ${pair}/USDT (${amt} USDT ×${lev})`);
+        showToast(`✅ ${side} ${pair}/USDT (${formatUnlimitedNumber(amt, 2)} USDT ×${lev})`);
     }
 
     function closePosition(id) {
@@ -1527,7 +1609,7 @@
         updateHeaderUsdt();
         renderPositions();
         renderWallet();
-        showToast(`✅ PnL: ${pnl>=0?"+":""}${pnl.toFixed(2)} USDT`);
+        showToast(`✅ PnL: ${pnl>=0?"+":""}${formatUnlimitedNumber(pnl, 2)} USDT`);
     }
 
     function renderPositions() {
@@ -1554,7 +1636,7 @@
                     <button class="small-action-btn" onclick="closePosition(${p.id})">${d.closeBtn}</button>
                 </div>
                 <div style="margin-top:4px; font-size:11px;">
-                    PnL: <b style="color:${pnl>=0?'var(--up)':'var(--down)'}">${pnl>=0?'+':''}${pnl.toFixed(2)} USDT</b>
+                    PnL: <b style="color:${pnl>=0?'var(--up)':'var(--down)'}">${pnl>=0?'+':''}${formatUnlimitedNumber(pnl, 2)} USDT</b>
                 </div>
             `;
             box.appendChild(div);
@@ -1562,7 +1644,7 @@
     }
 
     function updateHeaderUsdt() {
-        document.getElementById("hdr-usdt").textContent = `${(BALANCES.USDT || 0).toFixed(2)} USDT`;
+        document.getElementById("hdr-usdt").textContent = `${formatUnlimitedNumber(BALANCES.USDT || 0, 2)} USDT`;
     }
 
     function renderWallet() {
@@ -1587,8 +1669,8 @@
                     </div>
                 </div>
                 <div style="text-align:right;">
-                    <div style="font-weight:800; font-size:14px;">${bal.toFixed(bal%1===0?0:4)} ${ticker}</div>
-                    <div style="font-size:11px; color:var(--text-secondary);">≈ $${usd.toFixed(2)}</div>
+                    <div style="font-weight:800; font-size:14px;">${formatUnlimitedNumber(bal, 6)} ${ticker}</div>
+                    <div style="font-size:11px; color:var(--text-secondary);">≈ $${formatUnlimitedNumber(usd, 2)}</div>
                 </div>
             `;
             list.appendChild(row);
@@ -1599,15 +1681,14 @@
             total += h.tokens * getMemeLivePrice(ticker);
         });
 
-        document.getElementById("total-usd").textContent = "$" + total.toLocaleString("en-US", {
-            minimumFractionDigits: 2, maximumFractionDigits: 2
-        });
+        document.getElementById("total-usd").textContent = "$" + formatUnlimitedNumber(total, 2);
         updateHeaderUsdt();
     }
 
     function populateSelects() {
-        ['ex-from', 'ex-to', 'chk-coin'].forEach((id, idx) => {
+        ['ex-from', 'ex-to', 'chk-coin', 'wd-coin'].forEach((id, idx) => {
             const el = document.getElementById(id);
+            if (!el) return;
             el.innerHTML = "";
             Object.keys(COINS).forEach(t => el.add(new Option(`${COINS[t].name} (${t})`, t)));
             if (idx === 1) el.value = "GRAM";
@@ -1629,7 +1710,7 @@
         const to = document.getElementById("ex-to").value;
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
         const rate = COINS[from].rate / COINS[to].rate;
-        document.getElementById("ex-preview").textContent = `1 ${from} = ${rate.toFixed(6)} ${to}  ➔  ≈ ${(amt * rate).toFixed(4)} ${to}`;
+        document.getElementById("ex-preview").textContent = `1 ${from} = ${rate.toFixed(6)} ${to}  ➔  ≈ ${formatUnlimitedNumber(amt * rate, 6)} ${to}`;
     }
 
     function executeExchange() {
@@ -1642,7 +1723,7 @@
         BALANCES[from] -= amt;
         BALANCES[to] = (BALANCES[to] || 0) + rec;
         renderWallet();
-        showToast(`✅ +${rec.toFixed(4)} ${to}`);
+        showToast(`✅ +${formatUnlimitedNumber(rec, 6)} ${to}`);
     }
 
     function createCheckWeb() {
@@ -1652,7 +1733,7 @@
         if (amt <= 0 || amt > (BALANCES[coin] || 0)) { showToast("❌ " + d.noFunds); return; }
         BALANCES[coin] -= amt;
         const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "SPX";
-        document.getElementById("chk-result").innerHTML = `✅ <b>#${code}</b> (${amt} ${coin})`;
+        document.getElementById("chk-result").innerHTML = `✅ <b>#${code}</b> (${formatUnlimitedNumber(amt, 6)} ${coin})`;
         renderWallet();
     }
 
