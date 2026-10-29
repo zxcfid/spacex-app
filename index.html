@@ -1424,8 +1424,6 @@
             const livePrice = getMemeLivePrice(ticker);
             const currentVal = h.tokens * livePrice;
             const mult = getMemeMultiplier(ticker);
-            const remMs = Math.max(0, TEN_HOURS_MS - (Date.now() - h.buyTime));
-            const remHours = (remMs / 3600000).toFixed(1);
             const logoSrc = m ? m.logo : "";
 
             const card = document.createElement("div");
@@ -1441,7 +1439,6 @@
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-secondary);">
                     <span>$${formatUnlimitedNumber(h.investedUsdt, 2)} ➔ <b style="color:var(--up);">$${formatUnlimitedNumber(currentVal, 2)}</b></span>
-                    <span>⏳ ${remHours}h</span>
                 </div>
             `;
             box.appendChild(card);
