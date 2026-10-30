@@ -6,56 +6,157 @@
     <title>SpaceX Crypto</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* 1. Тёмная (Obsidian) */
         :root[data-theme="dark"] {
-            --bg-base: #06080f;
-            --bg-mesh-1: rgba(0, 152, 234, 0.18);
-            --bg-mesh-2: rgba(99, 102, 241, 0.16);
-            --surface: rgba(17, 22, 35, 0.72);
-            --surface-elevated: rgba(27, 34, 52, 0.85);
-            --surface-input: rgba(255, 255, 255, 0.045);
+            --bg-base: #04060d;
+            --aurora-1: rgba(0, 210, 255, 0.16);
+            --aurora-2: rgba(124, 58, 237, 0.16);
+            --aurora-3: rgba(16, 185, 129, 0.10);
+            --card-bg: rgba(15, 20, 34, 0.72);
+            --card-elevated: rgba(24, 32, 54, 0.88);
+            --input-bg: rgba(255, 255, 255, 0.05);
             --border: rgba(255, 255, 255, 0.08);
-            --border-highlight: rgba(255, 255, 255, 0.16);
-            --text-primary: #f8fafc;
-            --text-secondary: #8b9bb4;
-            --accent: #0098ea;
-            --accent-grad: linear-gradient(135deg, #0098ea 0%, #6366f1 100%);
-            --up: #00d68f;
+            --border-glow: rgba(0, 210, 255, 0.35);
+            --text-main: #f8fafc;
+            --text-muted: #8e9bb0;
+            --accent: #00d2ff;
+            --accent-grad: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 50%, #7c3aed 100%);
+            --up: #00e699;
             --down: #ff3b69;
         }
 
+        /* 2. Светлая (Daylight) */
         :root[data-theme="light"] {
-            --bg-base: #f2f5fa;
-            --bg-mesh-1: rgba(0, 152, 234, 0.12);
-            --bg-mesh-2: rgba(99, 102, 241, 0.10);
-            --surface: rgba(255, 255, 255, 0.82);
-            --surface-elevated: rgba(255, 255, 255, 0.96);
-            --surface-input: rgba(15, 23, 42, 0.045);
-            --border: rgba(15, 23, 42, 0.07);
-            --border-highlight: rgba(0, 152, 234, 0.3);
-            --text-primary: #0b1120;
-            --text-secondary: #64748b;
-            --accent: #0088d1;
-            --accent-grad: linear-gradient(135deg, #0088d1 0%, #4f46e5 100%);
+            --bg-base: #f0f4f9;
+            --aurora-1: rgba(0, 152, 234, 0.14);
+            --aurora-2: rgba(99, 102, 241, 0.12);
+            --aurora-3: rgba(16, 185, 129, 0.08);
+            --card-bg: rgba(255, 255, 255, 0.86);
+            --card-elevated: rgba(255, 255, 255, 0.98);
+            --input-bg: rgba(15, 23, 42, 0.045);
+            --border: rgba(15, 23, 42, 0.08);
+            --border-glow: rgba(0, 136, 209, 0.35);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #0284c7;
+            --accent-grad: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
             --up: #059669;
             --down: #e11d48;
         }
 
+        /* 3. Розовая (Sakura Neon) */
         :root[data-theme="pink"] {
-            --bg-base: #11040c;
-            --bg-mesh-1: rgba(236, 72, 153, 0.22);
-            --bg-mesh-2: rgba(168, 85, 247, 0.18);
-            --surface: rgba(36, 10, 28, 0.72);
-            --surface-elevated: rgba(54, 15, 42, 0.88);
-            --surface-input: rgba(255, 255, 255, 0.06);
-            --border: rgba(244, 114, 182, 0.15);
-            --border-highlight: rgba(244, 114, 182, 0.35);
-            --text-primary: #fdf2f8;
-            --text-secondary: #f472b6;
+            --bg-base: #0f030b;
+            --aurora-1: rgba(244, 63, 94, 0.22);
+            --aurora-2: rgba(217, 70, 239, 0.18);
+            --aurora-3: rgba(139, 92, 246, 0.12);
+            --card-bg: rgba(34, 9, 27, 0.72);
+            --card-elevated: rgba(52, 14, 41, 0.88);
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --border: rgba(244, 114, 182, 0.16);
+            --border-glow: rgba(236, 72, 153, 0.45);
+            --text-main: #fdf2f8;
+            --text-muted: #f472b6;
             --accent: #ec4899;
             --accent-grad: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
-            --up: #00d68f;
+            --up: #00e699;
+            --down: #ff3b69;
+        }
+
+        /* 4. Фиолетовая (Cyber Purple) */
+        :root[data-theme="purple"] {
+            --bg-base: #090414;
+            --aurora-1: rgba(168, 85, 247, 0.24);
+            --aurora-2: rgba(99, 102, 241, 0.18);
+            --aurora-3: rgba(236, 72, 153, 0.12);
+            --card-bg: rgba(23, 12, 46, 0.72);
+            --card-elevated: rgba(36, 18, 68, 0.90);
+            --input-bg: rgba(255, 255, 255, 0.055);
+            --border: rgba(168, 85, 247, 0.18);
+            --border-glow: rgba(168, 85, 247, 0.48);
+            --text-main: #f5f3ff;
+            --text-muted: #c4b5fd;
+            --accent: #a855f7;
+            --accent-grad: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            --up: #00e699;
+            --down: #ff3b69;
+        }
+
+        /* 5. Изумрудная (Emerald Matrix) */
+        :root[data-theme="emerald"] {
+            --bg-base: #020d08;
+            --aurora-1: rgba(16, 185, 129, 0.22);
+            --aurora-2: rgba(6, 182, 212, 0.14);
+            --aurora-3: rgba(34, 197, 94, 0.12);
+            --card-bg: rgba(8, 30, 22, 0.74);
+            --card-elevated: rgba(13, 46, 33, 0.90);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --border: rgba(16, 185, 129, 0.18);
+            --border-glow: rgba(16, 185, 129, 0.45);
+            --text-main: #ecfdf5;
+            --text-muted: #6ee7b7;
+            --accent: #10b981;
+            --accent-grad: linear-gradient(135deg, #10b981 0%, #059669 50%, #0d9488 100%);
+            --up: #00e699;
+            --down: #ff3b69;
+        }
+
+        /* 6. Золотая (Luxury Gold) */
+        :root[data-theme="gold"] {
+            --bg-base: #0c0904;
+            --aurora-1: rgba(245, 158, 11, 0.20);
+            --aurora-2: rgba(217, 119, 6, 0.15);
+            --aurora-3: rgba(251, 191, 36, 0.10);
+            --card-bg: rgba(28, 22, 12, 0.76);
+            --card-elevated: rgba(42, 32, 16, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055);
+            --border: rgba(245, 158, 11, 0.20);
+            --border-glow: rgba(245, 158, 11, 0.48);
+            --text-main: #fffbeb;
+            --text-muted: #fcd34d;
+            --accent: #f59e0b;
+            --accent-grad: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            --up: #00e699;
+            --down: #ff3b69;
+        }
+
+        /* 7. Океан (Ocean Breeze) */
+        :root[data-theme="ocean"] {
+            --bg-base: #020b14;
+            --aurora-1: rgba(6, 182, 212, 0.22);
+            --aurora-2: rgba(59, 130, 246, 0.18);
+            --aurora-3: rgba(20, 184, 166, 0.12);
+            --card-bg: rgba(8, 28, 46, 0.74);
+            --card-elevated: rgba(14, 42, 68, 0.90);
+            --input-bg: rgba(255, 255, 255, 0.055);
+            --border: rgba(6, 182, 212, 0.18);
+            --border-glow: rgba(6, 182, 212, 0.45);
+            --text-main: #ecfeff;
+            --text-muted: #67e8f9;
+            --accent: #06b6d4;
+            --accent-grad: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
+            --up: #00e699;
+            --down: #ff3b69;
+        }
+
+        /* 8. Закат (Crimson Sunset) */
+        :root[data-theme="crimson"] {
+            --bg-base: #120406;
+            --aurora-1: rgba(244, 63, 94, 0.22);
+            --aurora-2: rgba(249, 115, 22, 0.18);
+            --aurora-3: rgba(239, 68, 68, 0.12);
+            --card-bg: rgba(36, 12, 16, 0.75);
+            --card-elevated: rgba(54, 18, 24, 0.90);
+            --input-bg: rgba(255, 255, 255, 0.055);
+            --border: rgba(244, 63, 94, 0.18);
+            --border-glow: rgba(249, 115, 22, 0.45);
+            --text-main: #fff1f2;
+            --text-muted: #fda4af;
+            --accent: #f97316;
+            --accent-grad: linear-gradient(135deg, #f43f5e 0%, #f97316 100%);
+            --up: #00e699;
             --down: #ff3b69;
         }
 
@@ -64,32 +165,34 @@
             margin: 0;
             padding: 0;
             -webkit-tap-highlight-color: transparent;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         body {
             background-color: var(--bg-base);
             background-image:
-                radial-gradient(circle at 10% 10%, var(--bg-mesh-1) 0%, transparent 45%),
-                radial-gradient(circle at 90% 80%, var(--bg-mesh-2) 0%, transparent 50%);
+                radial-gradient(circle at 15% 15%, var(--aurora-1) 0%, transparent 42%),
+                radial-gradient(circle at 85% 25%, var(--aurora-2) 0%, transparent 45%),
+                radial-gradient(circle at 50% 85%, var(--aurora-3) 0%, transparent 50%);
             background-attachment: fixed;
-            color: var(--text-primary);
+            color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 98px;
+            padding-bottom: 104px;
             overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
         header {
             position: sticky;
             top: 0;
             z-index: 30;
-            padding: 12px 16px;
+            padding: 13px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--surface);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background: var(--card-bg);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
             border-bottom: 1px solid var(--border);
         }
 
@@ -99,41 +202,41 @@
             gap: 10px;
         }
         .brand-mark {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
             background: var(--accent-grad);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 900;
+            font-weight: 800;
             color: #fff;
-            font-size: 15px;
-            box-shadow: 0 4px 14px rgba(0, 152, 234, 0.35);
+            font-size: 16px;
+            box-shadow: 0 4px 16px var(--border-glow);
         }
         .brand-name {
             font-size: 15px;
             font-weight: 800;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.6px;
         }
 
         .balance-chip {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
+            gap: 7px;
+            padding: 6px 13px;
             border-radius: 999px;
-            background: var(--surface-input);
-            border: 1px solid var(--border-highlight);
+            background: var(--input-bg);
+            border: 1px solid var(--border-glow);
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
         }
         .balance-chip-dot {
             width: 7px;
             height: 7px;
             border-radius: 50%;
             background: var(--up);
-            box-shadow: 0 0 8px var(--up);
+            box-shadow: 0 0 10px var(--up);
         }
 
         .container {
@@ -142,29 +245,29 @@
             padding: 14px;
         }
 
-        .tab-section { display: none; animation: slideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .tab-section { display: none; animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1); }
         .tab-section.active { display: block; }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(6px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .glass-panel {
-            background: var(--surface);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background: var(--card-bg);
+            backdrop-filter: blur(28px) saturate(190%);
+            -webkit-backdrop-filter: blur(28px) saturate(190%);
             border: 1px solid var(--border);
-            border-radius: 22px;
+            border-radius: 24px;
             padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), inset 0 1px 0 var(--border-highlight);
+            margin-bottom: 13px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.12);
         }
 
         .mode-switch {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            background: var(--surface);
+            background: var(--card-bg);
             padding: 4px;
             border-radius: 16px;
             border: 1px solid var(--border);
@@ -175,7 +278,7 @@
             border: none;
             border-radius: 12px;
             background: transparent;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
@@ -184,7 +287,7 @@
         .mode-btn.active {
             background: var(--accent-grad);
             color: #fff;
-            box-shadow: 0 4px 15px rgba(0, 152, 234, 0.3);
+            box-shadow: 0 4px 16px var(--border-glow);
         }
 
         .coin-carousel {
@@ -201,11 +304,11 @@
             display: flex;
             align-items: center;
             gap: 7px;
-            padding: 7px 12px;
+            padding: 7px 13px;
             border-radius: 14px;
-            background: var(--surface-input);
+            background: var(--input-bg);
             border: 1px solid var(--border);
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
@@ -213,10 +316,10 @@
             transition: all 0.18s;
         }
         .coin-pill.active {
-            background: var(--surface-elevated);
-            color: var(--text-primary);
+            background: var(--card-elevated);
+            color: var(--text-main);
             border-color: var(--accent);
-            box-shadow: 0 4px 12px rgba(0, 152, 234, 0.2);
+            box-shadow: 0 4px 14px var(--border-glow);
         }
         .coin-pill img {
             width: 20px;
@@ -229,23 +332,24 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         .pair-title {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 11px;
         }
         .pair-avatar {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1px solid var(--border-highlight);
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
         .price-main {
             font-size: 26px;
-            font-weight: 900;
+            font-weight: 800;
             letter-spacing: -0.7px;
             line-height: 1.1;
         }
@@ -263,20 +367,20 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             padding: 10px 12px;
-            border-radius: 14px;
-            background: var(--surface-input);
+            border-radius: 15px;
+            background: var(--input-bg);
             border: 1px solid var(--border);
             margin-bottom: 10px;
             font-size: 11px;
         }
-        .mini-stats span { color: var(--text-secondary); display: block; font-size: 10px; }
+        .mini-stats span { color: var(--text-muted); display: block; font-size: 10px; }
         .mini-stats b { font-size: 12px; margin-top: 2px; display: block; }
 
         canvas {
             width: 100%;
             height: 195px;
             border-radius: 16px;
-            background: var(--surface-input);
+            background: var(--input-bg);
             border: 1px solid var(--border);
             display: block;
         }
@@ -288,11 +392,11 @@
         }
         .tf-pill {
             flex: 1;
-            padding: 6px;
-            border-radius: 9px;
+            padding: 7px;
+            border-radius: 10px;
             border: 1px solid var(--border);
-            background: var(--surface-input);
-            color: var(--text-secondary);
+            background: var(--input-bg);
+            color: var(--text-muted);
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
@@ -301,13 +405,14 @@
             background: var(--accent);
             color: #fff;
             border-color: transparent;
+            font-weight: 800;
         }
 
         label {
             display: block;
             font-size: 11px;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             margin: 8px 0 5px;
         }
 
@@ -316,8 +421,8 @@
             padding: 11px 13px;
             border-radius: 13px;
             border: 1px solid var(--border);
-            background: var(--surface-input);
-            color: var(--text-primary);
+            background: var(--input-bg);
+            color: var(--text-main);
             font-size: 14px;
             font-weight: 600;
             outline: none;
@@ -334,8 +439,8 @@
             padding: 6px;
             border-radius: 9px;
             border: 1px solid var(--border);
-            background: var(--surface-input);
-            color: var(--text-secondary);
+            background: var(--input-bg);
+            color: var(--text-muted);
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
@@ -363,8 +468,8 @@
             transition: transform 0.12s;
         }
         .btn-long {
-            background: linear-gradient(135deg, #00d68f 0%, #059669 100%);
-            box-shadow: 0 6px 18px rgba(0, 214, 143, 0.28);
+            background: linear-gradient(135deg, #00e699 0%, #059669 100%);
+            box-shadow: 0 6px 18px rgba(0, 230, 153, 0.28);
         }
         .btn-short {
             background: linear-gradient(135deg, #ff3b69 0%, #e11d48 100%);
@@ -383,40 +488,40 @@
             font-size: 14px;
             cursor: pointer;
             margin-top: 12px;
-            box-shadow: 0 6px 20px rgba(0, 152, 234, 0.32);
+            box-shadow: 0 6px 22px var(--border-glow);
         }
 
         .wallet-hero {
             background: var(--accent-grad);
-            border-radius: 22px;
-            padding: 20px 18px;
+            border-radius: 24px;
+            padding: 22px 18px;
             color: #fff;
             margin-bottom: 14px;
-            box-shadow: 0 12px 30px rgba(0, 152, 234, 0.32);
+            box-shadow: 0 14px 34px var(--border-glow);
             position: relative;
             overflow: hidden;
         }
         .wallet-hero::after {
             content: "";
             position: absolute;
-            width: 140px;
-            height: 140px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             background: rgba(255,255,255,0.12);
-            top: -40px;
-            right: -30px;
+            top: -45px;
+            right: -35px;
             pointer-events: none;
         }
         .hero-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-top: 14px;
+            margin-top: 16px;
         }
         .hero-btn {
-            padding: 10px 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.28);
+            padding: 11px 12px;
+            border-radius: 13px;
+            border: 1px solid rgba(255,255,255,0.3);
             background: rgba(255,255,255,0.16);
             backdrop-filter: blur(10px);
             color: #fff;
@@ -429,43 +534,44 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 11px 0;
+            padding: 12px 0;
             border-bottom: 1px solid var(--border);
         }
         .asset-row:last-child { border-bottom: none; }
 
         .swap-box {
-            background: var(--surface-input);
+            background: var(--input-bg);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 12px;
+            border-radius: 18px;
+            padding: 14px;
             position: relative;
         }
         .swap-divider {
             display: flex;
             justify-content: center;
-            margin: -10px 0;
+            margin: -12px 0;
             position: relative;
             z-index: 5;
         }
         .swap-flip-btn {
-            width: 34px;
-            height: 34px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            background: var(--surface-elevated);
-            border: 1px solid var(--border-highlight);
-            color: var(--text-primary);
-            font-size: 15px;
+            background: var(--card-elevated);
+            border: 1px solid var(--border-glow);
+            color: var(--text-main);
+            font-size: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
 
         .holding-item {
-            background: var(--surface-input);
+            background: var(--input-bg);
             border: 1px solid var(--border);
-            border-radius: 15px;
+            border-radius: 16px;
             padding: 12px;
             margin-top: 8px;
         }
@@ -488,16 +594,16 @@
             right: 12px;
             max-width: 480px;
             margin: 0 auto;
-            background: var(--surface-elevated);
+            background: var(--card-elevated);
             backdrop-filter: blur(28px) saturate(200%);
             -webkit-backdrop-filter: blur(28px) saturate(200%);
-            border: 1px solid var(--border-highlight);
-            border-radius: 22px;
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             padding: 6px 4px;
             z-index: 40;
-            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
         }
         .dock-btn {
             display: flex;
@@ -506,12 +612,12 @@
             gap: 4px;
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-size: 10px;
             font-weight: 700;
             cursor: pointer;
             padding: 6px 2px;
-            border-radius: 14px;
+            border-radius: 16px;
             transition: all 0.2s;
         }
         .dock-btn svg {
@@ -525,29 +631,46 @@
         }
         .dock-btn.active {
             color: var(--accent);
-            background: var(--surface-input);
+            background: var(--input-bg);
         }
 
-        .opt-grid {
+        .lang-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
             margin-top: 10px;
         }
         .opt-btn {
-            padding: 12px 6px;
-            border-radius: 13px;
+            padding: 13px 10px;
+            border-radius: 14px;
             border: 1px solid var(--border);
-            background: var(--surface-input);
-            color: var(--text-primary);
+            background: var(--input-bg);
+            color: var(--text-main);
             font-weight: 700;
-            font-size: 12px;
+            font-size: 13px;
             cursor: pointer;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.18s;
         }
         .opt-btn.active {
             border: 2px solid var(--accent);
-            background: rgba(0, 152, 234, 0.14);
+            background: var(--card-elevated);
+            box-shadow: 0 4px 14px var(--border-glow);
+        }
+        .swatch {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.35);
         }
 
         .toast {
@@ -555,10 +678,10 @@
             top: 16px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--surface-elevated);
+            background: var(--card-elevated);
             backdrop-filter: blur(20px);
             border: 1px solid var(--accent);
-            color: var(--text-primary);
+            color: var(--text-main);
             padding: 10px 18px;
             border-radius: 14px;
             font-weight: 700;
@@ -603,7 +726,7 @@
                         <img id="fut-coin-img" class="pair-avatar" src="" alt="coin">
                         <div>
                             <div id="fut-pair-name" style="font-size:16px; font-weight:800;">BTC / USDT</div>
-                            <div id="fut-coin-sub" style="font-size:11px; color:var(--text-secondary);">Bitcoin Perpetual</div>
+                            <div id="fut-coin-sub" style="font-size:11px; color:var(--text-muted);">Bitcoin Perpetual</div>
                         </div>
                     </div>
                     <div style="text-align:right;">
@@ -658,7 +781,7 @@
 
             <div class="glass-panel">
                 <div style="font-weight:800; font-size:13px; margin-bottom:6px;" data-i18n="lblOpenPositions">Открытые позиции:</div>
-                <div id="positions-list" style="font-size:12px; color:var(--text-secondary);">--</div>
+                <div id="positions-list" style="font-size:12px; color:var(--text-muted);">--</div>
             </div>
         </div>
 
@@ -702,7 +825,7 @@
 
             <div class="glass-panel">
                 <strong style="font-size:13px;" data-i18n="lblMyMemes">Мои мем-активы:</strong>
-                <div id="meme-holdings-list" style="margin-top:8px; font-size:12px; color:var(--text-secondary);"></div>
+                <div id="meme-holdings-list" style="margin-top:8px; font-size:12px; color:var(--text-muted);"></div>
             </div>
         </div>
     </div>
@@ -710,21 +833,20 @@
     <!-- ВКЛАДКА 2: КОШЕЛЁК -->
     <div id="tab-wallet" class="tab-section">
         <div class="wallet-hero">
-            <div style="font-size:12px; opacity:0.85; font-weight:600;" data-i18n="lblTotalBalance">Общий баланс портфеля</div>
-            <div style="font-size:32px; font-weight:900; margin:6px 0 4px; letter-spacing:-0.8px; word-break:break-all;" id="total-usd">$0.00</div>
+            <div style="font-size:12px; opacity:0.88; font-weight:600;" data-i18n="lblTotalBalance">Общий баланс портфеля</div>
+            <div style="font-size:32px; font-weight:800; margin:6px 0 4px; letter-spacing:-0.8px; word-break:break-all;" id="total-usd">$0.00</div>
             <div class="hero-actions">
                 <button class="hero-btn" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnDeposit">➕ Пополнить</button>
                 <button class="hero-btn" onclick="toggleWithdrawBox()" data-i18n="btnWithdraw">📤 Вывести</button>
             </div>
         </div>
 
-        <!-- Форма вывода в Кошельке -->
         <div class="glass-panel" id="withdraw-panel" style="display:none;">
             <h3 style="font-size:15px; margin-bottom:8px;" data-i18n="lblWdTitle">📤 Вывод средств</h3>
             <label data-i18n="lblChkCoin">Выберите валюту:</label>
             <select id="wd-coin"></select>
             <label data-i18n="lblWdAddr">Адрес кошелька / Карта:</label>
-            <input type="text" id="wd-address" placeholder="UQ... / 0x... / Карта">
+            <input type="text" id="wd-address" placeholder="UQ... / 0x... / Card">
             <label data-i18n="lblChkAmt">Введите сумму:</label>
             <input type="number" id="wd-amount" placeholder="0.00">
             <button class="btn-main" onclick="executeWithdrawWeb()" data-i18n="btnConfirmWd">Подтвердить вывод</button>
@@ -739,8 +861,11 @@
             <h3 style="margin-bottom:12px; font-size:16px;" data-i18n="lblExTitle">Мгновенный обмен валют</h3>
 
             <div class="swap-box">
-                <label style="margin-top:0;" data-i18n="lblExFrom">Отдаете:</label>
-                <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:8px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <label style="margin-top:0;" data-i18n="lblExFrom">Отдаете:</label>
+                    <span id="ex-from-avail" style="font-size:11px; color:var(--text-muted);">0</span>
+                </div>
+                <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:8px; margin-top:4px;">
                     <select id="ex-from" onchange="calcExchangePreview()"></select>
                     <input type="number" id="ex-amount" placeholder="0.00" oninput="calcExchangePreview()">
                 </div>
@@ -751,9 +876,12 @@
             </div>
 
             <div class="swap-box">
-                <label style="margin-top:0;" data-i18n="lblExTo">Получаете:</label>
-                <select id="ex-to" onchange="calcExchangePreview()"></select>
-                <div id="ex-preview" style="margin-top:8px; font-size:12px; font-weight:700; color:var(--accent);"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <label style="margin-top:0;" data-i18n="lblExTo">Получаете:</label>
+                    <span id="ex-to-avail" style="font-size:11px; color:var(--text-muted);">0</span>
+                </div>
+                <select id="ex-to" onchange="calcExchangePreview()" style="margin-top:4px;"></select>
+                <div id="ex-preview" style="margin-top:10px; font-size:12px; font-weight:800; color:var(--accent);"></div>
             </div>
 
             <button class="btn-main" onclick="executeExchange()" data-i18n="btnExchangeNow">🔄 Обменять</button>
@@ -780,7 +908,7 @@
         <div class="glass-panel" style="text-align:center; padding:30px 18px;">
             <div style="font-size:44px; margin-bottom:10px;">💬</div>
             <h3 data-i18n="lblSupTitle">Служба поддержки 24/7</h3>
-            <p style="color:var(--text-secondary); font-size:13px; margin:10px 0 18px;" data-i18n="lblSupDesc">
+            <p style="color:var(--text-muted); font-size:13px; margin:10px 0 18px;" data-i18n="lblSupDesc">
                 Нажмите кнопку ниже для прямой связи с оператором @ssupppoortt.
             </p>
             <button class="btn-main" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnSupWrite">
@@ -789,23 +917,53 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 6: НАСТРОЙКИ -->
+    <!-- ВКЛАДКА 6: НАСТРОЙКИ (4 ЯЗЫКА + 8 ТЕМ) -->
     <div id="tab-settings" class="tab-section">
         <div class="glass-panel">
             <h3 style="font-size:15px;" data-i18n="lblSetLang">🌍 Язык интерфейса</h3>
-            <div class="opt-grid">
+            <div class="lang-grid">
                 <button class="opt-btn active" id="lang-ru" onclick="setLang('ru')">🇷🇺 Русский</button>
+                <button class="opt-btn" id="lang-uk" onclick="setLang('uk')">🇺🇦 Українська</button>
                 <button class="opt-btn" id="lang-en" onclick="setLang('en')">🇬🇧 English</button>
                 <button class="opt-btn" id="lang-zh" onclick="setLang('zh')">🇨🇳 中文</button>
             </div>
         </div>
 
         <div class="glass-panel">
-            <h3 style="font-size:15px;" data-i18n="lblSetTheme">🎨 Тема оформления</h3>
-            <div class="opt-grid">
-                <button class="opt-btn active" id="thm-dark" onclick="setTheme('dark')" data-i18n="thmDark">🌑 Тёмная</button>
-                <button class="opt-btn" id="thm-light" onclick="setTheme('light')" data-i18n="thmLight">☀️ Светлая</button>
-                <button class="opt-btn" id="thm-pink" onclick="setTheme('pink')" data-i18n="thmPink">🌸 Розовая</button>
+            <h3 style="font-size:15px;" data-i18n="lblSetTheme">🎨 Цветовая тема (8 стилей)</h3>
+            <div class="theme-grid">
+                <button class="opt-btn active" id="thm-dark" onclick="setTheme('dark')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#00d2ff,#7c3aed);"></span>
+                    <span data-i18n="thmDark">Тёмная</span>
+                </button>
+                <button class="opt-btn" id="thm-light" onclick="setTheme('light')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#ffffff,#38bdf8);"></span>
+                    <span data-i18n="thmLight">Светлая</span>
+                </button>
+                <button class="opt-btn" id="thm-pink" onclick="setTheme('pink')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#ec4899,#a855f7);"></span>
+                    <span data-i18n="thmPink">Розовая</span>
+                </button>
+                <button class="opt-btn" id="thm-purple" onclick="setTheme('purple')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#a855f7,#4f46e5);"></span>
+                    <span data-i18n="thmPurple">Киберпанк</span>
+                </button>
+                <button class="opt-btn" id="thm-emerald" onclick="setTheme('emerald')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#10b981,#0d9488);"></span>
+                    <span data-i18n="thmEmerald">Изумруд</span>
+                </button>
+                <button class="opt-btn" id="thm-gold" onclick="setTheme('gold')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#fbbf24,#d97706);"></span>
+                    <span data-i18n="thmGold">Золотая</span>
+                </button>
+                <button class="opt-btn" id="thm-ocean" onclick="setTheme('ocean')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#06b6d4,#2563eb);"></span>
+                    <span data-i18n="thmOcean">Океан</span>
+                </button>
+                <button class="opt-btn" id="thm-crimson" onclick="setTheme('crimson')">
+                    <span class="swatch" style="background:linear-gradient(135deg,#f43f5e,#f97316);"></span>
+                    <span data-i18n="thmCrimson">Закат</span>
+                </button>
             </div>
         </div>
     </div>
@@ -844,6 +1002,8 @@
     tg.ready();
     tg.expand();
 
+    const ALL_THEMES = ["dark", "light", "pink", "purple", "emerald", "gold", "ocean", "crimson"];
+
     const I18N = {
         ru: {
             modeFutures: "💎 Фьючерсы",
@@ -875,10 +1035,15 @@
             lblSupDesc: "Нажмите кнопку ниже для прямой связи с оператором @ssupppoortt.",
             btnSupWrite: "Написать @ssupppoortt",
             lblSetLang: "🌍 Язык интерфейса",
-            lblSetTheme: "🎨 Тема оформления",
-            thmDark: "🌑 Тёмная",
-            thmLight: "☀️ Светлая",
-            thmPink: "🌸 Розовая",
+            lblSetTheme: "🎨 Цветовая тема",
+            thmDark: "Тёмная",
+            thmLight: "Светлая",
+            thmPink: "Розовая",
+            thmPurple: "Киберпанк",
+            thmEmerald: "Изумруд",
+            thmGold: "Золотая",
+            thmOcean: "Океан",
+            thmCrimson: "Закат",
             navWallet: "Кошелёк",
             navExchange: "Обмен",
             navTrade: "Торговля",
@@ -889,7 +1054,60 @@
             pumpingNow: "Рост",
             closeBtn: "Закрыть",
             sellBtn: "Продать",
+            availTxt: "Баланс",
             searchPlaceholder: "🔍 Поиск мем-коина..."
+        },
+        uk: {
+            modeFutures: "💎 Ф'ючерси",
+            modeMemes: "🚀 Мем-коїни",
+            lblMargin: "Маржа (USDT):",
+            lblLeverage: "Плече:",
+            lblOpenPositions: "Відкриті позиції:",
+            noPositions: "Немає відкритих угод.",
+            lblMemeBuyAmt: "Сума купівлі (USDT):",
+            btnBuyMeme: "🚀 Купити",
+            btnSellMeme: "💰 Продати",
+            lblMyMemes: "Мої мем-активи:",
+            noMemes: "У вас поки немає куплених мем-коїнів.",
+            lblTotalBalance: "Загальний баланс портфеля",
+            btnDeposit: "➕ Поповнити",
+            btnWithdraw: "📤 Вивести",
+            lblWdTitle: "📤 Виведення коштів",
+            lblWdAddr: "Адреса гаманця / Картка:",
+            btnConfirmWd: "Підтвердити виведення",
+            lblExTitle: "Миттєвий обмін валют",
+            lblExFrom: "Віддаєте:",
+            lblExTo: "Отримуєте:",
+            btnExchangeNow: "🔄 Обміняти",
+            lblChkTitle: "Створення крипто-чека",
+            lblChkCoin: "Оберіть валюту:",
+            lblChkAmt: "Введіть суму:",
+            btnCreateCheck: "🧾 Створити чек",
+            lblSupTitle: "Служба підтримки 24/7",
+            lblSupDesc: "Натисніть кнопку нижче для прямого зв'язку з оператором @ssupppoortt.",
+            btnSupWrite: "Написати @ssupppoortt",
+            lblSetLang: "🌍 Мова інтерфейсу",
+            lblSetTheme: "🎨 Кольорова тема",
+            thmDark: "Темна",
+            thmLight: "Світла",
+            thmPink: "Рожева",
+            thmPurple: "Кіберпанк",
+            thmEmerald: "Смарагд",
+            thmGold: "Золота",
+            thmOcean: "Океан",
+            thmCrimson: "Захід",
+            navWallet: "Гаманець",
+            navExchange: "Обмін",
+            navTrade: "Торгівля",
+            navChecks: "Чеки",
+            navSupport: "Підтримка",
+            navSettings: "Налаштування",
+            noFunds: "Недостатньо коштів на балансі!",
+            pumpingNow: "Ріст",
+            closeBtn: "Закрити",
+            sellBtn: "Продати",
+            availTxt: "Баланс",
+            searchPlaceholder: "🔍 Пошук мем-коїна..."
         },
         en: {
             modeFutures: "💎 Futures",
@@ -921,10 +1139,15 @@
             lblSupDesc: "Tap the button below to message @ssupppoortt directly.",
             btnSupWrite: "Message @ssupppoortt",
             lblSetLang: "🌍 Interface Language",
-            lblSetTheme: "🎨 Appearance Theme",
-            thmDark: "🌑 Dark",
-            thmLight: "☀️ Light",
-            thmPink: "🌸 Pink",
+            lblSetTheme: "🎨 Color Theme",
+            thmDark: "Obsidian",
+            thmLight: "Daylight",
+            thmPink: "Sakura",
+            thmPurple: "Cyberpunk",
+            thmEmerald: "Emerald",
+            thmGold: "Luxury Gold",
+            thmOcean: "Ocean",
+            thmCrimson: "Sunset",
             navWallet: "Wallet",
             navExchange: "Swap",
             navTrade: "Trade",
@@ -935,6 +1158,7 @@
             pumpingNow: "Growth",
             closeBtn: "Close",
             sellBtn: "Sell",
+            availTxt: "Balance",
             searchPlaceholder: "🔍 Search meme coin..."
         },
         zh: {
@@ -968,9 +1192,14 @@
             btnSupWrite: "联系 @ssupppoortt",
             lblSetLang: "🌍 界面语言",
             lblSetTheme: "🎨 主题外观",
-            thmDark: "🌑 深色",
-            thmLight: "☀️ 浅色",
-            thmPink: "🌸 粉色",
+            thmDark: "深邃黑",
+            thmLight: "极昼白",
+            thmPink: "樱花粉",
+            thmPurple: "赛博紫",
+            thmEmerald: "翡翠绿",
+            thmGold: "黑曜金",
+            thmOcean: "深海蓝",
+            thmCrimson: "落日红",
             navWallet: "钱包",
             navExchange: "兑换",
             navTrade: "交易",
@@ -981,6 +1210,7 @@
             pumpingNow: "涨幅",
             closeBtn: "平仓",
             sellBtn: "卖出",
+            availTxt: "余额",
             searchPlaceholder: "🔍 搜索迷因币..."
         }
     };
@@ -995,7 +1225,7 @@
 
     function makeSvgAvatar(ticker, emoji, idx = 0) {
         const palettes = [
-            ["#0098ea", "#6366f1"], ["#00d68f", "#059669"], ["#ff3b69", "#a855f7"],
+            ["#00d2ff", "#6366f1"], ["#00e699", "#059669"], ["#ff3b69", "#a855f7"],
             ["#f59e0b", "#ef4444"], ["#8b5cf6", "#ec4899"], ["#06b6d4", "#3b82f6"],
             ["#14b8a6", "#6366f1"], ["#ec4899", "#f97316"], ["#3b82f6", "#1d4ed8"]
         ];
@@ -1105,30 +1335,92 @@
     })();
 
     const TEN_HOURS_MS = 10 * 3600 * 1000;
+    const params = new URLSearchParams(window.location.search);
+    const tgUserId = (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) || params.get("uid") || "default";
+    const STORAGE_KEY = `spacex_state_v4_${tgUserId}`;
+
     const BALANCES = {};
     Object.keys(COINS).forEach(k => BALANCES[k] = 0);
 
-    const params = new URLSearchParams(window.location.search);
-    Object.keys(COINS).forEach(ticker => {
-        if (params.has(ticker)) BALANCES[ticker] = parseFloat(params.get(ticker)) || 0;
-    });
-    if (params.has("TON") && !BALANCES.GRAM) {
-        BALANCES.GRAM = parseFloat(params.get("TON")) || 0;
-    }
-
     let memeHoldings = {};
-    try {
-        memeHoldings = JSON.parse(localStorage.getItem("spacex_meme_holdings") || "{}");
-    } catch (e) { memeHoldings = {}; }
-
-    function saveMemeHoldings() {
-        try { localStorage.setItem("spacex_meme_holdings", JSON.stringify(memeHoldings)); } catch (e) {}
-    }
-
+    let positions = [];
     let currentLang = params.get("lang") || "ru";
+    let currentTheme = "dark";
     let currentInterval = "1";
     let klineCandles = [];
-    let positions = [];
+
+    // Автоматическое сохранение в localStorage + Telegram CloudStorage
+    function loadAppState() {
+        let saved = null;
+        try {
+            saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+        } catch (e) { saved = null; }
+
+        const urlBalances = {};
+        Object.keys(COINS).forEach(t => {
+            urlBalances[t] = parseFloat(params.get(t)) || 0;
+        });
+        if (params.has("TON") && !urlBalances.GRAM) {
+            urlBalances.GRAM = parseFloat(params.get("TON")) || 0;
+        }
+
+        if (!saved) {
+            Object.keys(COINS).forEach(t => { BALANCES[t] = urlBalances[t]; });
+            saveAppState(urlBalances);
+        } else {
+            Object.keys(COINS).forEach(t => {
+                BALANCES[t] = typeof saved.balances?.[t] === "number" ? saved.balances[t] : 0;
+            });
+            memeHoldings = saved.memeHoldings || {};
+            positions = saved.positions || [];
+            if (saved.lang && I18N[saved.lang]) currentLang = saved.lang;
+            if (saved.theme && ALL_THEMES.includes(saved.theme)) currentTheme = saved.theme;
+
+            // Автоматическая дельта-синхронизация с ботом без потери обменов
+            const lastUrlSnap = saved.lastUrlSnap || {};
+            let changedFromBot = false;
+            Object.keys(COINS).forEach(t => {
+                const prevUrlVal = typeof lastUrlSnap[t] === "number" ? lastUrlSnap[t] : 0;
+                const diff = urlBalances[t] - prevUrlVal;
+                if (Math.abs(diff) > 1e-9) {
+                    BALANCES[t] = Math.max(0, (BALANCES[t] || 0) + diff);
+                    changedFromBot = true;
+                }
+            });
+            if (changedFromBot) {
+                saveAppState(urlBalances);
+            }
+        }
+    }
+
+    function saveAppState(newUrlSnap = null) {
+        try {
+            let prev = {};
+            try { prev = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch (e) {}
+            const urlSnap = newUrlSnap || prev.lastUrlSnap || {};
+            if (!newUrlSnap) {
+                Object.keys(COINS).forEach(t => {
+                    if (params.has(t) && urlSnap[t] === undefined) {
+                        urlSnap[t] = parseFloat(params.get(t)) || 0;
+                    }
+                });
+            }
+            const stateObj = {
+                balances: BALANCES,
+                memeHoldings: memeHoldings,
+                positions: positions,
+                lang: currentLang,
+                theme: currentTheme,
+                lastUrlSnap: urlSnap,
+                updatedAt: Date.now()
+            };
+            const serialized = JSON.stringify(stateObj);
+            localStorage.setItem(STORAGE_KEY, serialized);
+            if (tg.CloudStorage && typeof tg.CloudStorage.setItem === "function") {
+                tg.CloudStorage.setItem("spacex_balances", JSON.stringify(BALANCES));
+            }
+        } catch (e) {}
+    }
 
     function showToast(msg) {
         const t = document.getElementById("toast");
@@ -1161,7 +1453,7 @@
         const d = I18N[currentLang] || I18N.ru;
 
         if (!addr || addr.length < 4) {
-            showToast("⚠️ Введите корректный адрес или карту!");
+            showToast("⚠️ " + d.lblWdAddr);
             return;
         }
         if (amt <= 0 || amt > (BALANCES[coin] || 0)) {
@@ -1169,10 +1461,12 @@
             return;
         }
         BALANCES[coin] -= amt;
+        saveAppState();
         document.getElementById("wd-amount").value = "";
         document.getElementById("withdraw-panel").style.display = "none";
         renderWallet();
-        showToast(`✅ Заявка на вывод ${formatUnlimitedNumber(amt)} ${coin} создана!`);
+        calcExchangePreview();
+        showToast(`✅ -${formatUnlimitedNumber(amt)} ${coin}`);
     }
 
     function renderFuturesCarousel() {
@@ -1322,7 +1616,8 @@
         const max = Math.max(...pts) * 1.02;
         const range = (max - min) || 1e-9;
 
-        const color = hold ? "#00d68f" : "#0098ea";
+        const accentColor = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#00d2ff";
+        const color = hold ? "#00e699" : accentColor;
         ctx.strokeStyle = color;
         ctx.lineWidth = 2.5;
         ctx.beginPath();
@@ -1335,7 +1630,7 @@
         ctx.stroke();
 
         const grad = ctx.createLinearGradient(0, 0, 0, h);
-        grad.addColorStop(0, hold ? "rgba(0, 214, 143, 0.30)" : "rgba(0, 152, 234, 0.28)");
+        grad.addColorStop(0, hold ? "rgba(0, 230, 153, 0.28)" : "rgba(0, 210, 255, 0.22)");
         grad.addColorStop(1, "transparent");
         ctx.lineTo(w - 12, h);
         ctx.lineTo(12, h);
@@ -1372,11 +1667,12 @@
             };
         }
 
-        saveMemeHoldings();
+        saveAppState();
         updateHeaderUsdt();
         onMemeChange();
         renderMemeHoldings();
         renderWallet();
+        calcExchangePreview();
         showToast(`🚀 ${ticker}: +${Math.round(tokensBought).toLocaleString()}`);
     }
 
@@ -1389,19 +1685,19 @@
         BALANCES.USDT = (BALANCES.USDT || 0) + payoutUsdt;
 
         delete memeHoldings[ticker];
-        saveMemeHoldings();
+        saveAppState();
 
         updateHeaderUsdt();
         onMemeChange();
         renderMemeHoldings();
         renderWallet();
+        calcExchangePreview();
         showToast(`💰 +${formatUnlimitedNumber(payoutUsdt, 2)} USDT!`);
     }
 
     function sellSelectedMeme() {
         const ticker = document.getElementById("meme-select").value;
         if (!memeHoldings[ticker]) {
-            showToast("⚠️ Монета ещё не куплена!");
             return;
         }
         sellMemeByTicker(ticker);
@@ -1437,7 +1733,7 @@
                     </div>
                     <button class="small-action-btn" onclick="sellMemeByTicker('${ticker}')">${d.sellBtn}</button>
                 </div>
-                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-secondary);">
+                <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted);">
                     <span>$${formatUnlimitedNumber(h.investedUsdt, 2)} ➔ <b style="color:var(--up);">$${formatUnlimitedNumber(currentVal, 2)}</b></span>
                 </div>
             `;
@@ -1515,7 +1811,7 @@
         const sign = info.change24h >= 0 ? "+" : "";
         chEl.textContent = `${sign}${info.change24h.toFixed(2)}%`;
         chEl.style.color = info.change24h >= 0 ? "var(--up)" : "var(--down)";
-        chEl.style.background = info.change24h >= 0 ? "rgba(0, 214, 143, 0.14)" : "rgba(255, 59, 105, 0.14)";
+        chEl.style.background = info.change24h >= 0 ? "rgba(0, 230, 153, 0.14)" : "rgba(255, 59, 105, 0.14)";
         document.getElementById("stat-high").textContent = "$" + (info.high24h || info.rate).toFixed(digits);
         document.getElementById("stat-low").textContent = "$" + (info.low24h || info.rate).toFixed(digits);
         document.getElementById("stat-vol").textContent = info.vol24h > 1e6 ? (info.vol24h/1e6).toFixed(1) + "M" : info.vol24h.toFixed(0);
@@ -1552,8 +1848,8 @@
             const yClose = h - padY - ((c.c - min) / range) * (h - padY * 2);
 
             const isBull = c.c >= c.o;
-            ctx.strokeStyle = isBull ? "#00d68f" : "#ff3b69";
-            ctx.fillStyle = isBull ? "#00d68f" : "#ff3b69";
+            ctx.strokeStyle = isBull ? "#00e699" : "#ff3b69";
+            ctx.fillStyle = isBull ? "#00e699" : "#ff3b69";
             ctx.beginPath(); ctx.moveTo(x, yHigh); ctx.lineTo(x, yLow); ctx.stroke();
             ctx.fillRect(x - candleW / 2, Math.min(yOpen, yClose), candleW, Math.max(2, Math.abs(yClose - yOpen)));
         });
@@ -1588,9 +1884,11 @@
         BALANCES.USDT -= amt;
         const entry = COINS[pair].rate;
         positions.unshift({ id: Date.now(), pair, side, amt, lev, entry });
+        saveAppState();
         updateHeaderUsdt();
         renderPositions();
         renderWallet();
+        calcExchangePreview();
         showToast(`✅ ${side} ${pair}/USDT (${formatUnlimitedNumber(amt, 2)} USDT ×${lev})`);
     }
 
@@ -1603,9 +1901,11 @@
         const pnl = p.amt * p.lev * diff;
         BALANCES.USDT = (BALANCES.USDT || 0) + Math.max(0, p.amt + pnl);
         positions.splice(idx, 1);
+        saveAppState();
         updateHeaderUsdt();
         renderPositions();
         renderWallet();
+        calcExchangePreview();
         showToast(`✅ PnL: ${pnl>=0?"+":""}${formatUnlimitedNumber(pnl, 2)} USDT`);
     }
 
@@ -1662,12 +1962,12 @@
                     <img class="pair-avatar" src="${info.logo}" alt="${ticker}">
                     <div>
                         <div style="font-weight:800; font-size:14px;">${info.name}</div>
-                        <div style="font-size:11px; color:var(--text-secondary);">$${info.rate.toFixed(info.rate<1?4:2)}</div>
+                        <div style="font-size:11px; color:var(--text-muted);">$${info.rate.toFixed(info.rate<1?4:2)}</div>
                     </div>
                 </div>
                 <div style="text-align:right;">
                     <div style="font-weight:800; font-size:14px;">${formatUnlimitedNumber(bal, 6)} ${ticker}</div>
-                    <div style="font-size:11px; color:var(--text-secondary);">≈ $${formatUnlimitedNumber(usd, 2)}</div>
+                    <div style="font-size:11px; color:var(--text-muted);">≈ $${formatUnlimitedNumber(usd, 2)}</div>
                 </div>
             `;
             list.appendChild(row);
@@ -1703,10 +2003,14 @@
     }
 
     function calcExchangePreview() {
-        const from = document.getElementById("ex-from").value;
-        const to = document.getElementById("ex-to").value;
+        const from = document.getElementById("ex-from").value || "USDT";
+        const to = document.getElementById("ex-to").value || "GRAM";
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
         const rate = COINS[from].rate / COINS[to].rate;
+        const d = I18N[currentLang] || I18N.ru;
+
+        document.getElementById("ex-from-avail").textContent = `${d.availTxt}: ${formatUnlimitedNumber(BALANCES[from] || 0, 6)} ${from}`;
+        document.getElementById("ex-to-avail").textContent = `${d.availTxt}: ${formatUnlimitedNumber(BALANCES[to] || 0, 6)} ${to}`;
         document.getElementById("ex-preview").textContent = `1 ${from} = ${rate.toFixed(6)} ${to}  ➔  ≈ ${formatUnlimitedNumber(amt * rate, 6)} ${to}`;
     }
 
@@ -1715,11 +2019,18 @@
         const to = document.getElementById("ex-to").value;
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
         const d = I18N[currentLang] || I18N.ru;
-        if (amt <= 0 || amt > (BALANCES[from] || 0)) { showToast("❌ " + d.noFunds); return; }
+        if (amt <= 0 || amt > (BALANCES[from] || 0)) {
+            showToast("❌ " + d.noFunds);
+            return;
+        }
         const rec = (amt * COINS[from].rate) / COINS[to].rate;
         BALANCES[from] -= amt;
         BALANCES[to] = (BALANCES[to] || 0) + rec;
+
+        saveAppState();
         renderWallet();
+        calcExchangePreview();
+        document.getElementById("ex-amount").value = "";
         showToast(`✅ +${formatUnlimitedNumber(rec, 6)} ${to}`);
     }
 
@@ -1729,9 +2040,11 @@
         const d = I18N[currentLang] || I18N.ru;
         if (amt <= 0 || amt > (BALANCES[coin] || 0)) { showToast("❌ " + d.noFunds); return; }
         BALANCES[coin] -= amt;
+        saveAppState();
         const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "SPX";
         document.getElementById("chk-result").innerHTML = `✅ <b>#${code}</b> (${formatUnlimitedNumber(amt, 6)} ${coin})`;
         renderWallet();
+        calcExchangePreview();
     }
 
     function switchTab(tabId, btn) {
@@ -1740,6 +2053,7 @@
         document.querySelectorAll(".dock-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         if (tabId === "wallet") renderWallet();
+        if (tabId === "exchange") calcExchangePreview();
         if (tabId === "trade") {
             drawCandles();
             onMemeChange();
@@ -1747,18 +2061,24 @@
     }
 
     function setTheme(theme) {
+        if (!ALL_THEMES.includes(theme)) theme = "dark";
+        currentTheme = theme;
         document.documentElement.setAttribute("data-theme", theme);
-        document.querySelectorAll("#thm-dark, #thm-light, #thm-pink").forEach(b => b.classList.remove("active"));
-        document.getElementById("thm-" + theme).classList.add("active");
+        ALL_THEMES.forEach(t => {
+            const el = document.getElementById("thm-" + t);
+            if (el) el.classList.toggle("active", t === theme);
+        });
+        saveAppState();
         drawCandles();
         onMemeChange();
     }
 
     function setLang(lang) {
         currentLang = I18N[lang] ? lang : "ru";
-        document.querySelectorAll("#lang-ru, #lang-en, #lang-zh").forEach(b => b.classList.remove("active"));
-        const activeBtn = document.getElementById("lang-" + currentLang);
-        if (activeBtn) activeBtn.classList.add("active");
+        ["ru", "uk", "en", "zh"].forEach(l => {
+            const b = document.getElementById("lang-" + l);
+            if (b) b.classList.toggle("active", l === currentLang);
+        });
 
         const dict = I18N[currentLang];
         document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -1771,21 +2091,29 @@
             searchInput.placeholder = dict.searchPlaceholder;
         }
 
+        saveAppState();
         renderPositions();
         renderMemeHoldings();
+        calcExchangePreview();
         onMemeChange();
     }
 
     // Инициализация
+    loadAppState();
     renderFuturesCarousel();
     populateSelects();
     populateMemeSelect();
+    setTheme(currentTheme);
     setLang(currentLang);
+    renderWallet();
+    renderPositions();
+    renderMemeHoldings();
+
     fetchMarketTickers().then(() => {
         onPairChange();
         onMemeChange();
-        renderMemeHoldings();
         renderWallet();
+        calcExchangePreview();
     });
 
     setInterval(() => {
