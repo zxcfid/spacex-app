@@ -8,156 +8,131 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* 1. Тёмная (Obsidian) */
+        /* 1. Obsidian Dark */
         :root[data-theme="dark"] {
-            --bg-base: #04060d;
-            --aurora-1: rgba(0, 210, 255, 0.16);
-            --aurora-2: rgba(124, 58, 237, 0.16);
-            --aurora-3: rgba(16, 185, 129, 0.10);
-            --card-bg: rgba(15, 20, 34, 0.72);
-            --card-elevated: rgba(24, 32, 54, 0.88);
-            --input-bg: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-glow: rgba(0, 210, 255, 0.35);
-            --text-main: #f8fafc;
-            --text-muted: #8e9bb0;
-            --accent: #00d2ff;
-            --accent-grad: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 50%, #7c3aed 100%);
-            --up: #00e699;
-            --down: #ff3b69;
+            --bg-base: #04060d; --aurora-1: rgba(0, 210, 255, 0.16); --aurora-2: rgba(124, 58, 237, 0.16);
+            --card-bg: rgba(15, 20, 34, 0.75); --card-elevated: rgba(24, 32, 54, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.05); --border: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(0, 210, 255, 0.35); --text-main: #f8fafc; --text-muted: #8e9bb0;
+            --accent: #00d2ff; --accent-grad: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 50%, #7c3aed 100%);
+            --up: #00e699; --down: #ff3b69;
         }
-
-        /* 2. Светлая (Daylight) */
+        /* 2. Daylight */
         :root[data-theme="light"] {
-            --bg-base: #f0f4f9;
-            --aurora-1: rgba(0, 152, 234, 0.14);
-            --aurora-2: rgba(99, 102, 241, 0.12);
-            --aurora-3: rgba(16, 185, 129, 0.08);
-            --card-bg: rgba(255, 255, 255, 0.86);
-            --card-elevated: rgba(255, 255, 255, 0.98);
-            --input-bg: rgba(15, 23, 42, 0.045);
-            --border: rgba(15, 23, 42, 0.08);
-            --border-glow: rgba(0, 136, 209, 0.35);
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --accent: #0284c7;
-            --accent-grad: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
-            --up: #059669;
-            --down: #e11d48;
+            --bg-base: #f0f4f9; --aurora-1: rgba(0, 152, 234, 0.14); --aurora-2: rgba(99, 102, 241, 0.12);
+            --card-bg: rgba(255, 255, 255, 0.88); --card-elevated: rgba(255, 255, 255, 0.98);
+            --input-bg: rgba(15, 23, 42, 0.05); --border: rgba(15, 23, 42, 0.08);
+            --border-glow: rgba(0, 136, 209, 0.35); --text-main: #0f172a; --text-muted: #64748b;
+            --accent: #0284c7; --accent-grad: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+            --up: #059669; --down: #e11d48;
         }
-
-        /* 3. Розовая (Sakura Neon) */
+        /* 3. Sakura Pink */
         :root[data-theme="pink"] {
-            --bg-base: #0f030b;
-            --aurora-1: rgba(244, 63, 94, 0.22);
-            --aurora-2: rgba(217, 70, 239, 0.18);
-            --aurora-3: rgba(139, 92, 246, 0.12);
-            --card-bg: rgba(34, 9, 27, 0.72);
-            --card-elevated: rgba(52, 14, 41, 0.88);
-            --input-bg: rgba(255, 255, 255, 0.06);
-            --border: rgba(244, 114, 182, 0.16);
-            --border-glow: rgba(236, 72, 153, 0.45);
-            --text-main: #fdf2f8;
-            --text-muted: #f472b6;
-            --accent: #ec4899;
-            --accent-grad: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
-            --up: #00e699;
-            --down: #ff3b69;
+            --bg-base: #0f030b; --aurora-1: rgba(244, 63, 94, 0.22); --aurora-2: rgba(217, 70, 239, 0.18);
+            --card-bg: rgba(34, 9, 27, 0.75); --card-elevated: rgba(52, 14, 41, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.06); --border: rgba(244, 114, 182, 0.18);
+            --border-glow: rgba(236, 72, 153, 0.45); --text-main: #fdf2f8; --text-muted: #f472b6;
+            --accent: #ec4899; --accent-grad: linear-gradient(135deg, #ec4899 0%, #a855f7 100%);
+            --up: #00e699; --down: #ff3b69;
         }
-
-        /* 4. Фиолетовая (Cyber Purple) */
+        /* 4. Cyber Purple */
         :root[data-theme="purple"] {
-            --bg-base: #090414;
-            --aurora-1: rgba(168, 85, 247, 0.24);
-            --aurora-2: rgba(99, 102, 241, 0.18);
-            --aurora-3: rgba(236, 72, 153, 0.12);
-            --card-bg: rgba(23, 12, 46, 0.72);
-            --card-elevated: rgba(36, 18, 68, 0.90);
-            --input-bg: rgba(255, 255, 255, 0.055);
-            --border: rgba(168, 85, 247, 0.18);
-            --border-glow: rgba(168, 85, 247, 0.48);
-            --text-main: #f5f3ff;
-            --text-muted: #c4b5fd;
-            --accent: #a855f7;
-            --accent-grad: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-            --up: #00e699;
-            --down: #ff3b69;
+            --bg-base: #090414; --aurora-1: rgba(168, 85, 247, 0.24); --aurora-2: rgba(99, 102, 241, 0.18);
+            --card-bg: rgba(23, 12, 46, 0.75); --card-elevated: rgba(36, 18, 68, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055); --border: rgba(168, 85, 247, 0.18);
+            --border-glow: rgba(168, 85, 247, 0.48); --text-main: #f5f3ff; --text-muted: #c4b5fd;
+            --accent: #a855f7; --accent-grad: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            --up: #00e699; --down: #ff3b69;
         }
-
-        /* 5. Изумрудная (Emerald Matrix) */
+        /* 5. Emerald */
         :root[data-theme="emerald"] {
-            --bg-base: #020d08;
-            --aurora-1: rgba(16, 185, 129, 0.22);
-            --aurora-2: rgba(6, 182, 212, 0.14);
-            --aurora-3: rgba(34, 197, 94, 0.12);
-            --card-bg: rgba(8, 30, 22, 0.74);
-            --card-elevated: rgba(13, 46, 33, 0.90);
-            --input-bg: rgba(255, 255, 255, 0.05);
-            --border: rgba(16, 185, 129, 0.18);
-            --border-glow: rgba(16, 185, 129, 0.45);
-            --text-main: #ecfdf5;
-            --text-muted: #6ee7b7;
-            --accent: #10b981;
-            --accent-grad: linear-gradient(135deg, #10b981 0%, #059669 50%, #0d9488 100%);
-            --up: #00e699;
-            --down: #ff3b69;
+            --bg-base: #020d08; --aurora-1: rgba(16, 185, 129, 0.22); --aurora-2: rgba(6, 182, 212, 0.14);
+            --card-bg: rgba(8, 30, 22, 0.76); --card-elevated: rgba(13, 46, 33, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.05); --border: rgba(16, 185, 129, 0.18);
+            --border-glow: rgba(16, 185, 129, 0.45); --text-main: #ecfdf5; --text-muted: #6ee7b7;
+            --accent: #10b981; --accent-grad: linear-gradient(135deg, #10b981 0%, #059669 50%, #0d9488 100%);
+            --up: #00e699; --down: #ff3b69;
         }
-
-        /* 6. Золотая (Luxury Gold) */
+        /* 6. Luxury Gold */
         :root[data-theme="gold"] {
-            --bg-base: #0c0904;
-            --aurora-1: rgba(245, 158, 11, 0.20);
-            --aurora-2: rgba(217, 119, 6, 0.15);
-            --aurora-3: rgba(251, 191, 36, 0.10);
-            --card-bg: rgba(28, 22, 12, 0.76);
-            --card-elevated: rgba(42, 32, 16, 0.92);
-            --input-bg: rgba(255, 255, 255, 0.055);
-            --border: rgba(245, 158, 11, 0.20);
-            --border-glow: rgba(245, 158, 11, 0.48);
-            --text-main: #fffbeb;
-            --text-muted: #fcd34d;
-            --accent: #f59e0b;
-            --accent-grad: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-            --up: #00e699;
-            --down: #ff3b69;
+            --bg-base: #0c0904; --aurora-1: rgba(245, 158, 11, 0.20); --aurora-2: rgba(217, 119, 6, 0.15);
+            --card-bg: rgba(28, 22, 12, 0.78); --card-elevated: rgba(42, 32, 16, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055); --border: rgba(245, 158, 11, 0.20);
+            --border-glow: rgba(245, 158, 11, 0.48); --text-main: #fffbeb; --text-muted: #fcd34d;
+            --accent: #f59e0b; --accent-grad: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            --up: #00e699; --down: #ff3b69;
         }
-
-        /* 7. Океан (Ocean Breeze) */
+        /* 7. Ocean */
         :root[data-theme="ocean"] {
-            --bg-base: #020b14;
-            --aurora-1: rgba(6, 182, 212, 0.22);
-            --aurora-2: rgba(59, 130, 246, 0.18);
-            --aurora-3: rgba(20, 184, 166, 0.12);
-            --card-bg: rgba(8, 28, 46, 0.74);
-            --card-elevated: rgba(14, 42, 68, 0.90);
-            --input-bg: rgba(255, 255, 255, 0.055);
-            --border: rgba(6, 182, 212, 0.18);
-            --border-glow: rgba(6, 182, 212, 0.45);
-            --text-main: #ecfeff;
-            --text-muted: #67e8f9;
-            --accent: #06b6d4;
-            --accent-grad: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
-            --up: #00e699;
-            --down: #ff3b69;
+            --bg-base: #020b14; --aurora-1: rgba(6, 182, 212, 0.22); --aurora-2: rgba(59, 130, 246, 0.18);
+            --card-bg: rgba(8, 28, 46, 0.76); --card-elevated: rgba(14, 42, 68, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055); --border: rgba(6, 182, 212, 0.18);
+            --border-glow: rgba(6, 182, 212, 0.45); --text-main: #ecfeff; --text-muted: #67e8f9;
+            --accent: #06b6d4; --accent-grad: linear-gradient(135deg, #06b6d4 0%, #2563eb 100%);
+            --up: #00e699; --down: #ff3b69;
         }
-
-        /* 8. Закат (Crimson Sunset) */
+        /* 8. Crimson Sunset */
         :root[data-theme="crimson"] {
-            --bg-base: #120406;
-            --aurora-1: rgba(244, 63, 94, 0.22);
-            --aurora-2: rgba(249, 115, 22, 0.18);
-            --aurora-3: rgba(239, 68, 68, 0.12);
-            --card-bg: rgba(36, 12, 16, 0.75);
-            --card-elevated: rgba(54, 18, 24, 0.90);
-            --input-bg: rgba(255, 255, 255, 0.055);
-            --border: rgba(244, 63, 94, 0.18);
-            --border-glow: rgba(249, 115, 22, 0.45);
-            --text-main: #fff1f2;
-            --text-muted: #fda4af;
-            --accent: #f97316;
-            --accent-grad: linear-gradient(135deg, #f43f5e 0%, #f97316 100%);
-            --up: #00e699;
-            --down: #ff3b69;
+            --bg-base: #120406; --aurora-1: rgba(244, 63, 94, 0.22); --aurora-2: rgba(249, 115, 22, 0.18);
+            --card-bg: rgba(36, 12, 16, 0.76); --card-elevated: rgba(54, 18, 24, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055); --border: rgba(244, 63, 94, 0.18);
+            --border-glow: rgba(249, 115, 22, 0.45); --text-main: #fff1f2; --text-muted: #fda4af;
+            --accent: #f97316; --accent-grad: linear-gradient(135deg, #f43f5e 0%, #f97316 100%);
+            --up: #00e699; --down: #ff3b69;
+        }
+        /* 9. Arctic Ice */
+        :root[data-theme="arctic"] {
+            --bg-base: #061017; --aurora-1: rgba(125, 211, 252, 0.22); --aurora-2: rgba(56, 189, 248, 0.16);
+            --card-bg: rgba(12, 28, 40, 0.76); --card-elevated: rgba(18, 42, 58, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.06); --border: rgba(125, 211, 252, 0.2);
+            --border-glow: rgba(56, 189, 248, 0.45); --text-main: #f0f9ff; --text-muted: #7dd3fc;
+            --accent: #38bdf8; --accent-grad: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --up: #00e699; --down: #ff3b69;
+        }
+        /* 10. Matrix Hacker */
+        :root[data-theme="matrix"] {
+            --bg-base: #000802; --aurora-1: rgba(34, 197, 94, 0.24); --aurora-2: rgba(22, 163, 74, 0.18);
+            --card-bg: rgba(4, 22, 9, 0.80); --card-elevated: rgba(8, 34, 14, 0.94);
+            --input-bg: rgba(34, 197, 94, 0.08); --border: rgba(34, 197, 94, 0.22);
+            --border-glow: rgba(34, 197, 94, 0.55); --text-main: #dcfce7; --text-muted: #4ade80;
+            --accent: #22c55e; --accent-grad: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+            --up: #22c55e; --down: #ef4444;
+        }
+        /* 11. Lavender Dream */
+        :root[data-theme="lavender"] {
+            --bg-base: #0d0814; --aurora-1: rgba(192, 132, 252, 0.22); --aurora-2: rgba(244, 114, 182, 0.16);
+            --card-bg: rgba(28, 19, 43, 0.76); --card-elevated: rgba(42, 28, 64, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.06); --border: rgba(192, 132, 252, 0.22);
+            --border-glow: rgba(192, 132, 252, 0.45); --text-main: #faf5ff; --text-muted: #d8b4fe;
+            --accent: #c084fc; --accent-grad: linear-gradient(135deg, #c084fc 0%, #ec4899 100%);
+            --up: #00e699; --down: #ff3b69;
+        }
+        /* 12. Toxic Lime */
+        :root[data-theme="toxic"] {
+            --bg-base: #070b02; --aurora-1: rgba(163, 230, 53, 0.20); --aurora-2: rgba(132, 204, 22, 0.15);
+            --card-bg: rgba(18, 26, 7, 0.78); --card-elevated: rgba(28, 40, 10, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055); --border: rgba(163, 230, 53, 0.22);
+            --border-glow: rgba(163, 230, 53, 0.45); --text-main: #f7fee7; --text-muted: #bef264;
+            --accent: #a3e635; --accent-grad: linear-gradient(135deg, #a3e635 0%, #10b981 100%);
+            --up: #a3e635; --down: #ff3b69;
+        }
+        /* 13. Coffee Mocha */
+        :root[data-theme="coffee"] {
+            --bg-base: #0e0a08; --aurora-1: rgba(214, 158, 114, 0.18); --aurora-2: rgba(180, 120, 80, 0.14);
+            --card-bg: rgba(30, 22, 18, 0.78); --card-elevated: rgba(45, 33, 27, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055); --border: rgba(214, 158, 114, 0.2);
+            --border-glow: rgba(214, 158, 114, 0.42); --text-main: #fdf8f6; --text-muted: #d69e72;
+            --accent: #d69e72; --accent-grad: linear-gradient(135deg, #d69e72 0%, #9c6644 100%);
+            --up: #00e699; --down: #ff3b69;
+        }
+        /* 14. Royal Blue */
+        :root[data-theme="royal"] {
+            --bg-base: #030617; --aurora-1: rgba(59, 130, 246, 0.24); --aurora-2: rgba(29, 78, 216, 0.18);
+            --card-bg: rgba(10, 18, 48, 0.76); --card-elevated: rgba(16, 28, 72, 0.92);
+            --input-bg: rgba(255, 255, 255, 0.055); --border: rgba(59, 130, 246, 0.2);
+            --border-glow: rgba(59, 130, 246, 0.48); --text-main: #eff6ff; --text-muted: #93c5fd;
+            --accent: #3b82f6; --accent-grad: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --up: #00e699; --down: #ff3b69;
         }
 
         * {
@@ -171,15 +146,13 @@
         body {
             background-color: var(--bg-base);
             background-image:
-                radial-gradient(circle at 15% 15%, var(--aurora-1) 0%, transparent 42%),
-                radial-gradient(circle at 85% 25%, var(--aurora-2) 0%, transparent 45%),
-                radial-gradient(circle at 50% 85%, var(--aurora-3) 0%, transparent 50%);
+                radial-gradient(circle at 15% 15%, var(--aurora-1) 0%, transparent 45%),
+                radial-gradient(circle at 85% 25%, var(--aurora-2) 0%, transparent 48%);
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             padding-bottom: 104px;
             overflow-x: hidden;
-            transition: background-color 0.25s ease, color 0.25s ease;
         }
 
         header {
@@ -196,60 +169,28 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .brand-box {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .brand-box { display: flex; align-items: center; gap: 10px; }
         .brand-mark {
-            width: 34px;
-            height: 34px;
-            border-radius: 11px;
-            background: var(--accent-grad);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: #fff;
-            font-size: 16px;
-            box-shadow: 0 4px 16px var(--border-glow);
+            width: 34px; height: 34px; border-radius: 11px;
+            background: var(--accent-grad); display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: #fff; font-size: 16px; box-shadow: 0 4px 16px var(--border-glow);
         }
-        .brand-name {
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: 0.6px;
-        }
+        .brand-name { font-size: 15px; font-weight: 800; letter-spacing: 0.6px; }
 
         .balance-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 6px 13px;
-            border-radius: 999px;
-            background: var(--input-bg);
-            border: 1px solid var(--border-glow);
-            font-size: 12px;
-            font-weight: 800;
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 6px 13px; border-radius: 999px;
+            background: var(--input-bg); border: 1px solid var(--border-glow);
+            font-size: 12px; font-weight: 800; cursor: pointer;
         }
-        .balance-chip-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--up);
-            box-shadow: 0 0 10px var(--up);
-        }
+        .balance-chip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--up); box-shadow: 0 0 10px var(--up); }
 
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 14px;
-        }
-
-        .tab-section { display: none; animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1); }
+        .container { max-width: 500px; margin: 0 auto; padding: 14px; }
+        .tab-section { display: none; animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
         .tab-section.active { display: block; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -265,434 +206,189 @@
         }
 
         .mode-switch {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            background: var(--card-bg);
-            padding: 4px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            margin-bottom: 12px;
+            display: grid; grid-template-columns: 1fr 1fr;
+            background: var(--card-bg); padding: 4px; border-radius: 16px;
+            border: 1px solid var(--border); margin-bottom: 12px;
         }
         .mode-btn {
-            padding: 10px;
-            border: none;
-            border-radius: 12px;
-            background: transparent;
-            color: var(--text-muted);
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
+            padding: 10px; border: none; border-radius: 12px; background: transparent;
+            color: var(--text-muted); font-weight: 700; font-size: 13px; cursor: pointer;
         }
-        .mode-btn.active {
-            background: var(--accent-grad);
-            color: #fff;
-            box-shadow: 0 4px 16px var(--border-glow);
-        }
+        .mode-btn.active { background: var(--accent-grad); color: #fff; box-shadow: 0 4px 16px var(--border-glow); }
 
         .coin-carousel {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 6px;
-            margin-bottom: 12px;
-            scrollbar-width: none;
+            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 12px; scrollbar-width: none;
         }
         .coin-carousel::-webkit-scrollbar { display: none; }
-
         .coin-pill {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            padding: 7px 13px;
-            border-radius: 14px;
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            flex-shrink: 0;
-            transition: all 0.18s;
+            display: flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 14px;
+            background: var(--input-bg); border: 1px solid var(--border);
+            color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; flex-shrink: 0;
         }
-        .coin-pill.active {
-            background: var(--card-elevated);
-            color: var(--text-main);
-            border-color: var(--accent);
-            box-shadow: 0 4px 14px var(--border-glow);
-        }
-        .coin-pill img {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+        .coin-pill.active { background: var(--card-elevated); color: var(--text-main); border-color: var(--accent); box-shadow: 0 4px 14px var(--border-glow); }
+        .coin-pill img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
 
-        .ticker-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 12px;
-        }
-        .pair-title {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-        }
-        .pair-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid var(--border-glow);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-        }
-        .price-main {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.7px;
-            line-height: 1.1;
-        }
-        .change-pill {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 7px;
-            font-size: 11px;
-            font-weight: 800;
-            margin-top: 4px;
-        }
+        .ticker-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+        .pair-title { display: flex; align-items: center; gap: 11px; }
+        .pair-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-glow); }
+        .price-main { font-size: 26px; font-weight: 800; letter-spacing: -0.7px; line-height: 1.1; }
+        .change-pill { display: inline-block; padding: 3px 8px; border-radius: 7px; font-size: 11px; font-weight: 800; margin-top: 4px; }
 
         .mini-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            padding: 10px 12px;
-            border-radius: 15px;
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            margin-bottom: 10px;
-            font-size: 11px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px 12px;
+            border-radius: 15px; background: var(--input-bg); border: 1px solid var(--border); margin-bottom: 10px; font-size: 11px;
         }
         .mini-stats span { color: var(--text-muted); display: block; font-size: 10px; }
         .mini-stats b { font-size: 12px; margin-top: 2px; display: block; }
 
-        canvas {
-            width: 100%;
-            height: 195px;
-            border-radius: 16px;
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            display: block;
-        }
+        canvas { width: 100%; height: 195px; border-radius: 16px; background: var(--input-bg); border: 1px solid var(--border); display: block; }
 
-        .tf-row {
-            display: flex;
-            gap: 6px;
-            margin: 10px 0 14px;
-        }
+        .tf-row { display: flex; gap: 6px; margin: 10px 0 14px; }
         .tf-pill {
-            flex: 1;
-            padding: 7px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
+            flex: 1; padding: 7px; border-radius: 10px; border: 1px solid var(--border);
+            background: var(--input-bg); color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer;
         }
-        .tf-pill.active {
-            background: var(--accent);
-            color: #fff;
-            border-color: transparent;
-            font-weight: 800;
-        }
+        .tf-pill.active { background: var(--accent); color: #fff; border-color: transparent; font-weight: 800; }
 
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin: 8px 0 5px;
-        }
-
+        label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin: 8px 0 5px; }
         input, select {
-            width: 100%;
-            padding: 11px 13px;
-            border-radius: 13px;
-            border: 1px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text-main);
-            font-size: 14px;
-            font-weight: 600;
-            outline: none;
+            width: 100%; padding: 11px 13px; border-radius: 13px; border: 1px solid var(--border);
+            background: var(--input-bg); color: var(--text-main); font-size: 14px; font-weight: 600; outline: none;
         }
         select option { background: #0f172a; color: #fff; }
 
-        .pct-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-            margin-top: 8px;
-        }
+        .pct-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
         .pct-btn {
-            padding: 6px;
-            border-radius: 9px;
-            border: 1px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
+            padding: 6px; border-radius: 9px; border: 1px solid var(--border);
+            background: var(--input-bg); color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer;
         }
-        .pct-btn:active { background: var(--accent); color: #fff; }
 
-        .trade-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 14px;
-        }
+        .trade-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
         .btn-long, .btn-short {
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            color: #fff;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: transform 0.12s;
+            padding: 14px; border: none; border-radius: 14px; color: #fff; font-weight: 800; font-size: 14px; cursor: pointer;
         }
-        .btn-long {
-            background: linear-gradient(135deg, #00e699 0%, #059669 100%);
-            box-shadow: 0 6px 18px rgba(0, 230, 153, 0.28);
-        }
-        .btn-short {
-            background: linear-gradient(135deg, #ff3b69 0%, #e11d48 100%);
-            box-shadow: 0 6px 18px rgba(255, 59, 105, 0.28);
-        }
-        .btn-long:active, .btn-short:active { transform: scale(0.97); }
+        .btn-long { background: linear-gradient(135deg, #00e699 0%, #059669 100%); box-shadow: 0 6px 18px rgba(0, 230, 153, 0.28); }
+        .btn-short { background: linear-gradient(135deg, #ff3b69 0%, #e11d48 100%); box-shadow: 0 6px 18px rgba(255, 59, 105, 0.28); }
 
         .btn-main {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            background: var(--accent-grad);
-            color: #fff;
-            font-weight: 800;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 12px;
-            box-shadow: 0 6px 22px var(--border-glow);
+            width: 100%; padding: 14px; border: none; border-radius: 14px;
+            background: var(--accent-grad); color: #fff; font-weight: 800; font-size: 14px;
+            cursor: pointer; margin-top: 12px; box-shadow: 0 6px 22px var(--border-glow);
         }
 
         .wallet-hero {
-            background: var(--accent-grad);
-            border-radius: 24px;
-            padding: 22px 18px;
-            color: #fff;
-            margin-bottom: 14px;
-            box-shadow: 0 14px 34px var(--border-glow);
-            position: relative;
-            overflow: hidden;
+            background: var(--accent-grad); border-radius: 24px; padding: 22px 18px;
+            color: #fff; margin-bottom: 14px; box-shadow: 0 14px 34px var(--border-glow); position: relative; overflow: hidden;
         }
-        .wallet-hero::after {
-            content: "";
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.12);
-            top: -45px;
-            right: -35px;
-            pointer-events: none;
+        .eye-btn {
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35);
+            color: #fff; border-radius: 10px; padding: 4px 9px; font-size: 14px; cursor: pointer;
         }
-        .hero-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 16px;
-        }
+        .hero-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
         .hero-btn {
-            padding: 11px 12px;
-            border-radius: 13px;
-            border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.16);
-            backdrop-filter: blur(10px);
-            color: #fff;
-            font-weight: 800;
-            font-size: 13px;
-            cursor: pointer;
+            padding: 10px 8px; border-radius: 13px; border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.16); backdrop-filter: blur(10px);
+            color: #fff; font-weight: 800; font-size: 12px; cursor: pointer; text-align: center;
         }
 
-        .asset-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
+        .asset-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
         .asset-row:last-child { border-bottom: none; }
 
-        .swap-box {
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 14px;
-            position: relative;
-        }
-        .swap-divider {
-            display: flex;
-            justify-content: center;
-            margin: -12px 0;
-            position: relative;
-            z-index: 5;
-        }
+        .swap-box { background: var(--input-bg); border: 1px solid var(--border); border-radius: 18px; padding: 14px; position: relative; }
+        .swap-divider { display: flex; justify-content: center; margin: -12px 0; position: relative; z-index: 5; }
         .swap-flip-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--card-elevated);
-            border: 1px solid var(--border-glow);
-            color: var(--text-main);
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            width: 38px; height: 38px; border-radius: 50%; background: var(--card-elevated);
+            border: 1px solid var(--border-glow); color: var(--text-main); font-size: 16px; cursor: pointer;
         }
 
-        .holding-item {
-            background: var(--input-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 12px;
-            margin-top: 8px;
-        }
-
+        .holding-item { background: var(--input-bg); border: 1px solid var(--border); border-radius: 16px; padding: 12px; margin-top: 8px; }
         .small-action-btn {
-            padding: 6px 12px;
-            border-radius: 9px;
-            border: none;
-            background: var(--down);
-            color: #fff;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
+            padding: 6px 12px; border-radius: 9px; border: none; background: var(--down);
+            color: #fff; font-size: 11px; font-weight: 700; cursor: pointer;
         }
 
         .bottom-dock {
-            position: fixed;
-            bottom: 12px;
-            left: 12px;
-            right: 12px;
-            max-width: 480px;
-            margin: 0 auto;
-            background: var(--card-elevated);
-            backdrop-filter: blur(28px) saturate(200%);
-            -webkit-backdrop-filter: blur(28px) saturate(200%);
-            border: 1px solid var(--border-glow);
-            border-radius: 24px;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            padding: 6px 4px;
-            z-index: 40;
+            position: fixed; bottom: 12px; left: 12px; right: 12px; max-width: 480px; margin: 0 auto;
+            background: var(--card-elevated); backdrop-filter: blur(28px) saturate(200%);
+            border: 1px solid var(--border-glow); border-radius: 24px;
+            display: grid; grid-template-columns: repeat(6, 1fr); padding: 6px 4px; z-index: 40;
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
         }
         .dock-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 6px 2px;
-            border-radius: 16px;
-            transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            background: none; border: none; color: var(--text-muted); font-size: 10px; font-weight: 700;
+            cursor: pointer; padding: 6px 2px; border-radius: 16px;
         }
-        .dock-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-        .dock-btn.active {
-            color: var(--accent);
-            background: var(--input-bg);
-        }
+        .dock-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+        .dock-btn.active { color: var(--accent); background: var(--input-bg); }
 
-        .lang-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
+        .lang-grid, .theme-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-top: 10px; }
         .opt-btn {
-            padding: 13px 10px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text-main);
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.18s;
+            padding: 12px 10px; border-radius: 14px; border: 1px solid var(--border);
+            background: var(--input-bg); color: var(--text-main); font-weight: 700; font-size: 12px;
+            cursor: pointer; display: flex; align-items: center; gap: 9px;
         }
-        .opt-btn.active {
-            border: 2px solid var(--accent);
-            background: var(--card-elevated);
-            box-shadow: 0 4px 14px var(--border-glow);
+        .opt-btn.active { border: 2px solid var(--accent); background: var(--card-elevated); box-shadow: 0 4px 14px var(--border-glow); }
+        .swatch { width: 17px; height: 17px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.4); }
+
+        /* QR Modal */
+        .qr-wrap {
+            text-align: center; padding: 14px; background: #fff; border-radius: 18px;
+            width: 190px; height: 190px; margin: 12px auto; display: flex; align-items: center; justify-content: center;
         }
-        .swatch {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            border: 1px solid rgba(255,255,255,0.35);
+        .qr-wrap img { width: 168px; height: 168px; }
+
+        /* PIN Lock Screen */
+        .pin-overlay {
+            position: fixed; inset: 0; z-index: 200; background: var(--bg-base);
+            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px;
         }
+        .pin-dots { display: flex; gap: 14px; margin: 22px 0 30px; }
+        .pin-dot { width: 15px; height: 15px; border-radius: 50%; border: 2px solid var(--accent); transition: all 0.15s; }
+        .pin-dot.filled { background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+        .pin-pad { display: grid; grid-template-columns: repeat(3, 76px); gap: 14px; }
+        .pin-key {
+            width: 76px; height: 76px; border-radius: 50%; border: 1px solid var(--border-glow);
+            background: var(--card-elevated); color: var(--text-main); font-size: 22px; font-weight: 800;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .pin-key:active { background: var(--accent); color: #fff; transform: scale(0.94); }
 
         .toast {
-            position: fixed;
-            top: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--card-elevated);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--accent);
-            color: var(--text-main);
-            padding: 10px 18px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 12px;
-            display: none;
-            z-index: 100;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+            position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+            background: var(--card-elevated); backdrop-filter: blur(20px); border: 1px solid var(--accent);
+            color: var(--text-main); padding: 10px 18px; border-radius: 14px; font-weight: 700;
+            font-size: 12px; display: none; z-index: 300; box-shadow: 0 10px 28px rgba(0,0,0,0.45);
         }
     </style>
 </head>
 <body>
+
+<!-- ЭКРАН БЛОКИРОВКИ PIN-КОДОМ -->
+<div id="pin-overlay" class="pin-overlay">
+    <div class="brand-mark" style="width:48px;height:48px;font-size:22px;margin-bottom:12px;">🔒</div>
+    <h3 id="pin-title" style="font-size:18px;">Введите PIN-код</h3>
+    <div class="pin-dots">
+        <div class="pin-dot" id="pdot-0"></div>
+        <div class="pin-dot" id="pdot-1"></div>
+        <div class="pin-dot" id="pdot-2"></div>
+        <div class="pin-dot" id="pdot-3"></div>
+    </div>
+    <div class="pin-pad">
+        <button class="pin-key" onclick="pressPinKey('1')">1</button>
+        <button class="pin-key" onclick="pressPinKey('2')">2</button>
+        <button class="pin-key" onclick="pressPinKey('3')">3</button>
+        <button class="pin-key" onclick="pressPinKey('4')">4</button>
+        <button class="pin-key" onclick="pressPinKey('5')">5</button>
+        <button class="pin-key" onclick="pressPinKey('6')">6</button>
+        <button class="pin-key" onclick="pressPinKey('7')">7</button>
+        <button class="pin-key" onclick="pressPinKey('8')">8</button>
+        <button class="pin-key" onclick="pressPinKey('9')">9</button>
+        <button class="pin-key" onclick="cancelPinModal()" id="pin-cancel-btn" style="font-size:13px;">Отмена</button>
+        <button class="pin-key" onclick="pressPinKey('0')">0</button>
+        <button class="pin-key" onclick="pressPinBack()">⌫</button>
+    </div>
+</div>
 
 <div id="toast" class="toast"></div>
 
@@ -701,7 +397,7 @@
         <div class="brand-mark">S</div>
         <div class="brand-name">SPACEX</div>
     </div>
-    <div class="balance-chip">
+    <div class="balance-chip" onclick="toggleHideBalance()">
         <span class="balance-chip-dot"></span>
         <span id="hdr-usdt">0.00 USDT</span>
     </div>
@@ -830,17 +526,39 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 2: КОШЕЛЁК -->
+    <!-- ВКЛАДКА 2: КОШЕЛЁК + QR + СТЕЙКИНГ -->
     <div id="tab-wallet" class="tab-section">
         <div class="wallet-hero">
-            <div style="font-size:12px; opacity:0.88; font-weight:600;" data-i18n="lblTotalBalance">Общий баланс портфеля</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12px; opacity:0.9; font-weight:600;" data-i18n="lblTotalBalance">Общий баланс портфеля</span>
+                <button class="eye-btn" onclick="toggleHideBalance()" id="eye-toggle-btn">👁️</button>
+            </div>
             <div style="font-size:32px; font-weight:800; margin:6px 0 4px; letter-spacing:-0.8px; word-break:break-all;" id="total-usd">$0.00</div>
             <div class="hero-actions">
-                <button class="hero-btn" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnDeposit">➕ Пополнить</button>
-                <button class="hero-btn" onclick="toggleWithdrawBox()" data-i18n="btnWithdraw">📤 Вывести</button>
+                <button class="hero-btn" onclick="toggleWalletBox('qr-panel')" data-i18n="btnDeposit">➕ Пополнить</button>
+                <button class="hero-btn" onclick="toggleWalletBox('withdraw-panel')" data-i18n="btnWithdraw">📤 Вывести</button>
+                <button class="hero-btn" onclick="toggleWalletBox('staking-panel')" data-i18n="btnStaking">💎 Стейкинг</button>
             </div>
         </div>
 
+        <!-- Модальное окно QR-кода пополнения -->
+        <div class="glass-panel" id="qr-panel" style="display:none; text-align:center;">
+            <h3 style="font-size:15px;" data-i18n="lblQrTitle">📲 Пополнение по QR-коду</h3>
+            <label data-i18n="lblSelectNet">Сеть пополнения:</label>
+            <select id="qr-net" onchange="updateDepositQR()">
+                <option value="UQBSpaceXWalletTON98234792384792384">TON / GRAM (The Open Network)</option>
+                <option value="TSpaceXTronWalletTRC20998877665544">USDT (TRC-20)</option>
+                <option value="0xSpaceXEthereumERC20Wallet77889900">ETH / USDT (ERC-20)</option>
+                <option value="bc1qspacexbitcoinwalletaddress998877">Bitcoin (BTC Native SegWit)</option>
+            </select>
+            <div class="qr-wrap">
+                <img id="qr-img" src="" alt="QR">
+            </div>
+            <div id="qr-addr-text" style="font-size:11px; font-family:monospace; word-break:break-all; padding:8px; background:var(--input-bg); border-radius:10px;"></div>
+            <button class="btn-main" onclick="copyDepositAddr()" data-i18n="btnCopyAddr">📋 Скопировать адрес</button>
+        </div>
+
+        <!-- Форма вывода в Кошельке -->
         <div class="glass-panel" id="withdraw-panel" style="display:none;">
             <h3 style="font-size:15px; margin-bottom:8px;" data-i18n="lblWdTitle">📤 Вывод средств</h3>
             <label data-i18n="lblChkCoin">Выберите валюту:</label>
@@ -850,6 +568,20 @@
             <label data-i18n="lblChkAmt">Введите сумму:</label>
             <input type="number" id="wd-amount" placeholder="0.00">
             <button class="btn-main" onclick="executeWithdrawWeb()" data-i18n="btnConfirmWd">Подтвердить вывод</button>
+        </div>
+
+        <!-- Стейкинг (Earn +2.5% в сутки) -->
+        <div class="glass-panel" id="staking-panel" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <h3 style="font-size:15px;" data-i18n="lblStakingTitle">💎 Стейкинг (Earn +2.5% / день)</h3>
+                <span style="font-size:11px; color:var(--up); font-weight:800;">APY 912%</span>
+            </div>
+            <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:8px;">
+                <select id="stk-coin"></select>
+                <input type="number" id="stk-amount" placeholder="Сумма">
+            </div>
+            <button class="btn-main" onclick="stakeCoins()" data-i18n="btnStakeNow">🔒 Инвестировать в стейкинг</button>
+            <div id="staking-active-list" style="margin-top:12px; font-size:12px;"></div>
         </div>
 
         <div class="glass-panel" id="wallet-list"></div>
@@ -888,18 +620,41 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 4: ЧЕКИ -->
+    <!-- ВКЛАДКА 4: МУЛЬТИ-ЧЕКИ И ЧЕКИ С ПАРОЛЕМ -->
     <div id="tab-checks" class="tab-section">
         <div class="glass-panel">
-            <h3 style="margin-bottom:10px; font-size:16px;" data-i18n="lblChkTitle">Создание крипто-чека</h3>
+            <h3 style="margin-bottom:10px; font-size:16px;" data-i18n="lblChkTitle">Создание мульти-чека</h3>
             <label data-i18n="lblChkCoin">Выберите валюту:</label>
             <select id="chk-coin"></select>
 
-            <label data-i18n="lblChkAmt">Введите сумму:</label>
-            <input type="number" id="chk-amount" placeholder="0.00">
+            <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:8px;">
+                <div>
+                    <label data-i18n="lblChkAmt">Общая сумма:</label>
+                    <input type="number" id="chk-amount" placeholder="0.00">
+                </div>
+                <div>
+                    <label data-i18n="lblChkActs">Кол-во активаций:</label>
+                    <input type="number" id="chk-acts" value="1" min="1">
+                </div>
+            </div>
+
+            <label data-i18n="lblChkPwd">Пароль на чек (необязательно):</label>
+            <input type="text" id="chk-password" placeholder="Без пароля">
 
             <button class="btn-main" onclick="createCheckWeb()" data-i18n="btnCreateCheck">🧾 Создать чек</button>
             <div id="chk-result" style="margin-top:12px; font-size:13px;"></div>
+        </div>
+
+        <div class="glass-panel">
+            <h3 style="margin-bottom:8px; font-size:15px;" data-i18n="lblClaimChkTitle">Активировать код чека</h3>
+            <input type="text" id="claim-code-input" placeholder="#SPX...">
+            <input type="text" id="claim-pwd-input" placeholder="Пароль (если есть)" style="margin-top:8px;">
+            <button class="btn-main" onclick="claimCheckWeb()" data-i18n="btnClaimCheck">🎁 Активировать чек</button>
+        </div>
+
+        <div class="glass-panel">
+            <strong style="font-size:13px;" data-i18n="lblActiveChecks">Мои созданные чеки:</strong>
+            <div id="my-checks-list" style="margin-top:8px; font-size:12px; color:var(--text-muted);"></div>
         </div>
     </div>
 
@@ -917,7 +672,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 6: НАСТРОЙКИ (4 ЯЗЫКА + 8 ТЕМ) -->
+    <!-- ВКЛАДКА 6: НАСТРОЙКИ (ЯЗЫКИ + PIN-КОД + 14 ТЕМ) -->
     <div id="tab-settings" class="tab-section">
         <div class="glass-panel">
             <h3 style="font-size:15px;" data-i18n="lblSetLang">🌍 Язык интерфейса</h3>
@@ -930,40 +685,35 @@
         </div>
 
         <div class="glass-panel">
-            <h3 style="font-size:15px;" data-i18n="lblSetTheme">🎨 Цветовая тема (8 стилей)</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h3 style="font-size:15px;" data-i18n="lblPinSecurity">🔐 Защита PIN-кодом</h3>
+                    <div id="pin-status-text" style="font-size:11px; color:var(--text-muted); margin-top:2px;">Отключена</div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="small-action-btn" style="background:var(--accent);" onclick="openPinSetup()" data-i18n="btnSetPin">Установить</button>
+                    <button class="small-action-btn" onclick="disablePinCode()" id="btn-disable-pin" style="display:none;">Выкл</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel">
+            <h3 style="font-size:15px;" data-i18n="lblSetTheme">🎨 Цветовая тема (14 стилей)</h3>
             <div class="theme-grid">
-                <button class="opt-btn active" id="thm-dark" onclick="setTheme('dark')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#00d2ff,#7c3aed);"></span>
-                    <span data-i18n="thmDark">Тёмная</span>
-                </button>
-                <button class="opt-btn" id="thm-light" onclick="setTheme('light')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#ffffff,#38bdf8);"></span>
-                    <span data-i18n="thmLight">Светлая</span>
-                </button>
-                <button class="opt-btn" id="thm-pink" onclick="setTheme('pink')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#ec4899,#a855f7);"></span>
-                    <span data-i18n="thmPink">Розовая</span>
-                </button>
-                <button class="opt-btn" id="thm-purple" onclick="setTheme('purple')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#a855f7,#4f46e5);"></span>
-                    <span data-i18n="thmPurple">Киберпанк</span>
-                </button>
-                <button class="opt-btn" id="thm-emerald" onclick="setTheme('emerald')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#10b981,#0d9488);"></span>
-                    <span data-i18n="thmEmerald">Изумруд</span>
-                </button>
-                <button class="opt-btn" id="thm-gold" onclick="setTheme('gold')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#fbbf24,#d97706);"></span>
-                    <span data-i18n="thmGold">Золотая</span>
-                </button>
-                <button class="opt-btn" id="thm-ocean" onclick="setTheme('ocean')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#06b6d4,#2563eb);"></span>
-                    <span data-i18n="thmOcean">Океан</span>
-                </button>
-                <button class="opt-btn" id="thm-crimson" onclick="setTheme('crimson')">
-                    <span class="swatch" style="background:linear-gradient(135deg,#f43f5e,#f97316);"></span>
-                    <span data-i18n="thmCrimson">Закат</span>
-                </button>
+                <button class="opt-btn active" id="thm-dark" onclick="setTheme('dark')"><span class="swatch" style="background:linear-gradient(135deg,#00d2ff,#7c3aed);"></span><span data-i18n="thmDark">Тёмная</span></button>
+                <button class="opt-btn" id="thm-light" onclick="setTheme('light')"><span class="swatch" style="background:linear-gradient(135deg,#ffffff,#38bdf8);"></span><span data-i18n="thmLight">Светлая</span></button>
+                <button class="opt-btn" id="thm-pink" onclick="setTheme('pink')"><span class="swatch" style="background:linear-gradient(135deg,#ec4899,#a855f7);"></span><span data-i18n="thmPink">Розовая</span></button>
+                <button class="opt-btn" id="thm-purple" onclick="setTheme('purple')"><span class="swatch" style="background:linear-gradient(135deg,#a855f7,#4f46e5);"></span><span data-i18n="thmPurple">Киберпанк</span></button>
+                <button class="opt-btn" id="thm-emerald" onclick="setTheme('emerald')"><span class="swatch" style="background:linear-gradient(135deg,#10b981,#0d9488);"></span><span data-i18n="thmEmerald">Изумруд</span></button>
+                <button class="opt-btn" id="thm-gold" onclick="setTheme('gold')"><span class="swatch" style="background:linear-gradient(135deg,#fbbf24,#d97706);"></span><span data-i18n="thmGold">Золотая</span></button>
+                <button class="opt-btn" id="thm-ocean" onclick="setTheme('ocean')"><span class="swatch" style="background:linear-gradient(135deg,#06b6d4,#2563eb);"></span><span data-i18n="thmOcean">Океан</span></button>
+                <button class="opt-btn" id="thm-crimson" onclick="setTheme('crimson')"><span class="swatch" style="background:linear-gradient(135deg,#f43f5e,#f97316);"></span><span data-i18n="thmCrimson">Закат</span></button>
+                <button class="opt-btn" id="thm-arctic" onclick="setTheme('arctic')"><span class="swatch" style="background:linear-gradient(135deg,#38bdf8,#818cf8);"></span><span data-i18n="thmArctic">Арктика</span></button>
+                <button class="opt-btn" id="thm-matrix" onclick="setTheme('matrix')"><span class="swatch" style="background:linear-gradient(135deg,#22c55e,#15803d);"></span><span data-i18n="thmMatrix">Матрица</span></button>
+                <button class="opt-btn" id="thm-lavender" onclick="setTheme('lavender')"><span class="swatch" style="background:linear-gradient(135deg,#c084fc,#ec4899);"></span><span data-i18n="thmLavender">Лаванда</span></button>
+                <button class="opt-btn" id="thm-toxic" onclick="setTheme('toxic')"><span class="swatch" style="background:linear-gradient(135deg,#a3e635,#10b981);"></span><span data-i18n="thmToxic">Токсик</span></button>
+                <button class="opt-btn" id="thm-coffee" onclick="setTheme('coffee')"><span class="swatch" style="background:linear-gradient(135deg,#d69e72,#9c6644);"></span><span data-i18n="thmCoffee">Мокко</span></button>
+                <button class="opt-btn" id="thm-royal" onclick="setTheme('royal')"><span class="swatch" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);"></span><span data-i18n="thmRoyal">Королевская</span></button>
             </div>
         </div>
     </div>
@@ -1002,215 +752,126 @@
     tg.ready();
     tg.expand();
 
-    const ALL_THEMES = ["dark", "light", "pink", "purple", "emerald", "gold", "ocean", "crimson"];
+    // Тактильная отдача (Haptic Feedback)
+    function haptic(type = "light") {
+        try {
+            if (!tg.HapticFeedback) return;
+            if (["success", "warning", "error"].includes(type)) {
+                tg.HapticFeedback.notificationOccurred(type);
+            } else {
+                tg.HapticFeedback.impactOccurred(type);
+            }
+        } catch (e) {}
+    }
+
+    const ALL_THEMES = [
+        "dark", "light", "pink", "purple", "emerald", "gold", "ocean",
+        "crimson", "arctic", "matrix", "lavender", "toxic", "coffee", "royal"
+    ];
 
     const I18N = {
         ru: {
-            modeFutures: "💎 Фьючерсы",
-            modeMemes: "🚀 Мем-коины",
-            lblMargin: "Маржа (USDT):",
-            lblLeverage: "Плечо:",
-            lblOpenPositions: "Открытые позиции:",
-            noPositions: "Нет открытых сделок.",
-            lblMemeBuyAmt: "Сумма покупки (USDT):",
-            btnBuyMeme: "🚀 Купить",
-            btnSellMeme: "💰 Продать",
-            lblMyMemes: "Мои мем-активы:",
-            noMemes: "У вас пока нет купленных мем-коинов.",
+            modeFutures: "💎 Фьючерсы", modeMemes: "🚀 Мем-коины",
+            lblMargin: "Маржа (USDT):", lblLeverage: "Плечо:",
+            lblOpenPositions: "Открытые позиции:", noPositions: "Нет открытых сделок.",
+            lblMemeBuyAmt: "Сумма покупки (USDT):", btnBuyMeme: "🚀 Купить", btnSellMeme: "💰 Продать",
+            lblMyMemes: "Мои мем-активы:", noMemes: "У вас пока нет купленных мем-коинов.",
             lblTotalBalance: "Общий баланс портфеля",
-            btnDeposit: "➕ Пополнить",
-            btnWithdraw: "📤 Вывести",
-            lblWdTitle: "📤 Вывод средств",
-            lblWdAddr: "Адрес кошелька / Карта:",
-            btnConfirmWd: "Подтвердить вывод",
-            lblExTitle: "Мгновенный обмен валют",
-            lblExFrom: "Отдаете:",
-            lblExTo: "Получаете:",
-            btnExchangeNow: "🔄 Обменять",
-            lblChkTitle: "Создание крипто-чека",
-            lblChkCoin: "Выберите валюту:",
-            lblChkAmt: "Введите сумму:",
-            btnCreateCheck: "🧾 Создать чек",
-            lblSupTitle: "Служба поддержки 24/7",
-            lblSupDesc: "Нажмите кнопку ниже для прямой связи с оператором @ssupppoortt.",
-            btnSupWrite: "Написать @ssupppoortt",
-            lblSetLang: "🌍 Язык интерфейса",
-            lblSetTheme: "🎨 Цветовая тема",
-            thmDark: "Тёмная",
-            thmLight: "Светлая",
-            thmPink: "Розовая",
-            thmPurple: "Киберпанк",
-            thmEmerald: "Изумруд",
-            thmGold: "Золотая",
-            thmOcean: "Океан",
-            thmCrimson: "Закат",
-            navWallet: "Кошелёк",
-            navExchange: "Обмен",
-            navTrade: "Торговля",
-            navChecks: "Чеки",
-            navSupport: "Поддержка",
-            navSettings: "Настройки",
-            noFunds: "Нехватка средств на балансе!",
-            pumpingNow: "Рост",
-            closeBtn: "Закрыть",
-            sellBtn: "Продать",
-            availTxt: "Баланс",
+            btnDeposit: "➕ Пополнить", btnWithdraw: "📤 Вывести", btnStaking: "💎 Стейкинг",
+            lblQrTitle: "📲 Пополнение по QR-коду", lblSelectNet: "Сеть пополнения:", btnCopyAddr: "📋 Скопировать адрес",
+            lblStakingTitle: "💎 Стейкинг (Earn +2.5% / день)", btnStakeNow: "🔒 Инвестировать в стейкинг",
+            lblWdTitle: "📤 Вывод средств", lblWdAddr: "Адрес кошелька / Карта:", btnConfirmWd: "Подтвердить вывод",
+            lblExTitle: "Мгновенный обмен валют", lblExFrom: "Отдаете:", lblExTo: "Получаете:", btnExchangeNow: "🔄 Обменять",
+            lblChkTitle: "Создание мульти-чека", lblChkCoin: "Выберите валюту:", lblChkAmt: "Общая сумма:",
+            lblChkActs: "Кол-во активаций:", lblChkPwd: "Пароль на чек (необязательно):",
+            btnCreateCheck: "🧾 Создать чек", lblClaimChkTitle: "Активировать код чека", btnClaimCheck: "🎁 Активировать чек",
+            lblActiveChecks: "Мои созданные чеки:",
+            lblSupTitle: "Служба поддержки 24/7", lblSupDesc: "Нажмите кнопку ниже для прямой связи с оператором @ssupppoortt.", btnSupWrite: "Написать @ssupppoortt",
+            lblSetLang: "🌍 Язык интерфейса", lblPinSecurity: "🔐 Защита PIN-кодом", btnSetPin: "Установить",
+            lblSetTheme: "🎨 Цветовая тема (14 стилей)",
+            thmDark: "Тёмная", thmLight: "Светлая", thmPink: "Розовая", thmPurple: "Киберпанк",
+            thmEmerald: "Изумруд", thmGold: "Золотая", thmOcean: "Океан", thmCrimson: "Закат",
+            thmArctic: "Арктика", thmMatrix: "Матрица", thmLavender: "Лаванда", thmToxic: "Токсик", thmCoffee: "Мокко", thmRoyal: "Королевская",
+            navWallet: "Кошелёк", navExchange: "Обмен", navTrade: "Торговля", navChecks: "Чеки", navSupport: "Поддержка", navSettings: "Настройки",
+            noFunds: "Нехватка средств на балансе!", pumpingNow: "Рост", closeBtn: "Закрыть", sellBtn: "Продать", availTxt: "Баланс",
             searchPlaceholder: "🔍 Поиск мем-коина..."
         },
         uk: {
-            modeFutures: "💎 Ф'ючерси",
-            modeMemes: "🚀 Мем-коїни",
-            lblMargin: "Маржа (USDT):",
-            lblLeverage: "Плече:",
-            lblOpenPositions: "Відкриті позиції:",
-            noPositions: "Немає відкритих угод.",
-            lblMemeBuyAmt: "Сума купівлі (USDT):",
-            btnBuyMeme: "🚀 Купити",
-            btnSellMeme: "💰 Продати",
-            lblMyMemes: "Мої мем-активи:",
-            noMemes: "У вас поки немає куплених мем-коїнів.",
+            modeFutures: "💎 Ф'ючерси", modeMemes: "🚀 Мем-коїни",
+            lblMargin: "Маржа (USDT):", lblLeverage: "Плече:",
+            lblOpenPositions: "Відкриті позиції:", noPositions: "Немає відкритих угод.",
+            lblMemeBuyAmt: "Сума купівлі (USDT):", btnBuyMeme: "🚀 Купити", btnSellMeme: "💰 Продати",
+            lblMyMemes: "Мої мем-активи:", noMemes: "У вас поки немає куплених мем-коїнів.",
             lblTotalBalance: "Загальний баланс портфеля",
-            btnDeposit: "➕ Поповнити",
-            btnWithdraw: "📤 Вивести",
-            lblWdTitle: "📤 Виведення коштів",
-            lblWdAddr: "Адреса гаманця / Картка:",
-            btnConfirmWd: "Підтвердити виведення",
-            lblExTitle: "Миттєвий обмін валют",
-            lblExFrom: "Віддаєте:",
-            lblExTo: "Отримуєте:",
-            btnExchangeNow: "🔄 Обміняти",
-            lblChkTitle: "Створення крипто-чека",
-            lblChkCoin: "Оберіть валюту:",
-            lblChkAmt: "Введіть суму:",
-            btnCreateCheck: "🧾 Створити чек",
-            lblSupTitle: "Служба підтримки 24/7",
-            lblSupDesc: "Натисніть кнопку нижче для прямого зв'язку з оператором @ssupppoortt.",
-            btnSupWrite: "Написати @ssupppoortt",
-            lblSetLang: "🌍 Мова інтерфейсу",
-            lblSetTheme: "🎨 Кольорова тема",
-            thmDark: "Темна",
-            thmLight: "Світла",
-            thmPink: "Рожева",
-            thmPurple: "Кіберпанк",
-            thmEmerald: "Смарагд",
-            thmGold: "Золота",
-            thmOcean: "Океан",
-            thmCrimson: "Захід",
-            navWallet: "Гаманець",
-            navExchange: "Обмін",
-            navTrade: "Торгівля",
-            navChecks: "Чеки",
-            navSupport: "Підтримка",
-            navSettings: "Налаштування",
-            noFunds: "Недостатньо коштів на балансі!",
-            pumpingNow: "Ріст",
-            closeBtn: "Закрити",
-            sellBtn: "Продати",
-            availTxt: "Баланс",
+            btnDeposit: "➕ Поповнити", btnWithdraw: "📤 Вивести", btnStaking: "💎 Стейкінг",
+            lblQrTitle: "📲 Поповнення за QR-кодом", lblSelectNet: "Мережа поповнення:", btnCopyAddr: "📋 Скопіювати адресу",
+            lblStakingTitle: "💎 Стейкінг (Earn +2.5% / день)", btnStakeNow: "🔒 Інвестувати у стейкінг",
+            lblWdTitle: "📤 Виведення коштів", lblWdAddr: "Адреса гаманця / Картка:", btnConfirmWd: "Підтвердити виведення",
+            lblExTitle: "Миттєвий обмін валют", lblExFrom: "Віддаєте:", lblExTo: "Отримуєте:", btnExchangeNow: "🔄 Обміняти",
+            lblChkTitle: "Створення мульти-чека", lblChkCoin: "Оберіть валюту:", lblChkAmt: "Загальна сума:",
+            lblChkActs: "Кількість активацій:", lblChkPwd: "Пароль на чек (необов'язково):",
+            btnCreateCheck: "🧾 Створити чек", lblClaimChkTitle: "Активувати код чека", btnClaimCheck: "🎁 Активувати чек",
+            lblActiveChecks: "Мої створені чеки:",
+            lblSupTitle: "Служба підтримки 24/7", lblSupDesc: "Натисніть кнопку нижче для прямого зв'язку з оператором @ssupppoortt.", btnSupWrite: "Написати @ssupppoortt",
+            lblSetLang: "🌍 Мова інтерфейсу", lblPinSecurity: "🔐 Захист PIN-кодом", btnSetPin: "Встановити",
+            lblSetTheme: "🎨 Кольорова тема (14 стилів)",
+            thmDark: "Темна", thmLight: "Світла", thmPink: "Рожева", thmPurple: "Кіберпанк",
+            thmEmerald: "Смарагд", thmGold: "Золота", thmOcean: "Океан", thmCrimson: "Захід",
+            thmArctic: "Арктика", thmMatrix: "Матриця", thmLavender: "Лаванда", thmToxic: "Токсик", thmCoffee: "Мокко", thmRoyal: "Королівська",
+            navWallet: "Гаманець", navExchange: "Обмін", navTrade: "Торгівля", navChecks: "Чеки", navSupport: "Підтримка", navSettings: "Налаштування",
+            noFunds: "Недостатньо коштів на балансі!", pumpingNow: "Ріст", closeBtn: "Закрити", sellBtn: "Продати", availTxt: "Баланс",
             searchPlaceholder: "🔍 Пошук мем-коїна..."
         },
         en: {
-            modeFutures: "💎 Futures",
-            modeMemes: "🚀 Meme Coins",
-            lblMargin: "Margin (USDT):",
-            lblLeverage: "Leverage:",
-            lblOpenPositions: "Open Positions:",
-            noPositions: "No active positions.",
-            lblMemeBuyAmt: "Buy Amount (USDT):",
-            btnBuyMeme: "🚀 Buy",
-            btnSellMeme: "💰 Sell",
-            lblMyMemes: "My Meme Assets:",
-            noMemes: "No meme coins bought yet.",
+            modeFutures: "💎 Futures", modeMemes: "🚀 Meme Coins",
+            lblMargin: "Margin (USDT):", lblLeverage: "Leverage:",
+            lblOpenPositions: "Open Positions:", noPositions: "No active positions.",
+            lblMemeBuyAmt: "Buy Amount (USDT):", btnBuyMeme: "🚀 Buy", btnSellMeme: "💰 Sell",
+            lblMyMemes: "My Meme Assets:", noMemes: "No meme coins bought yet.",
             lblTotalBalance: "Total Portfolio Balance",
-            btnDeposit: "➕ Deposit",
-            btnWithdraw: "📤 Withdraw",
-            lblWdTitle: "📤 Withdraw Funds",
-            lblWdAddr: "Wallet Address / Card:",
-            btnConfirmWd: "Confirm Withdraw",
-            lblExTitle: "Instant Currency Swap",
-            lblExFrom: "You send:",
-            lblExTo: "You receive:",
-            btnExchangeNow: "🔄 Swap Now",
-            lblChkTitle: "Create Crypto Check",
-            lblChkCoin: "Select currency:",
-            lblChkAmt: "Enter amount:",
-            btnCreateCheck: "🧾 Create Check",
-            lblSupTitle: "24/7 Support Desk",
-            lblSupDesc: "Tap the button below to message @ssupppoortt directly.",
-            btnSupWrite: "Message @ssupppoortt",
-            lblSetLang: "🌍 Interface Language",
-            lblSetTheme: "🎨 Color Theme",
-            thmDark: "Obsidian",
-            thmLight: "Daylight",
-            thmPink: "Sakura",
-            thmPurple: "Cyberpunk",
-            thmEmerald: "Emerald",
-            thmGold: "Luxury Gold",
-            thmOcean: "Ocean",
-            thmCrimson: "Sunset",
-            navWallet: "Wallet",
-            navExchange: "Swap",
-            navTrade: "Trade",
-            navChecks: "Checks",
-            navSupport: "Support",
-            navSettings: "Settings",
-            noFunds: "Insufficient balance!",
-            pumpingNow: "Growth",
-            closeBtn: "Close",
-            sellBtn: "Sell",
-            availTxt: "Balance",
+            btnDeposit: "➕ Deposit", btnWithdraw: "📤 Withdraw", btnStaking: "💎 Staking",
+            lblQrTitle: "📲 QR Code Deposit", lblSelectNet: "Deposit Network:", btnCopyAddr: "📋 Copy Address",
+            lblStakingTitle: "💎 Staking (Earn +2.5% / day)", btnStakeNow: "🔒 Stake Coins Now",
+            lblWdTitle: "📤 Withdraw Funds", lblWdAddr: "Wallet Address / Card:", btnConfirmWd: "Confirm Withdraw",
+            lblExTitle: "Instant Currency Swap", lblExFrom: "You send:", lblExTo: "You receive:", btnExchangeNow: "🔄 Swap Now",
+            lblChkTitle: "Create Multi-Check", lblChkCoin: "Select currency:", lblChkAmt: "Total amount:",
+            lblChkActs: "Activations count:", lblChkPwd: "Check password (optional):",
+            btnCreateCheck: "🧾 Create Check", lblClaimChkTitle: "Redeem Check Code", btnClaimCheck: "🎁 Claim Check",
+            lblActiveChecks: "My Created Checks:",
+            lblSupTitle: "24/7 Support Desk", lblSupDesc: "Tap the button below to message @ssupppoortt directly.", btnSupWrite: "Message @ssupppoortt",
+            lblSetLang: "🌍 Interface Language", lblPinSecurity: "🔐 PIN Code Lock", btnSetPin: "Set PIN",
+            lblSetTheme: "🎨 Color Theme (14 styles)",
+            thmDark: "Obsidian", thmLight: "Daylight", thmPink: "Sakura", thmPurple: "Cyberpunk",
+            thmEmerald: "Emerald", thmGold: "Gold", thmOcean: "Ocean", thmCrimson: "Sunset",
+            thmArctic: "Arctic", thmMatrix: "Matrix", thmLavender: "Lavender", thmToxic: "Toxic", thmCoffee: "Mocha", thmRoyal: "Royal Blue",
+            navWallet: "Wallet", navExchange: "Swap", navTrade: "Trade", navChecks: "Checks", navSupport: "Support", navSettings: "Settings",
+            noFunds: "Insufficient balance!", pumpingNow: "Growth", closeBtn: "Close", sellBtn: "Sell", availTxt: "Balance",
             searchPlaceholder: "🔍 Search meme coin..."
         },
         zh: {
-            modeFutures: "💎 合约交易",
-            modeMemes: "🚀 迷因币",
-            lblMargin: "保证金 (USDT)：",
-            lblLeverage: "杠杆倍数：",
-            lblOpenPositions: "当前持仓：",
-            noPositions: "暂无持仓。",
-            lblMemeBuyAmt: "买入金额 (USDT)：",
-            btnBuyMeme: "🚀 买入",
-            btnSellMeme: "💰 卖出",
-            lblMyMemes: "我的迷因资产：",
-            noMemes: "暂未购买迷因币。",
+            modeFutures: "💎 合约交易", modeMemes: "🚀 迷因币",
+            lblMargin: "保证金 (USDT)：", lblLeverage: "杠杆倍数：",
+            lblOpenPositions: "当前持仓：", noPositions: "暂无持仓。",
+            lblMemeBuyAmt: "买入金额 (USDT)：", btnBuyMeme: "🚀 买入", btnSellMeme: "💰 卖出",
+            lblMyMemes: "我的迷因资产：", noMemes: "暂未购买迷因币。",
             lblTotalBalance: "总资产估值",
-            btnDeposit: "➕ 充值",
-            btnWithdraw: "📤 提现",
-            lblWdTitle: "📤 提现资产",
-            lblWdAddr: "钱包地址 / 银行卡：",
-            btnConfirmWd: "确认提现",
-            lblExTitle: "闪电兑换",
-            lblExFrom: "支付币种：",
-            lblExTo: "获得币种：",
-            btnExchangeNow: "🔄 立即兑换",
-            lblChkTitle: "创建加密支票",
-            lblChkCoin: "选择币种：",
-            lblChkAmt: "输入金额：",
-            btnCreateCheck: "🧾 创建支票",
-            lblSupTitle: "24/7 在线客服",
-            lblSupDesc: "点击下方按钮直接联系客服 @ssupppoortt。",
-            btnSupWrite: "联系 @ssupppoortt",
-            lblSetLang: "🌍 界面语言",
-            lblSetTheme: "🎨 主题外观",
-            thmDark: "深邃黑",
-            thmLight: "极昼白",
-            thmPink: "樱花粉",
-            thmPurple: "赛博紫",
-            thmEmerald: "翡翠绿",
-            thmGold: "黑曜金",
-            thmOcean: "深海蓝",
-            thmCrimson: "落日红",
-            navWallet: "钱包",
-            navExchange: "兑换",
-            navTrade: "交易",
-            navChecks: "支票",
-            navSupport: "客服",
-            navSettings: "设置",
-            noFunds: "余额不足！",
-            pumpingNow: "涨幅",
-            closeBtn: "平仓",
-            sellBtn: "卖出",
-            availTxt: "余额",
+            btnDeposit: "➕ 充值", btnWithdraw: "📤 提现", btnStaking: "💎 质押赚币",
+            lblQrTitle: "📲 二维码充值", lblSelectNet: "充值网络：", btnCopyAddr: "📋 复制地址",
+            lblStakingTitle: "💎 质押生息 (每日 +2.5%)", btnStakeNow: "🔒 立即质押",
+            lblWdTitle: "📤 提现资产", lblWdAddr: "钱包地址 / 银行卡：", btnConfirmWd: "确认提现",
+            lblExTitle: "闪电兑换", lblExFrom: "支付币种：", lblExTo: "获得币种：", btnExchangeNow: "🔄 立即兑换",
+            lblChkTitle: "创建多份支票", lblChkCoin: "选择币种：", lblChkAmt: "总金额：",
+            lblChkActs: "领取份数：", lblChkPwd: "支票密码 (选填)：",
+            btnCreateCheck: "🧾 创建支票", lblClaimChkTitle: "兑换支票代码", btnClaimCheck: "🎁 领取支票",
+            lblActiveChecks: "我创建的支票：",
+            lblSupTitle: "24/7 在线客服", lblSupDesc: "点击下方按钮直接联系客服 @ssupppoortt。", btnSupWrite: "联系 @ssupppoortt",
+            lblSetLang: "🌍 界面语言", lblPinSecurity: "🔐 PIN 码安全锁", btnSetPin: "设置 PIN",
+            lblSetTheme: "🎨 主题外观 (14款)",
+            thmDark: "深邃黑", thmLight: "极昼白", thmPink: "樱花粉", thmPurple: "赛博紫",
+            thmEmerald: "翡翠绿", thmGold: "黑曜金", thmOcean: "深海蓝", thmCrimson: "落日红",
+            thmArctic: "极地冰", thmMatrix: "黑客绿", thmLavender: "薰衣草", thmToxic: "霓虹绿", thmCoffee: "摩卡棕", thmRoyal: "皇家蓝",
+            navWallet: "钱包", navExchange: "兑换", navTrade: "交易", navChecks: "支票", navSupport: "客服", navSettings: "设置",
+            noFunds: "余额不足！", pumpingNow: "涨幅", closeBtn: "平仓", sellBtn: "卖出", availTxt: "余额",
             searchPlaceholder: "🔍 搜索迷因币..."
         }
     };
@@ -1301,9 +962,7 @@
             "Giga", "Chad", "Wojak", "Fomo", "Ape", "Rocket", "Mars", "Pluto", "Neon", "Quantum",
             "Hyper", "Pixel", "Turbo", "Based", "Alpha"
         ];
-        const suffixes = [
-            "Inu", "Cat", "Frog", "Pug", "Ape", "Bear", "Bull", "Whale", "Duck", "Hamster"
-        ];
+        const suffixes = ["Inu", "Cat", "Frog", "Pug", "Ape", "Bear", "Bull", "Whale", "Duck", "Hamster"];
         const icons = ["🚀","🐸","🐕","🐱","🦍","💎","🌕","🔥","⚡","🛸","🦊","🐻","🐼","🦁","🐯","🦄","🐲","🐙","🦖","🐝"];
         const usedTickers = new Set(MEME_COINS.map(c => c.ticker));
 
@@ -1318,9 +977,7 @@
                 const icon = icons[(p * 7 + s * 3) % icons.length];
                 const rawPrice = 0.00000008 + (((idx * 97) % 250) / 250) * 0.000042;
                 MEME_COINS.push({
-                    ticker,
-                    name,
-                    icon,
+                    ticker, name, icon,
                     basePrice: +rawPrice.toFixed(8),
                     logo: makeSvgAvatar(ticker, icon, idx + 30)
                 });
@@ -1337,32 +994,30 @@
     const TEN_HOURS_MS = 10 * 3600 * 1000;
     const params = new URLSearchParams(window.location.search);
     const tgUserId = (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) || params.get("uid") || "default";
-    const STORAGE_KEY = `spacex_state_v4_${tgUserId}`;
+    const botUsername = params.get("bot") || "spacexcrypto_bot";
+    const STORAGE_KEY = `spacex_state_v5_${tgUserId}`;
 
     const BALANCES = {};
     Object.keys(COINS).forEach(k => BALANCES[k] = 0);
 
     let memeHoldings = {};
     let positions = [];
+    let stakes = [];      // [{id, coin, amount, startTime}]
+    let webChecks = {};   // {code: {coin, total, perClaim, maxActs, claimedCount, password}}
+    let hideBalance = false;
+    let userPin = null;
     let currentLang = params.get("lang") || "ru";
     let currentTheme = "dark";
     let currentInterval = "1";
     let klineCandles = [];
 
-    // Автоматическое сохранение в localStorage + Telegram CloudStorage
     function loadAppState() {
         let saved = null;
-        try {
-            saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-        } catch (e) { saved = null; }
+        try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); } catch (e) { saved = null; }
 
         const urlBalances = {};
-        Object.keys(COINS).forEach(t => {
-            urlBalances[t] = parseFloat(params.get(t)) || 0;
-        });
-        if (params.has("TON") && !urlBalances.GRAM) {
-            urlBalances.GRAM = parseFloat(params.get("TON")) || 0;
-        }
+        Object.keys(COINS).forEach(t => { urlBalances[t] = parseFloat(params.get(t)) || 0; });
+        if (params.has("TON") && !urlBalances.GRAM) urlBalances.GRAM = parseFloat(params.get("TON")) || 0;
 
         if (!saved) {
             Object.keys(COINS).forEach(t => { BALANCES[t] = urlBalances[t]; });
@@ -1373,10 +1028,13 @@
             });
             memeHoldings = saved.memeHoldings || {};
             positions = saved.positions || [];
+            stakes = saved.stakes || [];
+            webChecks = saved.webChecks || {};
+            hideBalance = !!saved.hideBalance;
+            userPin = saved.userPin || null;
             if (saved.lang && I18N[saved.lang]) currentLang = saved.lang;
             if (saved.theme && ALL_THEMES.includes(saved.theme)) currentTheme = saved.theme;
 
-            // Автоматическая дельта-синхронизация с ботом без потери обменов
             const lastUrlSnap = saved.lastUrlSnap || {};
             let changedFromBot = false;
             Object.keys(COINS).forEach(t => {
@@ -1387,9 +1045,7 @@
                     changedFromBot = true;
                 }
             });
-            if (changedFromBot) {
-                saveAppState(urlBalances);
-            }
+            if (changedFromBot) saveAppState(urlBalances);
         }
     }
 
@@ -1400,25 +1056,15 @@
             const urlSnap = newUrlSnap || prev.lastUrlSnap || {};
             if (!newUrlSnap) {
                 Object.keys(COINS).forEach(t => {
-                    if (params.has(t) && urlSnap[t] === undefined) {
-                        urlSnap[t] = parseFloat(params.get(t)) || 0;
-                    }
+                    if (params.has(t) && urlSnap[t] === undefined) urlSnap[t] = parseFloat(params.get(t)) || 0;
                 });
             }
             const stateObj = {
-                balances: BALANCES,
-                memeHoldings: memeHoldings,
-                positions: positions,
-                lang: currentLang,
-                theme: currentTheme,
-                lastUrlSnap: urlSnap,
-                updatedAt: Date.now()
+                balances: BALANCES, memeHoldings, positions, stakes, webChecks,
+                hideBalance, userPin, lang: currentLang, theme: currentTheme,
+                lastUrlSnap: urlSnap, updatedAt: Date.now()
             };
-            const serialized = JSON.stringify(stateObj);
-            localStorage.setItem(STORAGE_KEY, serialized);
-            if (tg.CloudStorage && typeof tg.CloudStorage.setItem === "function") {
-                tg.CloudStorage.setItem("spacex_balances", JSON.stringify(BALANCES));
-            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(stateObj));
         } catch (e) {}
     }
 
@@ -1427,6 +1073,192 @@
         t.textContent = msg;
         t.style.display = "block";
         setTimeout(() => { t.style.display = "none"; }, 2600);
+    }
+
+    // ================= СКРЫТИЕ БАЛАНСА И QR-КОД =================
+    function toggleHideBalance() {
+        haptic("light");
+        hideBalance = !hideBalance;
+        document.getElementById("eye-toggle-btn").textContent = hideBalance ? "🙈" : "👁️";
+        saveAppState();
+        renderWallet();
+        calcExchangePreview();
+    }
+
+    function toggleWalletBox(panelId) {
+        haptic("light");
+        ["qr-panel", "withdraw-panel", "staking-panel"].forEach(id => {
+            const el = document.getElementById(id);
+            if (id === panelId) {
+                el.style.display = el.style.display === "none" ? "block" : "none";
+            } else {
+                el.style.display = "none";
+            }
+        });
+        if (panelId === "qr-panel") updateDepositQR();
+        if (panelId === "staking-panel") renderStakes();
+    }
+
+    function updateDepositQR() {
+        const addr = document.getElementById("qr-net").value;
+        document.getElementById("qr-img").src =
+            `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(addr)}`;
+        document.getElementById("qr-addr-text").textContent = addr;
+    }
+
+    function copyDepositAddr() {
+        haptic("success");
+        const addr = document.getElementById("qr-net").value;
+        navigator.clipboard?.writeText(addr);
+        showToast("✅ Адрес скопирован в буфер обмена!");
+    }
+
+    // ================= СТЕЙКИНГ (EARN +2.5% В СУТКИ) =================
+    function getStakeReward(s) {
+        const days = Math.max(0, (Date.now() - s.startTime) / 86400000);
+        return s.amount * 0.025 * days;
+    }
+
+    function stakeCoins() {
+        const coin = document.getElementById("stk-coin").value;
+        const amt = parseFloat(document.getElementById("stk-amount").value) || 0;
+        const d = I18N[currentLang] || I18N.ru;
+        if (amt <= 0 || amt > (BALANCES[coin] || 0)) {
+            haptic("error");
+            showToast("❌ " + d.noFunds);
+            return;
+        }
+        haptic("success");
+        BALANCES[coin] -= amt;
+        stakes.unshift({ id: Date.now(), coin, amount: amt, startTime: Date.now() });
+        document.getElementById("stk-amount").value = "";
+        saveAppState();
+        renderStakes();
+        renderWallet();
+        showToast(`💎 В стейкинг: ${formatUnlimitedNumber(amt)} ${coin}`);
+    }
+
+    function unstakeCoins(id) {
+        const idx = stakes.findIndex(s => s.id === id);
+        if (idx === -1) return;
+        haptic("success");
+        const s = stakes[idx];
+        const reward = getStakeReward(s);
+        const total = s.amount + reward;
+        BALANCES[s.coin] = (BALANCES[s.coin] || 0) + total;
+        stakes.splice(idx, 1);
+        saveAppState();
+        renderStakes();
+        renderWallet();
+        showToast(`✅ Выведено из стейкинга: +${formatUnlimitedNumber(total, 6)} ${s.coin}`);
+    }
+
+    function renderStakes() {
+        const box = document.getElementById("staking-active-list");
+        if (!box) return;
+        if (!stakes.length) {
+            box.innerHTML = `<div style="color:var(--text-muted);">Нет активных вкладов.</div>`;
+            return;
+        }
+        box.innerHTML = "";
+        stakes.forEach(s => {
+            const r = getStakeReward(s);
+            const div = document.createElement("div");
+            div.className = "holding-item";
+            div.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong>${formatUnlimitedNumber(s.amount, 4)} ${s.coin}</strong>
+                        <div style="font-size:11px; color:var(--up);">Начислено: +${r.toFixed(6)} ${s.coin}</div>
+                    </div>
+                    <button class="small-action-btn" style="background:var(--up); color:#000;" onclick="unstakeCoins(${s.id})">Забрать</button>
+                </div>
+            `;
+            box.appendChild(div);
+        });
+    }
+
+    // ================= ЗАЩИТА PIN-КОДОМ =================
+    let pinMode = "unlock"; // "unlock" | "setup"
+    let pinBuffer = "";
+
+    function updatePinSettingsUI() {
+        const st = document.getElementById("pin-status-text");
+        const disBtn = document.getElementById("btn-disable-pin");
+        if (userPin) {
+            st.textContent = "Активна (4 цифры) ✅";
+            st.style.color = "var(--up)";
+            disBtn.style.display = "inline-block";
+        } else {
+            st.textContent = "Отключена";
+            st.style.color = "var(--text-muted)";
+            disBtn.style.display = "none";
+        }
+    }
+
+    function openPinSetup() {
+        haptic("light");
+        pinMode = "setup";
+        pinBuffer = "";
+        document.getElementById("pin-title").textContent = "Придумайте 4-значный PIN";
+        document.getElementById("pin-cancel-btn").style.visibility = "visible";
+        updatePinDots();
+        document.getElementById("pin-overlay").style.display = "flex";
+    }
+
+    function disablePinCode() {
+        haptic("warning");
+        userPin = null;
+        saveAppState();
+        updatePinSettingsUI();
+        showToast("🔓 PIN-код отключен");
+    }
+
+    function cancelPinModal() {
+        if (pinMode === "unlock") return;
+        document.getElementById("pin-overlay").style.display = "none";
+    }
+
+    function pressPinKey(digit) {
+        haptic("light");
+        if (pinBuffer.length >= 4) return;
+        pinBuffer += digit;
+        updatePinDots();
+
+        if (pinBuffer.length === 4) {
+            setTimeout(() => {
+                if (pinMode === "setup") {
+                    userPin = pinBuffer;
+                    saveAppState();
+                    updatePinSettingsUI();
+                    document.getElementById("pin-overlay").style.display = "none";
+                    haptic("success");
+                    showToast("🔐 PIN-код успешно установлен!");
+                } else {
+                    if (pinBuffer === userPin) {
+                        haptic("success");
+                        document.getElementById("pin-overlay").style.display = "none";
+                    } else {
+                        haptic("error");
+                        pinBuffer = "";
+                        updatePinDots();
+                        showToast("❌ Неверный PIN-код!");
+                    }
+                }
+            }, 140);
+        }
+    }
+
+    function pressPinBack() {
+        haptic("light");
+        pinBuffer = pinBuffer.slice(0, -1);
+        updatePinDots();
+    }
+
+    function updatePinDots() {
+        for (let i = 0; i < 4; i++) {
+            document.getElementById("pdot-" + i).classList.toggle("filled", i < pinBuffer.length);
+        }
     }
 
     function setupHiDPICanvas(canvas) {
@@ -1441,11 +1273,6 @@
         return { ctx, w, h };
     }
 
-    function toggleWithdrawBox() {
-        const panel = document.getElementById("withdraw-panel");
-        panel.style.display = panel.style.display === "none" ? "block" : "none";
-    }
-
     function executeWithdrawWeb() {
         const coin = document.getElementById("wd-coin").value;
         const addr = document.getElementById("wd-address").value.trim();
@@ -1453,13 +1280,16 @@
         const d = I18N[currentLang] || I18N.ru;
 
         if (!addr || addr.length < 4) {
+            haptic("warning");
             showToast("⚠️ " + d.lblWdAddr);
             return;
         }
         if (amt <= 0 || amt > (BALANCES[coin] || 0)) {
+            haptic("error");
             showToast("❌ " + d.noFunds);
             return;
         }
+        haptic("success");
         BALANCES[coin] -= amt;
         saveAppState();
         document.getElementById("wd-amount").value = "";
@@ -1478,6 +1308,7 @@
             btn.className = "coin-pill" + (ticker === activeFuturesPair ? " active" : "");
             btn.innerHTML = `<img src="${c.logo}" alt="${ticker}"><span>${ticker}</span>`;
             btn.onclick = () => {
+                haptic("light");
                 activeFuturesPair = ticker;
                 renderFuturesCarousel();
                 onPairChange();
@@ -1495,6 +1326,7 @@
             btn.className = "coin-pill" + (m.ticker === currentTicker ? " active" : "");
             btn.innerHTML = `<img src="${m.logo}" onerror="this.src='${m.fallbackLogo}'" alt="${m.ticker}"><span>${m.ticker}</span>`;
             btn.onclick = () => {
+                haptic("light");
                 document.getElementById("meme-select").value = m.ticker;
                 onMemeChange();
                 renderMemeCarousel(list);
@@ -1525,6 +1357,7 @@
     }
 
     function switchTradeMode(mode) {
+        haptic("light");
         document.getElementById("mode-futures-btn").classList.toggle("active", mode === "futures");
         document.getElementById("mode-memes-btn").classList.toggle("active", mode === "memes");
         document.getElementById("sub-futures").style.display = mode === "futures" ? "block" : "none";
@@ -1548,13 +1381,9 @@
         );
         const list = filtered.length ? filtered : MEME_COINS;
 
-        list.forEach(m => {
-            sel.add(new Option(`${m.name} (${m.ticker})`, m.ticker));
-        });
+        list.forEach(m => { sel.add(new Option(`${m.name} (${m.ticker})`, m.ticker)); });
 
-        if (prevVal && Array.from(sel.options).some(o => o.value === prevVal)) {
-            sel.value = prevVal;
-        }
+        if (prevVal && Array.from(sel.options).some(o => o.value === prevVal)) sel.value = prevVal;
         renderMemeCarousel(list);
     }
 
@@ -1645,10 +1474,11 @@
         const d = I18N[currentLang] || I18N.ru;
 
         if (amt <= 0 || amt > (BALANCES.USDT || 0)) {
+            haptic("error");
             showToast("❌ " + d.noFunds);
             return;
         }
-
+        haptic("success");
         const curPrice = getMemeLivePrice(ticker);
         const tokensBought = amt / curPrice;
         BALANCES.USDT -= amt;
@@ -1679,6 +1509,7 @@
     function sellMemeByTicker(ticker) {
         const hold = memeHoldings[ticker];
         if (!hold || hold.tokens <= 0) return;
+        haptic("success");
 
         const livePrice = getMemeLivePrice(ticker);
         const payoutUsdt = hold.tokens * livePrice;
@@ -1697,9 +1528,7 @@
 
     function sellSelectedMeme() {
         const ticker = document.getElementById("meme-select").value;
-        if (!memeHoldings[ticker]) {
-            return;
-        }
+        if (!memeHoldings[ticker]) return;
         sellMemeByTicker(ticker);
     }
 
@@ -1856,6 +1685,7 @@
     }
 
     function changeInterval(tf, btn) {
+        haptic("light");
         currentInterval = tf;
         document.querySelectorAll(".tf-pill").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
@@ -1868,6 +1698,7 @@
     }
 
     function setPct(inputId, pct) {
+        haptic("light");
         document.getElementById(inputId).value = ((BALANCES.USDT || 0) * pct).toFixed(2);
     }
 
@@ -1878,9 +1709,11 @@
         const d = I18N[currentLang] || I18N.ru;
 
         if (amt <= 0 || amt > (BALANCES.USDT || 0)) {
+            haptic("error");
             showToast("❌ " + d.noFunds);
             return;
         }
+        haptic("medium");
         BALANCES.USDT -= amt;
         const entry = COINS[pair].rate;
         positions.unshift({ id: Date.now(), pair, side, amt, lev, entry });
@@ -1895,6 +1728,7 @@
     function closePosition(id) {
         const idx = positions.findIndex(p => p.id === id);
         if (idx === -1) return;
+        haptic("success");
         const p = positions[idx];
         const mark = COINS[p.pair].rate;
         const diff = p.side === "LONG" ? (mark - p.entry)/p.entry : (p.entry - mark)/p.entry;
@@ -1941,7 +1775,9 @@
     }
 
     function updateHeaderUsdt() {
-        document.getElementById("hdr-usdt").textContent = `${formatUnlimitedNumber(BALANCES.USDT || 0, 2)} USDT`;
+        document.getElementById("hdr-usdt").textContent = hideBalance
+            ? "•••••• USDT"
+            : `${formatUnlimitedNumber(BALANCES.USDT || 0, 2)} USDT`;
     }
 
     function renderWallet() {
@@ -1955,6 +1791,9 @@
             const usd = bal * info.rate;
             total += usd;
 
+            const balText = hideBalance ? "••••••" : `${formatUnlimitedNumber(bal, 6)} ${ticker}`;
+            const usdText = hideBalance ? "••••" : `≈ $${formatUnlimitedNumber(usd, 2)}`;
+
             const row = document.createElement("div");
             row.className = "asset-row";
             row.innerHTML = `
@@ -1966,8 +1805,8 @@
                     </div>
                 </div>
                 <div style="text-align:right;">
-                    <div style="font-weight:800; font-size:14px;">${formatUnlimitedNumber(bal, 6)} ${ticker}</div>
-                    <div style="font-size:11px; color:var(--text-muted);">≈ $${formatUnlimitedNumber(usd, 2)}</div>
+                    <div style="font-weight:800; font-size:14px;">${balText}</div>
+                    <div style="font-size:11px; color:var(--text-muted);">${usdText}</div>
                 </div>
             `;
             list.appendChild(row);
@@ -1977,13 +1816,16 @@
             const h = memeHoldings[ticker];
             total += h.tokens * getMemeLivePrice(ticker);
         });
+        stakes.forEach(s => {
+            total += (s.amount + getStakeReward(s)) * COINS[s.coin].rate;
+        });
 
-        document.getElementById("total-usd").textContent = "$" + formatUnlimitedNumber(total, 2);
+        document.getElementById("total-usd").textContent = hideBalance ? "••••••••" : "$" + formatUnlimitedNumber(total, 2);
         updateHeaderUsdt();
     }
 
     function populateSelects() {
-        ['ex-from', 'ex-to', 'chk-coin', 'wd-coin'].forEach((id, idx) => {
+        ['ex-from', 'ex-to', 'chk-coin', 'wd-coin', 'stk-coin'].forEach((id, idx) => {
             const el = document.getElementById(id);
             if (!el) return;
             el.innerHTML = "";
@@ -1994,6 +1836,7 @@
     }
 
     function flipSwapCoins() {
+        haptic("light");
         const fromEl = document.getElementById("ex-from");
         const toEl = document.getElementById("ex-to");
         const tmp = fromEl.value;
@@ -2009,8 +1852,8 @@
         const rate = COINS[from].rate / COINS[to].rate;
         const d = I18N[currentLang] || I18N.ru;
 
-        document.getElementById("ex-from-avail").textContent = `${d.availTxt}: ${formatUnlimitedNumber(BALANCES[from] || 0, 6)} ${from}`;
-        document.getElementById("ex-to-avail").textContent = `${d.availTxt}: ${formatUnlimitedNumber(BALANCES[to] || 0, 6)} ${to}`;
+        document.getElementById("ex-from-avail").textContent = `${d.availTxt}: ${hideBalance ? "••••" : formatUnlimitedNumber(BALANCES[from] || 0, 6)} ${from}`;
+        document.getElementById("ex-to-avail").textContent = `${d.availTxt}: ${hideBalance ? "••••" : formatUnlimitedNumber(BALANCES[to] || 0, 6)} ${to}`;
         document.getElementById("ex-preview").textContent = `1 ${from} = ${rate.toFixed(6)} ${to}  ➔  ≈ ${formatUnlimitedNumber(amt * rate, 6)} ${to}`;
     }
 
@@ -2020,9 +1863,11 @@
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
         const d = I18N[currentLang] || I18N.ru;
         if (amt <= 0 || amt > (BALANCES[from] || 0)) {
+            haptic("error");
             showToast("❌ " + d.noFunds);
             return;
         }
+        haptic("success");
         const rec = (amt * COINS[from].rate) / COINS[to].rate;
         BALANCES[from] -= amt;
         BALANCES[to] = (BALANCES[to] || 0) + rec;
@@ -2034,26 +1879,127 @@
         showToast(`✅ +${formatUnlimitedNumber(rec, 6)} ${to}`);
     }
 
+    // ================= МУЛЬТИ-ЧЕКИ И ЧЕКИ С ПАРОЛЕМ =================
     function createCheckWeb() {
         const coin = document.getElementById("chk-coin").value;
         const amt = parseFloat(document.getElementById("chk-amount").value) || 0;
+        const acts = Math.max(1, parseInt(document.getElementById("chk-acts").value) || 1);
+        const pwd = document.getElementById("chk-password").value.trim() || null;
         const d = I18N[currentLang] || I18N.ru;
-        if (amt <= 0 || amt > (BALANCES[coin] || 0)) { showToast("❌ " + d.noFunds); return; }
+
+        if (amt <= 0 || amt > (BALANCES[coin] || 0)) {
+            haptic("error");
+            showToast("❌ " + d.noFunds);
+            return;
+        }
+        haptic("success");
         BALANCES[coin] -= amt;
+        const code = Math.random().toString(36).substring(2, 9).toUpperCase() + "SPX";
+        webChecks[code] = {
+            coin,
+            total: amt,
+            perClaim: amt / acts,
+            maxActs: acts,
+            claimedCount: 0,
+            password: pwd
+        };
         saveAppState();
-        const code = Math.random().toString(36).substring(2, 10).toUpperCase() + "SPX";
-        document.getElementById("chk-result").innerHTML = `✅ <b>#${code}</b> (${formatUnlimitedNumber(amt, 6)} ${coin})`;
+        document.getElementById("chk-amount").value = "";
+        document.getElementById("chk-password").value = "";
+
+        const pwdBadge = pwd ? `🔒 Пароль: <b>${pwd}</b>` : `🔓 Без пароля`;
+        document.getElementById("chk-result").innerHTML = `
+            <div class="holding-item">
+                <div>✅ Код чека: <b>#${code}</b></div>
+                <div style="font-size:11px; color:var(--text-muted); margin:4px 0;">
+                    Сумма: <b>${formatUnlimitedNumber(amt, 6)} ${coin}</b> (${acts} акт. по ${formatUnlimitedNumber(amt/acts, 6)} ${coin}) | ${pwdBadge}
+                </div>
+                <button class="btn-main" style="margin-top:8px; padding:10px;" onclick="shareCheckInline('${code}')">📤 Отправить чек в чат</button>
+            </div>
+        `;
+        renderMyChecks();
         renderWallet();
         calcExchangePreview();
     }
 
+    function shareCheckInline(code) {
+        haptic("light");
+        if (tg.switchInlineQuery) {
+            tg.switchInlineQuery(`#${code}`, ["users", "groups", "channels"]);
+        } else {
+            navigator.clipboard?.writeText(`@${botUsername} #${code}`);
+            showToast(`📋 Скопировано: @${botUsername} #${code}`);
+        }
+    }
+
+    function claimCheckWeb() {
+        const rawCode = document.getElementById("claim-code-input").value.trim().replace(/^#/, "").toUpperCase();
+        const enteredPwd = document.getElementById("claim-pwd-input").value.trim();
+        const chk = webChecks[rawCode];
+
+        if (!chk || chk.claimedCount >= chk.maxActs) {
+            haptic("error");
+            showToast("❌ Чек не найден или уже полностью активирован!");
+            return;
+        }
+        if (chk.password && chk.password !== enteredPwd) {
+            haptic("error");
+            showToast("🔒 Неверный пароль от чека!");
+            return;
+        }
+        haptic("success");
+        chk.claimedCount += 1;
+        BALANCES[chk.coin] = (BALANCES[chk.coin] || 0) + chk.perClaim;
+        if (chk.claimedCount >= chk.maxActs) {
+            delete webChecks[rawCode];
+        }
+        saveAppState();
+        document.getElementById("claim-code-input").value = "";
+        document.getElementById("claim-pwd-input").value = "";
+        renderMyChecks();
+        renderWallet();
+        calcExchangePreview();
+        showToast(`🎉 Зачислено +${formatUnlimitedNumber(chk.perClaim, 6)} ${chk.coin}!`);
+    }
+
+    function renderMyChecks() {
+        const box = document.getElementById("my-checks-list");
+        if (!box) return;
+        const codes = Object.keys(webChecks);
+        if (!codes.length) {
+            box.textContent = "Нет активных созданных чеков.";
+            return;
+        }
+        box.innerHTML = "";
+        codes.forEach(code => {
+            const c = webChecks[code];
+            const rem = c.maxActs - c.claimedCount;
+            const div = document.createElement("div");
+            div.className = "holding-item";
+            div.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong>#${code}</strong> (${formatUnlimitedNumber(c.perClaim, 4)} ${c.coin})
+                        <div style="font-size:11px; color:var(--text-muted);">
+                            Осталось: ${rem}/${c.maxActs} ${c.password ? "🔒 " + c.password : ""}
+                        </div>
+                    </div>
+                    <button class="small-action-btn" style="background:var(--accent);" onclick="shareCheckInline('${code}')">📤</button>
+                </div>
+            `;
+            box.appendChild(div);
+        });
+    }
+
     function switchTab(tabId, btn) {
+        haptic("light");
         document.querySelectorAll(".tab-section").forEach(s => s.classList.remove("active"));
         document.getElementById("tab-" + tabId).classList.add("active");
         document.querySelectorAll(".dock-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        if (tabId === "wallet") renderWallet();
+        if (tabId === "wallet") { renderWallet(); renderStakes(); }
         if (tabId === "exchange") calcExchangePreview();
+        if (tabId === "checks") renderMyChecks();
         if (tabId === "trade") {
             drawCandles();
             onMemeChange();
@@ -2061,6 +2007,7 @@
     }
 
     function setTheme(theme) {
+        haptic("light");
         if (!ALL_THEMES.includes(theme)) theme = "dark";
         currentTheme = theme;
         document.documentElement.setAttribute("data-theme", theme);
@@ -2074,6 +2021,7 @@
     }
 
     function setLang(lang) {
+        haptic("light");
         currentLang = I18N[lang] ? lang : "ru";
         ["ru", "uk", "en", "zh"].forEach(l => {
             const b = document.getElementById("lang-" + l);
@@ -2087,9 +2035,7 @@
         });
 
         const searchInput = document.getElementById("meme-search");
-        if (searchInput && dict.searchPlaceholder) {
-            searchInput.placeholder = dict.searchPlaceholder;
-        }
+        if (searchInput && dict.searchPlaceholder) searchInput.placeholder = dict.searchPlaceholder;
 
         saveAppState();
         renderPositions();
@@ -2105,9 +2051,22 @@
     populateMemeSelect();
     setTheme(currentTheme);
     setLang(currentLang);
+    updatePinSettingsUI();
+    document.getElementById("eye-toggle-btn").textContent = hideBalance ? "🙈" : "👁️";
     renderWallet();
     renderPositions();
     renderMemeHoldings();
+    renderMyChecks();
+
+    // Если установлен PIN-код — запрашиваем его при входе
+    if (userPin) {
+        pinMode = "unlock";
+        pinBuffer = "";
+        document.getElementById("pin-title").textContent = "Введите PIN-код";
+        document.getElementById("pin-cancel-btn").style.visibility = "hidden";
+        updatePinDots();
+        document.getElementById("pin-overlay").style.display = "flex";
+    }
 
     fetchMarketTickers().then(() => {
         onPairChange();
@@ -2120,6 +2079,7 @@
         fetchMarketTickers();
         onMemeChange();
         renderMemeHoldings();
+        renderStakes();
     }, 3000);
 </script>
 </body>
