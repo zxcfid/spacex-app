@@ -535,7 +535,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 2: КОШЕЛЁК + ПОПОЛНЕНИЕ (РУБЛИ/КРИПТА) + СТЕЙКИНГ 2% В МЕСЯЦ -->
+    <!-- ВКЛАДКА 2: КОШЕЛЁК + ПОПОЛНЕНИЕ (КРИПТА / КАРТА: RUB, UAH, KZT) + СТЕЙКИНГ 2%/МЕС -->
     <div id="tab-wallet" class="tab-section">
         <div class="wallet-hero">
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -550,15 +550,15 @@
             </div>
         </div>
 
-        <!-- Выбор способа пополнения: Криптовалюта или Рубли -->
+        <!-- Выбор способа пополнения: Криптовалюта или Карта -->
         <div class="glass-panel" id="qr-panel" style="display:none;">
             <h3 style="font-size:15px; margin-bottom:10px; text-align:center;" data-i18n="lblDepChoose">Выберите способ пополнения</h3>
             <div class="mode-switch">
                 <button class="mode-btn active" id="dep-tab-crypto" onclick="switchDepositMethod('crypto')" data-i18n="depMethodCrypto">💎 Криптовалюта</button>
-                <button class="mode-btn" id="dep-tab-rub" onclick="switchDepositMethod('rub')" data-i18n="depMethodRub">💵 Рубли</button>
+                <button class="mode-btn" id="dep-tab-card" onclick="switchDepositMethod('card')" data-i18n="depMethodCard">💳 Карта</button>
             </div>
 
-            <!-- Подвкладка: Криптовалюта (только ваши TRON и TON адреса) -->
+            <!-- Подвкладка 1: Криптовалюта (TRON и TON) -->
             <div id="dep-crypto-box" style="text-align:center;">
                 <label data-i18n="lblSelectNet">Сеть пополнения:</label>
                 <select id="qr-net" onchange="updateDepositQR()">
@@ -572,15 +572,23 @@
                 <button class="btn-main" onclick="copyDepositAddr()" data-i18n="btnCopyAddr">📋 Скопировать адрес</button>
             </div>
 
-            <!-- Подвкладка: Рубли (только через поддержку) -->
-            <div id="dep-rub-box" style="display:none; text-align:center; padding:14px 6px;">
-                <div style="font-size:38px; margin-bottom:8px;">💵</div>
-                <p style="font-size:13px; color:var(--text-main); line-height:1.5; margin-bottom:14px;" data-i18n="depRubText">
-                    Пополнение рублями временно доступно только через поддержку.
-                </p>
-                <button class="btn-main" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnContactSup">
-                    💬 Обратиться в поддержку
-                </button>
+            <!-- Подвкладка 2: Пополнение с карты (Рубли / Гривны / Тенге + Сумма + @send USDT) -->
+            <div id="dep-card-box" style="display:none;">
+                <label data-i18n="lblCardCurrency">Выберите валюту карты:</label>
+                <select id="card-fiat-currency" onchange="calcCardUsdtPreview()">
+                    <option value="RUB">🇷🇺 Рубли (RUB)</option>
+                    <option value="UAH">🇺🇦 Гривны (UAH)</option>
+                    <option value="KZT">🇰🇿 Тенге (KZT)</option>
+                </select>
+
+                <label data-i18n="lblCardAmount">Сумма пополнения:</label>
+                <input type="number" id="card-fiat-amount" placeholder="1000" oninput="calcCardUsdtPreview()">
+
+                <div id="card-usdt-preview" style="margin-top:10px; font-size:12px; font-weight:800; color:var(--accent);">
+                    К зачислению (@send): ≈ 0.00 USDT
+                </div>
+
+                <button class="btn-main" onclick="submitCardDeposit()" data-i18n="btnCardPay">✅ Оплатить с карты</button>
             </div>
         </div>
 
@@ -794,6 +802,8 @@
         "crimson", "arctic", "matrix", "lavender", "toxic", "coffee", "royal"
     ];
 
+    const FIAT_RATES = { RUB: 96.5, UAH: 41.5, KZT: 488.0 };
+
     const I18N = {
         ru: {
             frzTitle: "Аккаунт заморожен",
@@ -805,8 +815,8 @@
             lblMyMemes: "Мои мем-активы:", noMemes: "У вас пока нет купленных мем-коинов.",
             lblTotalBalance: "Общий баланс портфеля",
             btnDeposit: "➕ Пополнить", btnWithdraw: "📤 Вывести", btnStaking: "💎 Стейкинг",
-            lblDepChoose: "Выберите способ пополнения", depMethodCrypto: "💎 Криптовалюта", depMethodRub: "💵 Рубли",
-            depRubText: "Пополнение рублями временно доступно только через поддержку.", btnContactSup: "💬 Обратиться в поддержку",
+            lblDepChoose: "Выберите способ пополнения", depMethodCrypto: "💎 Криптовалюта", depMethodCard: "💳 Карта",
+            lblCardCurrency: "Выберите валюту карты:", lblCardAmount: "Сумма пополнения:", btnCardPay: "✅ Я оплатил с карты",
             lblSelectNet: "Сеть пополнения:", btnCopyAddr: "📋 Скопировать адрес",
             lblStakingTitle: "💎 Стейкинг (2% в месяц)", btnStakeNow: "🔒 Инвестировать в стейкинг",
             lblWdTitle: "📤 Вывод средств", lblWdAddr: "Адрес кошелька / Карта:", btnConfirmWd: "Подтвердить вывод",
@@ -835,8 +845,8 @@
             lblMyMemes: "Мої мем-активи:", noMemes: "У вас поки немає куплених мем-коїнів.",
             lblTotalBalance: "Загальний баланс портфеля",
             btnDeposit: "➕ Поповнити", btnWithdraw: "📤 Вивести", btnStaking: "💎 Стейкінг",
-            lblDepChoose: "Оберіть спосіб поповнення", depMethodCrypto: "💎 Криптовалюта", depMethodRub: "💵 Рублі",
-            depRubText: "Поповнення рублями тимчасово доступне лише через підтримку.", btnContactSup: "💬 Звернутися в підтримку",
+            lblDepChoose: "Оберіть спосіб поповнення", depMethodCrypto: "💎 Криптовалюта", depMethodCard: "💳 Картка",
+            lblCardCurrency: "Оберіть валюту картки:", lblCardAmount: "Сума поповнення:", btnCardPay: "✅ Я оплатив з картки",
             lblSelectNet: "Мережа поповнення:", btnCopyAddr: "📋 Скопіювати адресу",
             lblStakingTitle: "💎 Стейкінг (2% на місяць)", btnStakeNow: "🔒 Інвестувати у стейкінг",
             lblWdTitle: "📤 Виведення коштів", lblWdAddr: "Адреса гаманця / Картка:", btnConfirmWd: "Підтвердити виведення",
@@ -865,8 +875,8 @@
             lblMyMemes: "My Meme Assets:", noMemes: "No meme coins bought yet.",
             lblTotalBalance: "Total Portfolio Balance",
             btnDeposit: "➕ Deposit", btnWithdraw: "📤 Withdraw", btnStaking: "💎 Staking",
-            lblDepChoose: "Select Deposit Method", depMethodCrypto: "💎 Cryptocurrency", depMethodRub: "💵 Rubles",
-            depRubText: "Ruble deposits are temporarily available only through support.", btnContactSup: "💬 Contact Support",
+            lblDepChoose: "Select Deposit Method", depMethodCrypto: "💎 Cryptocurrency", depMethodCard: "💳 Bank Card",
+            lblCardCurrency: "Select Card Currency:", lblCardAmount: "Deposit Amount:", btnCardPay: "✅ I Paid via Card",
             lblSelectNet: "Deposit Network:", btnCopyAddr: "📋 Copy Address",
             lblStakingTitle: "💎 Staking (2% per month)", btnStakeNow: "🔒 Stake Coins Now",
             lblWdTitle: "📤 Withdraw Funds", lblWdAddr: "Wallet Address / Card:", btnConfirmWd: "Confirm Withdraw",
@@ -895,8 +905,8 @@
             lblMyMemes: "我的迷因资产：", noMemes: "暂未购买迷因币。",
             lblTotalBalance: "总资产估值",
             btnDeposit: "➕ 充值", btnWithdraw: "📤 提现", btnStaking: "💎 质押赚币",
-            lblDepChoose: "选择充值方式", depMethodCrypto: "💎 加密货币", depMethodRub: "💵 卢布",
-            depRubText: "卢布充值暂时仅通过客服支持提供。", btnContactSup: "💬 联系客服",
+            lblDepChoose: "选择充值方式", depMethodCrypto: "💎 加密货币", depMethodCard: "💳 银行卡",
+            lblCardCurrency: "选择银行卡币种：", lblCardAmount: "充值金额：", btnCardPay: "✅ 我已通过银行卡付款",
             lblSelectNet: "充值网络：", btnCopyAddr: "📋 复制地址",
             lblStakingTitle: "💎 质押生息 (每月 +2%)", btnStakeNow: "🔒 立即质押",
             lblWdTitle: "📤 提现资产", lblWdAddr: "钱包地址 / 银行卡：", btnConfirmWd: "确认提现",
@@ -1039,7 +1049,7 @@
     const urlSyncVer = parseInt(params.get("v") || "0", 10);
     const urlResetVer = parseInt(params.get("rv") || "0", 10);
     const isAccountFrozen = params.get("frozen") === "1";
-    const STORAGE_KEY = `spacex_state_v6_${tgUserId}`;
+    const STORAGE_KEY = `spacex_state_v7_${tgUserId}`;
 
     const BALANCES = {};
     Object.keys(COINS).forEach(k => BALANCES[k] = 0);
@@ -1065,7 +1075,7 @@
         return true;
     }
 
-    // ================= НАДЕЖНАЯ СИНХРОНИЗАЦИЯ БОТ ↔ ПРИЛОЖЕНИЕ =================
+    // ================= СИНХРОНИЗАЦИЯ БОТ ↔ ПРИЛОЖЕНИЕ =================
     function loadAppState() {
         let saved = null;
         try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); } catch (e) { saved = null; }
@@ -1077,7 +1087,6 @@
             urlBalances[t] = parseFloat(params.get(t)) || 0;
         });
 
-        // Если админ ввел /0 ID (увеличился urlResetVer) -> обнуляем всё!
         if (saved && urlResetVer > (saved.lastResetVer || 0)) {
             Object.keys(COINS).forEach(t => { BALANCES[t] = 0; });
             memeHoldings = {};
@@ -1104,7 +1113,6 @@
             if (saved.lang && I18N[saved.lang]) currentLang = saved.lang;
             if (saved.theme && ALL_THEMES.includes(saved.theme)) currentTheme = saved.theme;
 
-            // Если в боте изменились балансы (новая версия v или изменились значения в URL)
             const lastUrlSnap = saved.lastUrlSnap || {};
             const prevSyncVer = saved.lastSyncVer || 0;
 
@@ -1155,7 +1163,7 @@
         setTimeout(() => { t.style.display = "none"; }, 2600);
     }
 
-    // ================= СКРЫТИЕ БАЛАНСА И ПОПОЛНЕНИЕ (КРИПТА / РУБЛИ) =================
+    // ================= СКРЫТИЕ БАЛАНСА И ПОПОЛНЕНИЕ (КРИПТА / КАРТА RUB, UAH, KZT) =================
     function toggleHideBalance() {
         haptic("light");
         hideBalance = !hideBalance;
@@ -1176,17 +1184,54 @@
                 el.style.display = "none";
             }
         });
-        if (panelId === "qr-panel") updateDepositQR();
+        if (panelId === "qr-panel") {
+            updateDepositQR();
+            calcCardUsdtPreview();
+        }
         if (panelId === "staking-panel") renderStakes();
     }
 
     function switchDepositMethod(method) {
         haptic("light");
         document.getElementById("dep-tab-crypto").classList.toggle("active", method === "crypto");
-        document.getElementById("dep-tab-rub").classList.toggle("active", method === "rub");
+        document.getElementById("dep-tab-card").classList.toggle("active", method === "card");
         document.getElementById("dep-crypto-box").style.display = method === "crypto" ? "block" : "none";
-        document.getElementById("dep-rub-box").style.display = method === "rub" ? "block" : "none";
+        document.getElementById("dep-card-box").style.display = method === "card" ? "block" : "none";
         if (method === "crypto") updateDepositQR();
+        else calcCardUsdtPreview();
+    }
+
+    function calcCardUsdtPreview() {
+        const cur = document.getElementById("card-fiat-currency").value || "RUB";
+        const amt = parseFloat(document.getElementById("card-fiat-amount").value) || 0;
+        const rate = FIAT_RATES[cur] || 96.5;
+        const usdt = amt / rate;
+        document.getElementById("card-usdt-preview").textContent =
+            `К зачислению (@send): ≈ ${formatUnlimitedNumber(usdt, 2)} USDT`;
+    }
+
+    function submitCardDeposit() {
+        if (!checkNotFrozen()) return;
+        const cur = document.getElementById("card-fiat-currency").value || "RUB";
+        const amt = parseFloat(document.getElementById("card-fiat-amount").value) || 0;
+        if (amt <= 0) {
+            haptic("error");
+            showToast("⚠️ Введите корректную сумму!");
+            return;
+        }
+        haptic("success");
+        const payload = JSON.stringify({
+            type: "card_deposit",
+            fiat: cur,
+            amount: amt,
+            uid: tgUserId
+        });
+        try {
+            tg.sendData(payload);
+        } catch (e) {}
+        document.getElementById("card-fiat-amount").value = "";
+        document.getElementById("qr-panel").style.display = "none";
+        showToast(`✅ Заявка на ${amt} ${cur} передана в @send и отправлена администратору!`);
     }
 
     function updateDepositQR() {
@@ -2163,7 +2208,6 @@
     renderMemeHoldings();
     renderMyChecks();
 
-    // Если аккаунт заморожен по /frez — блокируем весь экран приложения
     if (isAccountFrozen) {
         document.getElementById("frozen-overlay").style.display = "flex";
     } else if (userPin) {
