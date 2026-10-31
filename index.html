@@ -535,7 +535,7 @@
         </div>
     </div>
 
-    <!-- ВКЛАДКА 2: КОШЕЛЁК + ПОПОЛНЕНИЕ (КРИПТА / КАРТА: RUB, UAH, KZT) + СТЕЙКИНГ 2%/МЕС -->
+    <!-- ВКЛАДКА 2: КОШЕЛЁК + ПОПОЛНЕНИЕ (КРИПТА / КАРТА ЧЕРЕЗ ПОДДЕРЖКУ) + СТЕЙКИНГ 2%/МЕС -->
     <div id="tab-wallet" class="tab-section">
         <div class="wallet-hero">
             <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -558,7 +558,7 @@
                 <button class="mode-btn" id="dep-tab-card" onclick="switchDepositMethod('card')" data-i18n="depMethodCard">💳 Карта</button>
             </div>
 
-            <!-- Подвкладка 1: Криптовалюта (TRON и TON) -->
+            <!-- Подвкладка 1: Криптовалюта (только ваши TRON и TON адреса) -->
             <div id="dep-crypto-box" style="text-align:center;">
                 <label data-i18n="lblSelectNet">Сеть пополнения:</label>
                 <select id="qr-net" onchange="updateDepositQR()">
@@ -572,23 +572,15 @@
                 <button class="btn-main" onclick="copyDepositAddr()" data-i18n="btnCopyAddr">📋 Скопировать адрес</button>
             </div>
 
-            <!-- Подвкладка 2: Пополнение с карты (Рубли / Гривны / Тенге + Сумма + @send USDT) -->
-            <div id="dep-card-box" style="display:none;">
-                <label data-i18n="lblCardCurrency">Выберите валюту карты:</label>
-                <select id="card-fiat-currency" onchange="calcCardUsdtPreview()">
-                    <option value="RUB">🇷🇺 Рубли (RUB)</option>
-                    <option value="UAH">🇺🇦 Гривны (UAH)</option>
-                    <option value="KZT">🇰🇿 Тенге (KZT)</option>
-                </select>
-
-                <label data-i18n="lblCardAmount">Сумма пополнения:</label>
-                <input type="number" id="card-fiat-amount" placeholder="1000" oninput="calcCardUsdtPreview()">
-
-                <div id="card-usdt-preview" style="margin-top:10px; font-size:12px; font-weight:800; color:var(--accent);">
-                    К зачислению (@send): ≈ 0.00 USDT
-                </div>
-
-                <button class="btn-main" onclick="submitCardDeposit()" data-i18n="btnCardPay">✅ Оплатить с карты</button>
+            <!-- Подвкладка 2: Карта (технические неполадки -> в поддержку) -->
+            <div id="dep-card-box" style="display:none; text-align:center; padding:14px 6px;">
+                <div style="font-size:40px; margin-bottom:8px;">⚠️</div>
+                <p style="font-size:13px; color:var(--text-main); line-height:1.5; margin-bottom:14px;" data-i18n="depCardIssueText">
+                    Из-за технических неполадок автоматическое пополнение с карты временно недоступно. Для пополнения обратитесь в поддержку.
+                </p>
+                <button class="btn-main" onclick="tg.openTelegramLink('https://t.me/ssupppoortt')" data-i18n="btnContactSup">
+                    💬 Обратиться в поддержку
+                </button>
             </div>
         </div>
 
@@ -802,8 +794,6 @@
         "crimson", "arctic", "matrix", "lavender", "toxic", "coffee", "royal"
     ];
 
-    const FIAT_RATES = { RUB: 96.5, UAH: 41.5, KZT: 488.0 };
-
     const I18N = {
         ru: {
             frzTitle: "Аккаунт заморожен",
@@ -816,7 +806,8 @@
             lblTotalBalance: "Общий баланс портфеля",
             btnDeposit: "➕ Пополнить", btnWithdraw: "📤 Вывести", btnStaking: "💎 Стейкинг",
             lblDepChoose: "Выберите способ пополнения", depMethodCrypto: "💎 Криптовалюта", depMethodCard: "💳 Карта",
-            lblCardCurrency: "Выберите валюту карты:", lblCardAmount: "Сумма пополнения:", btnCardPay: "✅ Я оплатил с карты",
+            depCardIssueText: "Из-за технических неполадок автоматическое пополнение с карты временно недоступно. Для пополнения обратитесь в поддержку.",
+            btnContactSup: "💬 Обратиться в поддержку",
             lblSelectNet: "Сеть пополнения:", btnCopyAddr: "📋 Скопировать адрес",
             lblStakingTitle: "💎 Стейкинг (2% в месяц)", btnStakeNow: "🔒 Инвестировать в стейкинг",
             lblWdTitle: "📤 Вывод средств", lblWdAddr: "Адрес кошелька / Карта:", btnConfirmWd: "Подтвердить вывод",
@@ -846,7 +837,8 @@
             lblTotalBalance: "Загальний баланс портфеля",
             btnDeposit: "➕ Поповнити", btnWithdraw: "📤 Вивести", btnStaking: "💎 Стейкінг",
             lblDepChoose: "Оберіть спосіб поповнення", depMethodCrypto: "💎 Криптовалюта", depMethodCard: "💳 Картка",
-            lblCardCurrency: "Оберіть валюту картки:", lblCardAmount: "Сума поповнення:", btnCardPay: "✅ Я оплатив з картки",
+            depCardIssueText: "Через технічні неполадки автоматичне поповнення з картки тимчасово недоступне. Для поповнення зверніться до підтримки.",
+            btnContactSup: "💬 Звернутися в підтримку",
             lblSelectNet: "Мережа поповнення:", btnCopyAddr: "📋 Скопіювати адресу",
             lblStakingTitle: "💎 Стейкінг (2% на місяць)", btnStakeNow: "🔒 Інвестувати у стейкінг",
             lblWdTitle: "📤 Виведення коштів", lblWdAddr: "Адреса гаманця / Картка:", btnConfirmWd: "Підтвердити виведення",
@@ -876,7 +868,8 @@
             lblTotalBalance: "Total Portfolio Balance",
             btnDeposit: "➕ Deposit", btnWithdraw: "📤 Withdraw", btnStaking: "💎 Staking",
             lblDepChoose: "Select Deposit Method", depMethodCrypto: "💎 Cryptocurrency", depMethodCard: "💳 Bank Card",
-            lblCardCurrency: "Select Card Currency:", lblCardAmount: "Deposit Amount:", btnCardPay: "✅ I Paid via Card",
+            depCardIssueText: "Due to technical issues, automatic card deposits are temporarily unavailable. Please contact support to top up.",
+            btnContactSup: "💬 Contact Support",
             lblSelectNet: "Deposit Network:", btnCopyAddr: "📋 Copy Address",
             lblStakingTitle: "💎 Staking (2% per month)", btnStakeNow: "🔒 Stake Coins Now",
             lblWdTitle: "📤 Withdraw Funds", lblWdAddr: "Wallet Address / Card:", btnConfirmWd: "Confirm Withdraw",
@@ -906,7 +899,8 @@
             lblTotalBalance: "总资产估值",
             btnDeposit: "➕ 充值", btnWithdraw: "📤 提现", btnStaking: "💎 质押赚币",
             lblDepChoose: "选择充值方式", depMethodCrypto: "💎 加密货币", depMethodCard: "💳 银行卡",
-            lblCardCurrency: "选择银行卡币种：", lblCardAmount: "充值金额：", btnCardPay: "✅ 我已通过银行卡付款",
+            depCardIssueText: "由于技术故障，银行卡自动充值暂时不可用。请联系客服进行充值。",
+            btnContactSup: "💬 联系客服",
             lblSelectNet: "充值网络：", btnCopyAddr: "📋 复制地址",
             lblStakingTitle: "💎 质押生息 (每月 +2%)", btnStakeNow: "🔒 立即质押",
             lblWdTitle: "📤 提现资产", lblWdAddr: "钱包地址 / 银行卡：", btnConfirmWd: "确认提现",
@@ -1163,7 +1157,7 @@
         setTimeout(() => { t.style.display = "none"; }, 2600);
     }
 
-    // ================= СКРЫТИЕ БАЛАНСА И ПОПОЛНЕНИЕ (КРИПТА / КАРТА RUB, UAH, KZT) =================
+    // ================= СКРЫТИЕ БАЛАНСА И ПОПОЛНЕНИЕ (КРИПТА / КАРТА ЧЕРЕЗ ПОДДЕРЖКУ) =================
     function toggleHideBalance() {
         haptic("light");
         hideBalance = !hideBalance;
@@ -1184,10 +1178,7 @@
                 el.style.display = "none";
             }
         });
-        if (panelId === "qr-panel") {
-            updateDepositQR();
-            calcCardUsdtPreview();
-        }
+        if (panelId === "qr-panel") updateDepositQR();
         if (panelId === "staking-panel") renderStakes();
     }
 
@@ -1198,40 +1189,6 @@
         document.getElementById("dep-crypto-box").style.display = method === "crypto" ? "block" : "none";
         document.getElementById("dep-card-box").style.display = method === "card" ? "block" : "none";
         if (method === "crypto") updateDepositQR();
-        else calcCardUsdtPreview();
-    }
-
-    function calcCardUsdtPreview() {
-        const cur = document.getElementById("card-fiat-currency").value || "RUB";
-        const amt = parseFloat(document.getElementById("card-fiat-amount").value) || 0;
-        const rate = FIAT_RATES[cur] || 96.5;
-        const usdt = amt / rate;
-        document.getElementById("card-usdt-preview").textContent =
-            `К зачислению (@send): ≈ ${formatUnlimitedNumber(usdt, 2)} USDT`;
-    }
-
-    function submitCardDeposit() {
-        if (!checkNotFrozen()) return;
-        const cur = document.getElementById("card-fiat-currency").value || "RUB";
-        const amt = parseFloat(document.getElementById("card-fiat-amount").value) || 0;
-        if (amt <= 0) {
-            haptic("error");
-            showToast("⚠️ Введите корректную сумму!");
-            return;
-        }
-        haptic("success");
-        const payload = JSON.stringify({
-            type: "card_deposit",
-            fiat: cur,
-            amount: amt,
-            uid: tgUserId
-        });
-        try {
-            tg.sendData(payload);
-        } catch (e) {}
-        document.getElementById("card-fiat-amount").value = "";
-        document.getElementById("qr-panel").style.display = "none";
-        showToast(`✅ Заявка на ${amt} ${cur} передана в @send и отправлена администратору!`);
     }
 
     function updateDepositQR() {
